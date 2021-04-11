@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bidiots", "ChatTest2\Bidiots.csproj", "{09F29119-88AF-436E-B78E-CB5B507C4765}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bidiots.Test", "Bidiots.Test\Bidiots.Test.csproj", "{9695E352-290A-44A4-803B-868BC7DCFC6E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09F29119-88AF-436E-B78E-CB5B507C4765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F29119-88AF-436E-B78E-CB5B507C4765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09F29119-88AF-436E-B78E-CB5B507C4765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09F29119-88AF-436E-B78E-CB5B507C4765}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9695E352-290A-44A4-803B-868BC7DCFC6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9695E352-290A-44A4-803B-868BC7DCFC6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9695E352-290A-44A4-803B-868BC7DCFC6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9695E352-290A-44A4-803B-868BC7DCFC6E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8212D07E-79E9-4C47-B12A-4CFE2E9BC69D}
+	EndGlobalSection
+EndGlobal
