@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "v/VRFIANvlOdR+aXHfFYkQnYQoP8RwukSCUUSOcxx6FuXYxxnoF7MurTAdJj4tYv4ubHh+5yE2DK3B1SV/4HTA==",
+  "dgSpecHash": "AJKGEl8nB163du4cR1jSTQH+JrZyoxYBaWoyeXYvxmp3mVo1yrZkoOuwU9w3CyE12lWISySJJoqu4iICp4UmYw==",
   "success": true,
   "projectFilePath": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj",
   "expectedPackageFiles": [
@@ -62,7 +62,6 @@
     "C:\\Users\\andre\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\6.7.1\\microsoft.identitymodel.protocols.openidconnect.6.7.1.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.7.1\\microsoft.identitymodel.tokens.6.7.1.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
-    "C:\\Users\\andre\\.nuget\\packages\\microsoft.typescript.msbuild\\4.2.4\\microsoft.typescript.msbuild.4.2.4.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.0.4\\sqlitepclraw.bundle_e_sqlite3.2.0.4.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\sqlitepclraw.core\\2.0.4\\sqlitepclraw.core.2.0.4.nupkg.sha512",
