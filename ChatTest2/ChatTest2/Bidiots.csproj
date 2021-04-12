@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="auction-app\src\pages\" />
     <Folder Include="Data\" />
   </ItemGroup>
 
