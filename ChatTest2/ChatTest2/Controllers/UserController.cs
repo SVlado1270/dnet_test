@@ -35,7 +35,7 @@ namespace Bidiots.Controllers
         }
 
         [HttpPost]
-        [Route("AddUser", Name = "CreateAccount")]
+        [Route("Register", Name = "CreateAccount")]
         public async Task<IActionResult> CreateUser([FromBody] UserModel user)
         {
 
@@ -95,6 +95,7 @@ namespace Bidiots.Controllers
             {
                 token = new JwtSecurityTokenHandler().WriteToken(SecurityToken),
                 userid = _user.Id.ToString(),
+                username = _user.UserName,
                 expiration = SecurityToken.ValidTo
             }));
         }
