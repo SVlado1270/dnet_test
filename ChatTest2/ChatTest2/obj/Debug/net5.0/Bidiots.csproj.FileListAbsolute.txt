@@ -185,3 +185,5 @@ C:\Users\andre\Downloads\ChatTest2\ChatTest2\ChatTest2\obj\Debug\net5.0\scopedcs
 C:\Users\andre\Downloads\ChatTest2\ChatTest2\ChatTest2\obj\Debug\net5.0\Bidiots.RazorTargetAssemblyInfo.cache
 C:\Users\andre\Downloads\ChatTest2\ChatTest2\ChatTest2\obj\Debug\net5.0\Bidiots.csproj.CopyComplete
 C:\Users\andre\Downloads\ChatTest2\ChatTest2\ChatTest2\obj\Debug\net5.0\Bidiots.genruntimeconfig.cache
+C:\Users\andre\Downloads\ChatTest2\ChatTest2\ChatTest2\bin\Debug\net5.0\auction-app\package.json
+C:\Users\andre\Downloads\ChatTest2\ChatTest2\ChatTest2\bin\Debug\net5.0\auction-app\public\manifest.json

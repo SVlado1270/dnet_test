@@ -32,7 +32,7 @@ namespace Bidiots
 
             services.AddSpaStaticFiles(configure =>
             {
-                configure.RootPath = "clientapp/build";
+                configure.RootPath = "auction-app/build";
             });
 
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -77,15 +77,13 @@ namespace Bidiots
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "clientapp";
+                spa.Options.SourcePath = "auction-app";
 
                 if (env.IsDevelopment())
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-
-
         }
     }
 }
