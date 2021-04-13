@@ -1,5 +1,4 @@
-﻿using Bidiots.Repository;
-using Bidiots.Models;
+﻿using Bidiots.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

@@ -2,7 +2,6 @@
 using Bidiots.Models;
 using Bidiots.Repository;
 using Bidiots.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -156,6 +155,11 @@ namespace Bidiots.Hubs
             {
                 await Clients.Caller.SendAsync("onError", "Can't delete this chat room. Only owner can delete this room.");
             }
+        }
+
+        public async Task<IEnumerable<Room>> GetActiveRooms()
+        {
+            return await _repositoryWrapper.Room.GetAllRoomsAsync();
         }
     }
 }

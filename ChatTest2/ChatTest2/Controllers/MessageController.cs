@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using Bidiots.Hubs;
 using Bidiots.Models;
-using Bidiots.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Bidiots.Controllers

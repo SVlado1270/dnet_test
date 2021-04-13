@@ -1,16 +1,10 @@
-using AutoMapper;
-using Moq;
-using System;
 using System.Threading.Tasks;
 using Xunit;
-using Microsoft.Extensions.Configuration;
 using Bidiots.Entities;
 using System.Net.Http;
 using Newtonsoft.Json;
-using Bidiots.Controllers;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Diagnostics;
 

@@ -169,6 +169,10 @@ function Rooms() {
         setIsRoomModalVisible(false);
     }
 
+    const handleGetRooms = () => {
+        setAvailableRooms(getRooms);
+    }
+
     const createRoom = () => {
       hubConnection.invoke("CreateRoom", newRoom.roomName, localStorage.getItem("username"));
     }
@@ -184,6 +188,11 @@ function Rooms() {
     const leaveRoom = (roomName) => {
         hubConnection.invoke("LeaveRoom", roomName, localStorage.getItem("username"));
     }
+
+    const getRooms = () => {
+        hubConnection.invoke("GetActiveRooms");
+    }
+
     return (
         <>
             <PageTitle>Rooms</PageTitle>

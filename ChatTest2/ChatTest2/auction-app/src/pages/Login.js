@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import walletLogo from "../assets/wallet.svg";
-import {AiOutlineMail, AiOutlineUnlock} from "react-icons/ai";
+import {AiOutlineUser, AiOutlineUnlock} from "react-icons/ai";
 import {Link, useHistory} from "react-router-dom";
 import axios from 'axios';
 
@@ -76,7 +76,7 @@ export const IconStyle = `
   color: #504f60;
 `;
 
-export const EmailIcon = styled(AiOutlineMail)`
+export const UserIcon = styled(AiOutlineUser)`
   ${IconStyle}
 `;
 export const PasswordIcon = styled(AiOutlineUnlock)`
@@ -160,7 +160,7 @@ function Login() {
                 </SvgWrapper>
                 <FormWrapper>
                     <IconInput>
-                        <EmailIcon/>
+                        <UserIcon/>
                         <Input type="email" placeholder="Username" value={formFields.username} name="username"
                                onChange={handleChange}/>
                     </IconInput>
