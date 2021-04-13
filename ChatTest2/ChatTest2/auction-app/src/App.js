@@ -1,13 +1,13 @@
 import React from "react";
-import styled, {ThemeProvider} from "styled-components";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import styled from "styled-components";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from './pages/Home.js';
 import Login from './pages/Login.js';
+import Rooms from "./pages/Rooms";
+import Register from "./pages/Register";
+import PrivateRoute from "./components/PrivateRoute";
+import AppLayout from "./components/common/AppLayout";
+import Room from "./pages/Room";
 
 const AppWrapper = styled.div`
   width: 100%;
@@ -20,10 +20,15 @@ const AppWrapper = styled.div`
 function App() {
     return (
         <AppWrapper>
-           <Router>
+            <Router>
                 <Switch>
-                  <Route path="/login" component={Login}/>
-                  <Route exact path="/" component={Home}/>
+                    <Route path="/login" component={Login}/>
+                    <Route path="/register" component={Register}/>
+                    <AppLayout>
+                        <PrivateRoute component={Home} path="/" exact/>
+                        <PrivateRoute component={Rooms} path="/rooms" exact/>
+                        <PrivateRoute component={Room} path="/room/:roomName" exact/>
+                    </AppLayout>
                 </Switch>
             </Router>
         </AppWrapper>

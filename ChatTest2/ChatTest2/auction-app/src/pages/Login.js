@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import walletLogo from "../assets/wallet.svg";
-import { AiOutlineMail, AiOutlineUnlock} from "react-icons/ai";
+import {AiOutlineMail, AiOutlineUnlock} from "react-icons/ai";
 import {Link, useHistory} from "react-router-dom";
+import axios from 'axios';
 
 export const PageWrapper = styled.div`
   width: 100%;
@@ -107,8 +108,49 @@ export const CreateAccountLink = styled(Link)`
   }
 `;
 
+export const ErrorMessage = styled.span`
+    color: red;
+`;
+
 function Login() {
+    const [formFields, setFormFields] = useState({username: "", password: ""});
+    const [errorMessage, setErrorMessage] = useState("");
     const history = useHistory();
+
+    const handleChange = (event) => {
+        if(errorMessage !== ""){
+            setErrorMessage("");
+        }
+        setFormFields({...formFields, [event.target.name]: event.target.value})
+    }
+
+    const handleSubmit = () => {
+        if (formFields.password === "" || formFields.username === "") {
+            setErrorMessage("All fields are required");
+            return;
+        }
+        const headers = {
+            'Content-Type': 'application/json',
+        }
+        axios.post(`http://localhost:63920/api/v1/users/Login`, {
+            UserName: formFields.username,
+            Password: btoa(formFields.password)
+        }, {headers})
+            .then((response) => {
+                console.log(response);
+                if (response.status === 200) {
+                    localStorage.setItem("token", response.data.token);
+                    localStorage.setItem("expireDate", response.data.expiration);
+                    localStorage.setItem("userId", response.data.userid);
+                    localStorage.setItem("username", response.data.username);
+                    history.push('/');
+                }
+            })
+            .catch((error) => {
+                setErrorMessage(error.response.data);
+            })
+    }
+
     return (
         <PageWrapper>
             <ContentWrapper>
@@ -119,13 +161,21 @@ function Login() {
                 <FormWrapper>
                     <IconInput>
                         <EmailIcon/>
-                        <Input type="email" placeholder="Email"/>
+                        <Input type="email" placeholder="Username" value={formFields.username} name="username"
+                               onChange={handleChange}/>
                     </IconInput>
                     <IconInput>
                         <PasswordIcon/>
-                        <Input type="password" placeholder="Password"/>
+                        <Input
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                            value={formFields.password}
+                            onChange={handleChange}
+                        />
                     </IconInput>
-                    <Button onClick={() => history.push('/')}>
+                    <ErrorMessage>{errorMessage}</ErrorMessage>
+                    <Button onClick={handleSubmit}>
                         Submit
                     </Button>
                 </FormWrapper>
