@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj": {}
   },
   "projects": {
@@ -12,9 +13,25 @@
         "projectPath": "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj",
         "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\Bidiots.Test\\obj\\",
+=======
+    "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj",
+        "projectName": "Bidiots.Test",
+        "projectPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj",
+        "packagesPath": "C:\\Users\\diana\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Bidiots.Test\\obj\\",
+>>>>>>> 09f3aede6f99f4cf7bd09d6a6010869f4b2adc06
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\diana\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +45,13 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
+<<<<<<< HEAD
               "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\ChatTest2\\Bidiots.csproj": {
                 "projectPath": "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\ChatTest2\\Bidiots.csproj"
+=======
+              "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj": {
+                "projectPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj"
+>>>>>>> 09f3aede6f99f4cf7bd09d6a6010869f4b2adc06
               }
             }
           }
@@ -108,17 +130,15 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
+<<<<<<< HEAD
     "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\ChatTest2\\Bidiots.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -127,9 +147,22 @@
         "projectPath": "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\ChatTest2\\Bidiots.csproj",
         "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\ChatTest2\\obj\\",
+=======
+    "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj",
+        "projectName": "Bidiots",
+        "projectPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj",
+        "packagesPath": "C:\\Users\\diana\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\obj\\",
+>>>>>>> 09f3aede6f99f4cf7bd09d6a6010869f4b2adc06
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\diana\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -238,7 +271,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
