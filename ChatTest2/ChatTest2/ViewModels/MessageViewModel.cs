@@ -1,5 +1,8 @@
-﻿namespace Bidiots.ViewModels
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Bidiots.ViewModels
 {
+    [ExcludeFromCodeCoverage]
     public class MessageViewModel
     {
         public string From { get; set; }

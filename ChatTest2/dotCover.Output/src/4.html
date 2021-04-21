@@ -2,66 +2,38 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\UnitTest1.cs</title>
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Program.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using System.Threading.Tasks;
-using Xunit;
-using Bidiots.Entities;
-using System.Net.Http;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
-using System.Text;
-using System.Diagnostics;
+using Microsoft.Extensions.Hosting;
+using System.Diagnostics.CodeAnalysis;
 
-namespace Bidiots.Test
+namespace Bidiots
 {
-    public class UnitTest1
+    [ExcludeFromCodeCoverage]
+    public class Program
     {
-        private readonly TestServer testServer;
-        private readonly HttpClient _client;
-
-
-        public UnitTest1()
+        public static void Main(string[] args)
         {
-            testServer = new TestServer(new WebHostBuilder()
-           .UseStartup&lt;Startup&gt;().UseSetting(&quot;ConnectionStrings:DefaultConnection&quot;, &quot;Data Source = auctionapp.db&quot;));
-            _client = testServer.CreateClient();
-
-            
+            CreateHostBuilder(args).Build().Run();
         }
 
-        /*public static MockJwtTokens()
-        {
-            var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(&quot;ByYM000OLlMQG6VVVp1OH7Xzyr7gHuw1qvUC5dcGt3SNM&quot;)) { KeyId = Guid.NewGuid().ToString() };
-            var SigningCredentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
-        }*/
-
-        [Fact]
-        public async Task Check_InvalidCredentials()
-        {
-            string apiUrl = &quot;http://localhost:63920/api/v1/users/Login&quot;;
-            UserModel user = new UserModel() { UserName = &quot;Vlado User Inexistent&quot;, Password = &quot;dmxhZA==&quot; };
-            var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, &quot;application/json&quot;);
-
-            Trace.WriteLine(userJson);
-
-            var response = await _client.PostAsync(apiUrl, userJson);
-
-            var statusCode = response.StatusCode;
-
-            Assert.Equal(System.Net.HttpStatusCode.Unauthorized, statusCode);
-        }
+        public static IHostBuilder CreateHostBuilder(string[] args) =&gt;
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =&gt;
+                {
+                    webBuilder.UseStartup&lt;Startup&gt;();
+                });
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[19,9,19,27,1],[20,9,20,10,1],[21,13,22,117,1],[23,13,23,49,1],[26,9,26,10,1],[36,9,36,10,1],[37,13,37,73,1],[38,13,38,108,1],[39,13,39,116,1],[41,13,41,39,1],[43,13,43,70,1],[45,13,45,50,1],[47,13,47,78,1],[48,9,48,10,1]]);
+      highlightRanges([[11,9,11,10,0],[12,13,12,51,0],[13,9,13,10,0],[16,13,18,17,0],[18,17,18,18,0],[18,18,19,21,0],[19,21,19,54,0],[19,54,20,17,0],[20,17,20,18,0],[20,18,20,19,0]]);
     </script>
   </body>
 </html>

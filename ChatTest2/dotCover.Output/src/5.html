@@ -2,128 +2,108 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\UserControllerTest.cs</title>
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Startup.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using System.Threading.Tasks;
-using Xunit;
-using Bidiots.Entities;
-using System.Net.Http;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.TestHost;
+using Bidiots.Hubs;
+using Bidiots.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using System.Text;
-using System.Diagnostics;
-using System;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Bidiots.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
-namespace Bidiots.Test
+namespace Bidiots
 {
-    public class TestsFixture : IDisposable
+    [ExcludeFromCodeCoverage]
+    public class Startup
     {
-        public readonly TestServer testServer;
-        public readonly HttpClient client;
-        protected readonly long timestamp = DateTime.Now.ToFileTime();
-        public TestsFixture()
+        public Startup(IConfiguration configuration)
         {
-            testServer = new TestServer(new WebHostBuilder()
-                .UseStartup&lt;Startup&gt;()
-                .UseSetting(&quot;ConnectionStrings:DefaultConnection&quot;, $&quot;Data Source = auctionapp-{timestamp}.db&quot;)
-                .UseContentRoot(Environment.CurrentDirectory)
-                .UseConfiguration(new ConfigurationBuilder()
-                .SetBasePath(Environment.CurrentDirectory)
-                .AddJsonFile(&quot;appsettings.json&quot;)
-                .Build()));
-            client = testServer.CreateClient();
+            Configuration = configuration;
         }
 
-        public void Dispose()
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
         {
-            testServer.Dispose();
-            client.Dispose();
-        }
-    }
+            services.AddDbContext&lt;DataContext&gt;(options =&gt; options.UseSqlite(Configuration.GetConnectionString(&quot;DefaultConnection&quot;)));
 
-    public class UserControllerTest : IClassFixture&lt;TestsFixture&gt;
-    {
-        private readonly HttpClient client;
-        public UserControllerTest(TestsFixture testsFixture)
-        {
-            client = testsFixture.client;
-        }
+            services.AddControllers();
 
-        [Fact]
-        public async Task Given_User_When_InvalidCredeantials_Then_LoginShouldReturnInvalidCredentials()
-        {
-            string apiUrl = &quot;http://localhost:63920/api/v1/users/Login&quot;;
-            UserModel user = new UserModel() { UserName = &quot;Vlado User Inexistent&quot;, Password = &quot;dmxhZA==&quot; };
-            var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, &quot;application/json&quot;);
+            services.AddSpaStaticFiles(configure =&gt;
+            {
+                configure.RootPath = &quot;auction-app/build&quot;;
+            });
 
-            Trace.WriteLine(userJson);
+            services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddScoped&lt;IRepositoryWrapper, RepositoryWrapper&gt;();
+            services.AddSignalR();
 
-            var response = await client.PostAsync(apiUrl, userJson);
-
-            var statusCode = response.StatusCode;
-
-            Assert.Equal(System.Net.HttpStatusCode.Unauthorized, statusCode);
-        }
-
-        [Fact]
-        public async Task Given_UserModel_When_NewUser_Then_RegisterShouldReturnCreatedStatusCode()
-        {
-            string apiUrl = &quot;http://localhost:63920/api/v1/users/Register&quot;;
-            UserModel user = new UserModel() { UserName = &quot;Vladohtrg2&quot;, Password = &quot;dmxhZA==&quot;, FullName = &quot;Vlado&quot; };
-            var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, &quot;application/json&quot;);
-
-            Trace.WriteLine(userJson);
-
-            var response = await client.PostAsync(apiUrl, userJson);
-
-            var statusCode = response.StatusCode;
-
-            Assert.Equal(System.Net.HttpStatusCode.Created, statusCode);
+            services.AddAuthentication(options =&gt;
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                   .AddJwtBearer(options =&gt;
+                   {
+                       options.SaveToken = true;
+                       options.RequireHttpsMetadata = false;
+                       options.TokenValidationParameters = new TokenValidationParameters()
+                       {
+                           ValidateIssuer = true,
+                           ValidateAudience = true,
+                           ValidAudience = Configuration[&quot;JWT:ValidAudience&quot;],
+                           ValidIssuer = Configuration[&quot;JWT:ValidIssuer&quot;],
+                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration[&quot;JWT:Secret&quot;]))
+                       };
+                   });
+            
         }
 
-        [Fact]
-        public async Task Given_UserModel_When_NullUser_Then_RegisterShouldReturnBadRequest()
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            string apiUrl = &quot;http://localhost:63920/api/v1/users/Register&quot;;
-            UserModel user = new();
-            var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, &quot;application/json&quot;);
+            app.UseRouting();
 
-            Trace.WriteLine(userJson);
+            app.UseAuthorization();
 
-            var response = await client.PostAsync(apiUrl, userJson);
+            app.UseEndpoints(endpoints =&gt;
+            {
+                endpoints.MapHub&lt;MessageHub&gt;(&quot;/chatHub&quot;);
 
-            var statusCode = response.StatusCode;
+                endpoints.MapControllers();
+            });
 
-            Assert.Equal(System.Net.HttpStatusCode.BadRequest, statusCode);
-        }
+            app.UseSpa(spa =&gt;
+            {
+                spa.Options.SourcePath = &quot;auction-app&quot;;
 
-        [Fact]
-        public async Task Given_User_When_ValidCredentials_Then_LoginShouldReturnOK()
-        {
-            string apiUrl = &quot;http://localhost:63920/api/v1/users/Login&quot;;
-            UserModel user = new UserModel() { UserName = &quot;Vladohtrg2&quot;, Password = &quot;dmxhZA==&quot; };
-            var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, &quot;application/json&quot;);
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: &quot;start&quot;);
+                }
+            });
 
-            Trace.WriteLine(userJson);
-
-            var response = await client.PostAsync(apiUrl, userJson);
-
-            var statusCode = response.StatusCode;
-
-            Assert.Equal(System.Net.HttpStatusCode.OK, statusCode);
         }
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[19,9,19,71,1],[20,9,20,30,1],[21,9,21,10,1],[22,13,29,28,1],[30,13,30,48,1],[31,9,31,10,1],[34,9,34,10,1],[35,13,35,34,1],[36,13,36,30,1],[37,9,37,10,1],[43,9,43,61,1],[44,9,44,10,1],[45,13,45,42,1],[46,9,46,10,1],[50,9,50,10,1],[51,13,51,73,1],[52,13,52,108,1],[53,13,53,116,1],[55,13,55,39,1],[57,13,57,69,1],[59,13,59,50,1],[61,13,61,78,1],[62,9,62,10,1],[66,9,66,10,1],[67,13,67,76,1],[68,13,68,117,1],[69,13,69,116,1],[71,13,71,39,1],[73,13,73,69,1],[75,13,75,50,1],[77,13,77,73,1],[78,9,78,10,1],[82,9,82,10,1],[83,13,83,76,1],[84,13,84,36,1],[85,13,85,116,1],[87,13,87,39,1],[89,13,89,69,1],[91,13,91,50,1],[93,13,93,76,1],[94,9,94,10,1],[98,9,98,10,1],[99,13,99,73,1],[100,13,100,97,1],[101,13,101,116,1],[103,13,103,39,1],[105,13,105,69,1],[107,13,107,50,1],[109,13,109,68,1],[110,9,110,10,1]]);
+      highlightRanges([[21,9,21,53,1],[22,9,22,10,1],[23,13,23,43,1],[24,9,24,10,1],[26,47,26,51,1],[30,9,30,10,1],[31,13,31,59,1],[31,59,31,132,1],[31,132,31,134,1],[33,13,33,39,1],[35,13,36,13,1],[36,13,36,14,1],[36,14,37,17,1],[37,17,37,58,1],[37,58,38,13,1],[38,13,38,14,1],[38,14,38,16,1],[40,13,40,62,1],[41,13,41,73,1],[42,13,42,35,1],[44,13,45,13,1],[45,13,45,14,0],[45,14,46,17,1],[46,17,46,92,0],[46,92,47,17,1],[47,17,47,89,0],[47,89,48,17,1],[48,17,48,80,0],[48,80,49,13,1],[49,13,49,14,0],[49,14,51,20,1],[51,20,51,21,0],[51,21,52,24,1],[52,24,52,49,0],[52,49,53,24,1],[53,24,53,61,0],[53,61,54,24,1],[54,24,61,26,0],[61,26,62,20,1],[62,20,62,21,0],[62,21,62,23,1],[64,9,64,10,1],[68,9,68,10,1],[69,13,69,30,1],[71,13,71,36,1],[73,13,74,13,1],[74,13,74,14,1],[74,14,75,17,1],[75,17,75,58,1],[75,58,77,17,1],[77,17,77,44,1],[77,44,78,13,1],[78,13,78,14,1],[78,14,78,16,1],[80,13,81,13,1],[81,13,81,14,1],[81,14,82,17,1],[82,17,82,56,1],[82,56,84,17,1],[84,17,84,41,1],[84,41,85,17,1],[85,17,85,18,0],[85,18,86,21,1],[86,21,86,71,0],[86,71,87,17,1],[87,17,87,18,0],[87,18,88,13,1],[88,13,88,14,1],[88,14,88,16,1],[90,9,90,10,1]]);
     </script>
   </body>
 </html>

@@ -1,8 +1,10 @@
 ﻿using Bidiots.Models;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Bidiots.Test
 {
+    [ExcludeFromCodeCoverage]
     public class DatabaseInitializer
     {
         public static void Initialize(DataContext context)

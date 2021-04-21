@@ -1,5 +1,8 @@
-﻿namespace Bidiots.ViewModels
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Bidiots.ViewModels
 {
+    [ExcludeFromCodeCoverage]
     public class RoomViewModel
     {
         public int Id { get; set; }

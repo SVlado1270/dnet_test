@@ -1,5 +1,8 @@
-﻿namespace Bidiots.ViewModels
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Bidiots.ViewModels
 {
+    [ExcludeFromCodeCoverage]
     public class UserViewModel
     {
         public string Username { get; set; }

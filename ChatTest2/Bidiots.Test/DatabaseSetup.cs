@@ -1,10 +1,11 @@
 ﻿using Bidiots.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Bidiots.Test
 {
-
+    [ExcludeFromCodeCoverage]
     class DatabaseSetup : IDisposable
     {
         protected readonly DataContext _dataContenxt;

@@ -2,41 +2,66 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\DatabaseSetup.cs</title>
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\UnitTest1.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using Bidiots.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
+using System.Threading.Tasks;
+using Xunit;
+using Bidiots.Entities;
+using System.Net.Http;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Hosting;
+using System.Text;
+using System.Diagnostics;
 
 namespace Bidiots.Test
 {
-
-    class DatabaseSetup : IDisposable
+    public class UnitTest1
     {
-        protected readonly DataContext _dataContenxt;
-        public DatabaseSetup()
-        {
-            var options = new DbContextOptionsBuilder&lt;DataContext&gt;().UseInMemoryDatabase(&quot;Test&quot;).Options;
-            _dataContenxt = new DataContext(options);
-            _dataContenxt.Database.EnsureCreated();
+        private readonly TestServer testServer;
+        private readonly HttpClient _client;
 
-            DatabaseInitializer.Initialize(_dataContenxt);
-        }
-        public void Dispose()
+
+        public UnitTest1()
         {
-            _dataContenxt.Database.EnsureDeleted();
-            _dataContenxt.Dispose();
+            testServer = new TestServer(new WebHostBuilder()
+           .UseStartup&lt;Startup&gt;().UseSetting(&quot;ConnectionStrings:DefaultConnection&quot;, &quot;Data Source = auctionapp.db&quot;));
+            _client = testServer.CreateClient();
+
+            
+        }
+
+        /*public static MockJwtTokens()
+        {
+            var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(&quot;ByYM000OLlMQG6VVVp1OH7Xzyr7gHuw1qvUC5dcGt3SNM&quot;)) { KeyId = Guid.NewGuid().ToString() };
+            var SigningCredentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
+        }*/
+
+        [Fact]
+        public async Task Check_InvalidCredentials()
+        {
+            string apiUrl = &quot;http://localhost:63920/api/v1/users/Login&quot;;
+            UserModel user = new UserModel() { UserName = &quot;Vlado User Inexistent&quot;, Password = &quot;dmxhZA==&quot; };
+            var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, &quot;application/json&quot;);
+
+            Trace.WriteLine(userJson);
+
+            var response = await _client.PostAsync(apiUrl, userJson);
+
+            var statusCode = response.StatusCode;
+
+            Assert.Equal(System.Net.HttpStatusCode.Unauthorized, statusCode);
         }
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[11,9,11,31,0],[12,9,12,10,0],[13,13,13,106,0],[14,13,14,54,0],[15,13,15,52,0],[17,13,17,59,0],[18,9,18,10,0],[20,9,20,10,0],[21,13,21,52,0],[22,13,22,37,0],[23,9,23,10,0]]);
+      highlightRanges([[19,9,19,27,1],[20,9,20,10,1],[21,13,22,117,1],[23,13,23,49,1],[26,9,26,10,1],[36,9,36,10,1],[37,13,37,73,1],[38,13,38,108,1],[39,13,39,116,1],[41,13,41,39,1],[43,13,43,70,1],[45,13,45,50,1],[47,13,47,78,1],[48,9,48,10,1]]);
     </script>
   </body>
 </html>
