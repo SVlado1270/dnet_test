@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root CoveredStatements="318" TotalStatements="709" CoveragePercent="45" ReportType="Xml" DotCoverVersion="2021.1.1">
+  <Assembly Name="Bidiots" CoveredStatements="215" TotalStatements="586" CoveragePercent="37">
+    <Namespace Name="Bidiots" CoveredStatements="32" TotalStatements="52" CoveragePercent="62">
+      <Type Name="Program" CoveredStatements="0" TotalStatements="7" CoveragePercent="0">
+        <Method Name="CreateHostBuilder(string[]):IHostBuilder" CoveredStatements="0" TotalStatements="4" CoveragePercent="0">
+          <OwnCoverage CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <AnonymousMethod Name="(IWebHostBuilder):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        </Method>
+        <Method Name="Main(string[]):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+      </Type>
+      <Type Name="Startup" CoveredStatements="32" TotalStatements="45" CoveragePercent="71">
+        <Constructor Name="Startup(IConfiguration)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+        <AutoProperty Name="Configuration:IConfiguration" CoveredStatements="1" TotalStatements="1" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <Method Name="Configure(IApplicationBuilder,IWebHostEnvironment):void" CoveredStatements="14" TotalStatements="17" CoveragePercent="82">
+          <OwnCoverage CoveredStatements="6" TotalStatements="6" CoveragePercent="100" />
+          <AnonymousMethod Name="(IEndpointRouteBuilder):void" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+          <AnonymousMethod Name="(ISpaBuilder):void" CoveredStatements="4" TotalStatements="7" CoveragePercent="57" />
+        </Method>
+        <Method Name="ConfigureServices(IServiceCollection):void" CoveredStatements="13" TotalStatements="23" CoveragePercent="57">
+          <OwnCoverage CoveredStatements="9" TotalStatements="9" CoveragePercent="100" />
+          <AnonymousMethod Name="(DbContextOptionsBuilder):void" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <AnonymousMethod Name="(JwtBearerOptions):void" CoveredStatements="0" TotalStatements="5" CoveragePercent="0" />
+          <AnonymousMethod Name="(SpaStaticFilesOptions):void" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+          <AnonymousMethod Name="(AuthenticationOptions):void" CoveredStatements="0" TotalStatements="5" CoveragePercent="0" />
+        </Method>
+      </Type>
+    </Namespace>
+    <Namespace Name="Bidiots.Controllers" CoveredStatements="32" TotalStatements="54" CoveragePercent="59">
+      <Type Name="MessageController" CoveredStatements="0" TotalStatements="11" CoveragePercent="0">
+        <Constructor Name="MessageController(IHubContext&lt;MessageHub&gt;,IMapper,DataContext)" CoveredStatements="0" TotalStatements="6" CoveragePercent="0" />
+        <Method Name="Create(Message):Task&lt;IActionResult&gt;" CoveredStatements="0" TotalStatements="5" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="5" CoveragePercent="0" />
+        </Method>
+      </Type>
+      <Type Name="UserController" CoveredStatements="32" TotalStatements="43" CoveragePercent="74">
+        <Constructor Name="UserController(IRepositoryWrapper,IMapper,IConfiguration)" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" />
+        <Method Name="CheckCredentialsAsync(UserModel):Task&lt;ActionResult&gt;" CoveredStatements="15" TotalStatements="20" CoveragePercent="75">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="15" TotalStatements="20" CoveragePercent="75" />
+        </Method>
+        <Method Name="CreateUser(UserModel):Task&lt;IActionResult&gt;" CoveredStatements="11" TotalStatements="17" CoveragePercent="65">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="11" TotalStatements="17" CoveragePercent="65" />
+        </Method>
+      </Type>
+    </Namespace>
+    <Namespace Name="Bidiots.Data.Migrations" CoveredStatements="0" TotalStatements="170" CoveragePercent="0">
+      <Type Name="DataContextModelSnapshot" CoveredStatements="0" TotalStatements="67" CoveragePercent="0">
+        <Method Name="BuildModel(ModelBuilder):void" CoveredStatements="0" TotalStatements="67" CoveragePercent="0">
+          <OwnCoverage CoveredStatements="0" TotalStatements="11" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="11" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="10" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="7" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="10" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="5" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="6" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="4" CoveragePercent="0" />
+        </Method>
+      </Type>
+      <Type Name="InitialCreate" CoveredStatements="0" TotalStatements="103" CoveragePercent="0">
+        <Method Name="BuildTargetModel(ModelBuilder):void" CoveredStatements="0" TotalStatements="67" CoveragePercent="0">
+          <OwnCoverage CoveredStatements="0" TotalStatements="11" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="11" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="10" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="7" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="10" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="5" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="6" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+          <AnonymousMethod Name="(EntityTypeBuilder):void" CoveredStatements="0" TotalStatements="4" CoveragePercent="0" />
+        </Method>
+        <Method Name="Down(MigrationBuilder):void" CoveredStatements="0" TotalStatements="6" CoveragePercent="0" />
+        <Method Name="Up(MigrationBuilder):void" CoveredStatements="0" TotalStatements="30" CoveragePercent="0">
+          <OwnCoverage CoveredStatements="0" TotalStatements="10" CoveragePercent="0" />
+          <AnonymousMethod Name="(ColumnsBuilder):{OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;}" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <AnonymousMethod Name="(CreateTableBuilder&lt;{OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;}&gt;):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+          <AnonymousMethod Name="(ColumnsBuilder):{OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;}" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <AnonymousMethod Name="(CreateTableBuilder&lt;{OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;}&gt;):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+          <AnonymousMethod Name="(ColumnsBuilder):{OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;}" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <AnonymousMethod Name="(CreateTableBuilder&lt;{OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;}&gt;):void" CoveredStatements="0" TotalStatements="5" CoveragePercent="0" />
+          <AnonymousMethod Name="(ColumnsBuilder):{OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;}" CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <AnonymousMethod Name="(CreateTableBuilder&lt;{OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;,OperationBuilder&lt;AddColumnOperation&gt;}&gt;):void" CoveredStatements="0" TotalStatements="5" CoveragePercent="0" />
+        </Method>
+      </Type>
+    </Namespace>
+    <Namespace Name="Bidiots.Entities" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
+      <Type Name="UserModel" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
+        <AutoProperty Name="FullName:string" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="Password:string" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="UserName:string" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+      </Type>
+    </Namespace>
+    <Namespace Name="Bidiots.Hubs" CoveredStatements="34" TotalStatements="102" CoveragePercent="33">
+      <Type Name="MessageHub" CoveredStatements="34" TotalStatements="102" CoveragePercent="33">
+        <Constructor Name="MessageHub(IRepositoryWrapper,IMapper)" CoveredStatements="0" TotalStatements="5" CoveragePercent="0" />
+        <Constructor Name="MessageHub(DataContext)" CoveredStatements="14" TotalStatements="14" CoveragePercent="100">
+          <OwnCoverage CoveredStatements="11" TotalStatements="11" CoveragePercent="100" />
+          <AnonymousMethod Name="(IMapperConfigurationExpression):void" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <AnonymousMethod Name="(IMapperConfigurationExpression):void" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <AnonymousMethod Name="(IMapperConfigurationExpression):void" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </Constructor>
+        <Constructor Name="MessageHub()" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        <Method Name="CreateRoom(string,string):Task" CoveredStatements="20" TotalStatements="33" CoveragePercent="61">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="20" TotalStatements="33" CoveragePercent="61" />
+        </Method>
+        <Method Name="DeleteRoom(string,string):Task" CoveredStatements="0" TotalStatements="12" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="12" CoveragePercent="0" />
+        </Method>
+        <Method Name="GetActiveRooms():Task&lt;IEnumerable&lt;Room&gt;&gt;" CoveredStatements="0" TotalStatements="3" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        </Method>
+        <Method Name="JoinRoom(string,string):Task" CoveredStatements="0" TotalStatements="16" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="16" CoveragePercent="0" />
+        </Method>
+        <Method Name="LeaveRoom(string,string):Task" CoveredStatements="0" TotalStatements="16" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="16" CoveragePercent="0" />
+        </Method>
+      </Type>
+    </Namespace>
+    <Namespace Name="Bidiots.Mappings" CoveredStatements="19" TotalStatements="19" CoveragePercent="100">
+      <Type Name="MessageMapper" CoveredStatements="8" TotalStatements="8" CoveragePercent="100">
+        <Constructor Name="MessageMapper()" CoveredStatements="8" TotalStatements="8" CoveragePercent="100">
+          <OwnCoverage CoveredStatements="5" TotalStatements="5" CoveragePercent="100" />
+          <AnonymousMethod Name="(IMemberConfigurationExpression&lt;Message,MessageViewModel,string&gt;):void" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <AnonymousMethod Name="(IMemberConfigurationExpression&lt;Message,MessageViewModel,string&gt;):void" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <AnonymousMethod Name="(IMemberConfigurationExpression&lt;Message,MessageViewModel,string&gt;):void" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </Constructor>
+      </Type>
+      <Type Name="RoomMapper" CoveredStatements="5" TotalStatements="5" CoveragePercent="100">
+        <Constructor Name="RoomMapper()" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" />
+      </Type>
+      <Type Name="UserMapper" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
+        <Constructor Name="UserMapper()" CoveredStatements="6" TotalStatements="6" CoveragePercent="100">
+          <OwnCoverage CoveredStatements="5" TotalStatements="5" CoveragePercent="100" />
+          <AnonymousMethod Name="(IMemberConfigurationExpression&lt;User,UserViewModel,string&gt;):void" CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </Constructor>
+      </Type>
+    </Namespace>
+    <Namespace Name="Bidiots.Models" CoveredStatements="33" TotalStatements="66" CoveragePercent="50">
+      <Type Name="DataContext" CoveredStatements="14" TotalStatements="16" CoveragePercent="88">
+        <Constructor Name="DataContext(DbContextOptions&lt;DataContext&gt;)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+        <AutoProperty Name="Items:DbSet&lt;Item&gt;" CoveredStatements="1" TotalStatements="2" CoveragePercent="50">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="Messages:DbSet&lt;Message&gt;" CoveredStatements="1" TotalStatements="2" CoveragePercent="50">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="Rooms:DbSet&lt;Room&gt;" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="Users:DbSet&lt;User&gt;" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <Method Name="OnModelCreating(ModelBuilder):void" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+      </Type>
+      <Type Name="Item" CoveredStatements="0" TotalStatements="8" CoveragePercent="0">
+        <AutoProperty Name="Id:int" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="Name:string" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="Owner:User" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="Tags:string" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+      </Type>
+      <Type Name="Message" CoveredStatements="0" TotalStatements="10" CoveragePercent="0">
+        <AutoProperty Name="Content:string" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="Id:int" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="ToRoom:Room" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="ToRoomId:int" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="User:User" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+      </Type>
+      <Type Name="Room" CoveredStatements="2" TotalStatements="8" CoveragePercent="25">
+        <AutoProperty Name="Id:int" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="Items:ICollection&lt;Item&gt;" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="Name:string" CoveredStatements="1" TotalStatements="2" CoveragePercent="50">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="OwnerId:Guid" CoveredStatements="1" TotalStatements="2" CoveragePercent="50">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+      </Type>
+      <Type Name="User" CoveredStatements="17" TotalStatements="24" CoveragePercent="71">
+        <AutoProperty Name="FullName:string" CoveredStatements="1" TotalStatements="2" CoveragePercent="50">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="Id:Guid" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="Items:ICollection&lt;Item&gt;" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="Messages:ICollection&lt;Message&gt;" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="PasswordSalted:byte[]" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="Room:string" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="Salt:byte[]" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <AutoProperty Name="UserName:string" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <Method Name="SaltifyPassword(string):Tuple&lt;byte[],byte[]&gt;" CoveredStatements="8" TotalStatements="8" CoveragePercent="100" />
+      </Type>
+    </Namespace>
+    <Namespace Name="Bidiots.Repository" CoveredStatements="48" TotalStatements="90" CoveragePercent="53">
+      <Type Name="RepositoryBase&lt;T&gt;" CoveredStatements="12" TotalStatements="21" CoveragePercent="57">
+        <Constructor Name="RepositoryBase(DataContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+        <AutoProperty Name="_dataContext:DataContext" CoveredStatements="2" TotalStatements="2" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+          <PropertySetter CoveredStatements="1" TotalStatements="1" CoveragePercent="100" />
+        </AutoProperty>
+        <Method Name="Create(T):void" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+        <Method Name="Delete(T):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        <Method Name="FindAll():IQueryable&lt;T&gt;" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        <Method Name="FindByCondition(Expression&lt;Func&lt;T,bool&gt;&gt;):IQueryable&lt;T&gt;" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+        <Method Name="Update(T):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+      </Type>
+      <Type Name="RepositoryWrapper" CoveredStatements="21" TotalStatements="21" CoveragePercent="100">
+        <Constructor Name="RepositoryWrapper(DataContext)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+        <Property Name="Room:IRoomRepository" CoveredStatements="7" TotalStatements="7" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="7" TotalStatements="7" CoveragePercent="100" />
+        </Property>
+        <Property Name="User:IUserRepository" CoveredStatements="7" TotalStatements="7" CoveragePercent="100">
+          <PropertyGetter CoveredStatements="7" TotalStatements="7" CoveragePercent="100" />
+        </Property>
+        <Method Name="SaveAsync():Task" CoveredStatements="3" TotalStatements="3" CoveragePercent="100">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+        </Method>
+      </Type>
+      <Type Name="RoomRepository" CoveredStatements="6" TotalStatements="24" CoveragePercent="25">
+        <Constructor Name="RoomRepository(DataContext)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+        <Method Name="CreateRoom(Room):void" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+        <Method Name="DeleteRoom(Room):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        <Method Name="GetAllRoomsAsync():Task&lt;IEnumerable&lt;Room&gt;&gt;" CoveredStatements="0" TotalStatements="3" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        </Method>
+        <Method Name="GetRoomByIdAsync(Guid):Task&lt;Room&gt;" CoveredStatements="0" TotalStatements="3" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        </Method>
+        <Method Name="GetRoomByNameAsync(string):Task&lt;Room&gt;" CoveredStatements="0" TotalStatements="3" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        </Method>
+        <Method Name="GetRoomWithDetailsAsync(Guid):Task&lt;Room&gt;" CoveredStatements="0" TotalStatements="3" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        </Method>
+        <Method Name="UpdateRoom(Room):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+      </Type>
+      <Type Name="UserRepository" CoveredStatements="9" TotalStatements="24" CoveragePercent="38">
+        <Constructor Name="UserRepository(DataContext)" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+        <Method Name="CreateUser(User):void" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+        <Method Name="DeleteUser(User):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        <Method Name="GetAllUsersAsync():Task&lt;IEnumerable&lt;User&gt;&gt;" CoveredStatements="0" TotalStatements="3" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        </Method>
+        <Method Name="GetUserByIdAsync(Guid):Task&lt;User&gt;" CoveredStatements="0" TotalStatements="3" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        </Method>
+        <Method Name="GetUserByNameAsync(string):Task&lt;User&gt;" CoveredStatements="3" TotalStatements="3" CoveragePercent="100">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+        </Method>
+        <Method Name="GetUserWithDetailsAsync(Guid):Task&lt;User&gt;" CoveredStatements="0" TotalStatements="3" CoveragePercent="0">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+        </Method>
+        <Method Name="UpdateUser(User):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+      </Type>
+    </Namespace>
+    <Namespace Name="Bidiots.Security" CoveredStatements="11" TotalStatements="11" CoveragePercent="100">
+      <Type Name="TokenIssuer" CoveredStatements="11" TotalStatements="11" CoveragePercent="100">
+        <Constructor Name="TokenIssuer(IConfiguration)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+        <Method Name="SecurityToken(User):JwtSecurityToken" CoveredStatements="7" TotalStatements="7" CoveragePercent="100" />
+      </Type>
+    </Namespace>
+    <Namespace Name="Bidiots.ViewModels" CoveredStatements="0" TotalStatements="16" CoveragePercent="0">
+      <Type Name="MessageViewModel" CoveredStatements="0" TotalStatements="6" CoveragePercent="0">
+        <AutoProperty Name="Content:string" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="From:string" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="To:string" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+      </Type>
+      <Type Name="RoomViewModel" CoveredStatements="0" TotalStatements="4" CoveragePercent="0">
+        <AutoProperty Name="Id:int" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="Name:string" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+      </Type>
+      <Type Name="UserViewModel" CoveredStatements="0" TotalStatements="6" CoveragePercent="0">
+        <AutoProperty Name="CurrentRoom:string" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="FullName:string" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+        <AutoProperty Name="Username:string" CoveredStatements="0" TotalStatements="2" CoveragePercent="0">
+          <PropertyGetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+          <PropertySetter CoveredStatements="0" TotalStatements="1" CoveragePercent="0" />
+        </AutoProperty>
+      </Type>
+    </Namespace>
+  </Assembly>
+  <Assembly Name="Bidiots.Test" CoveredStatements="103" TotalStatements="123" CoveragePercent="84">
+    <Namespace Name="Bidiots.Test" CoveredStatements="103" TotalStatements="123" CoveragePercent="84">
+      <Type Name="DatabaseInitializer" CoveredStatements="0" TotalStatements="9" CoveragePercent="0">
+        <Method Name="Initialize(DataContext):void" CoveredStatements="0" TotalStatements="6" CoveragePercent="0" />
+        <Method Name="Seed(DataContext):void" CoveredStatements="0" TotalStatements="3" CoveragePercent="0" />
+      </Type>
+      <Type Name="DatabaseSetup" CoveredStatements="0" TotalStatements="11" CoveragePercent="0">
+        <Constructor Name="DatabaseSetup()" CoveredStatements="0" TotalStatements="7" CoveragePercent="0" />
+        <Method Name="Dispose():void" CoveredStatements="0" TotalStatements="4" CoveragePercent="0" />
+      </Type>
+      <Type Name="HubUnitTestsWithEF&lt;DataContext&gt;" CoveredStatements="7" TotalStatements="7" CoveragePercent="100">
+        <Constructor Name="HubUnitTestsWithEF()" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+        <Method Name="Dispose():void" CoveredStatements="3" TotalStatements="3" CoveragePercent="100" />
+      </Type>
+      <Type Name="MessageHubTest" CoveredStatements="32" TotalStatements="32" CoveragePercent="100">
+        <Constructor Name="MessageHubTest()" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+        <Method Name="Given_RoomNameAndUserName_When_InvalidUserName_Then_CreateRoomShouldNotCreateARoom():Task" CoveredStatements="11" TotalStatements="11" CoveragePercent="100">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="11" TotalStatements="11" CoveragePercent="100" />
+        </Method>
+        <Method Name="Given_RoomNameAndUserName_When_ValidUserName_Then_CreateRoomShouldCreateARoom():Task" CoveredStatements="11" TotalStatements="11" CoveragePercent="100">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="11" TotalStatements="11" CoveragePercent="100" />
+        </Method>
+        <Method Name="TryGetDbInMemorySqlite_ClearDbInMemorySqliteSuccesfullyTaken():void" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" />
+      </Type>
+      <Type Name="TestsFixture" CoveredStatements="10" TotalStatements="10" CoveragePercent="100">
+        <Constructor Name="TestsFixture()" CoveredStatements="6" TotalStatements="6" CoveragePercent="100" />
+        <Method Name="Dispose():void" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+      </Type>
+      <Type Name="UnitTest1" CoveredStatements="14" TotalStatements="14" CoveragePercent="100">
+        <Constructor Name="UnitTest1()" CoveredStatements="5" TotalStatements="5" CoveragePercent="100" />
+        <Method Name="Check_InvalidCredentials():Task" CoveredStatements="9" TotalStatements="9" CoveragePercent="100">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" />
+        </Method>
+      </Type>
+      <Type Name="UserControllerTest" CoveredStatements="40" TotalStatements="40" CoveragePercent="100">
+        <Constructor Name="UserControllerTest(TestsFixture)" CoveredStatements="4" TotalStatements="4" CoveragePercent="100" />
+        <Method Name="Given_User_When_InvalidCredeantials_Then_LoginShouldReturnInvalidCredentials():Task" CoveredStatements="9" TotalStatements="9" CoveragePercent="100">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" />
+        </Method>
+        <Method Name="Given_User_When_ValidCredentials_Then_LoginShouldReturnOK():Task" CoveredStatements="9" TotalStatements="9" CoveragePercent="100">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" />
+        </Method>
+        <Method Name="Given_UserModel_When_NewUser_Then_RegisterShouldReturnCreatedStatusCode():Task" CoveredStatements="9" TotalStatements="9" CoveragePercent="100">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" />
+        </Method>
+        <Method Name="Given_UserModel_When_NullUser_Then_RegisterShouldReturnBadRequest():Task" CoveredStatements="9" TotalStatements="9" CoveragePercent="100">
+          <InternalCompiledMethod Name="MoveNext():void" CoveredStatements="9" TotalStatements="9" CoveragePercent="100" />
+        </Method>
+      </Type>
+    </Namespace>
+  </Assembly>
+</Root>

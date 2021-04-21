@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "AJKGEl8nB163du4cR1jSTQH+JrZyoxYBaWoyeXYvxmp3mVo1yrZkoOuwU9w3CyE12lWISySJJoqu4iICp4UmYw==",
+  "dgSpecHash": "UZ0FK4gBj4QZAYn965MRGESJzSc/+GitoUvzDnMZulBNLCC3JWfK0AJ7f3hsvVfQpOIa1Aw10Cv3NINrwHQkOg==",
   "success": true,
   "projectFilePath": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\andre\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
+    "C:\\Users\\andre\\.nuget\\packages\\coverlet.msbuild\\3.0.3\\coverlet.msbuild.3.0.3.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.1\\microsoft.aspnetcore.authentication.jwtbearer.5.0.1.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\5.0.1\\microsoft.aspnetcore.authentication.openidconnect.5.0.1.nupkg.sha512",

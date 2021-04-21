@@ -175,3 +175,4 @@ C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\obj\Debug\net5.0\B
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\obj\Debug\net5.0\ref\Bidiots.Test.dll
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\obj\Debug\net5.0\Bidiots.Test.pdb
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\obj\Debug\net5.0\Bidiots.Test.genruntimeconfig.cache
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net5.0\Bidiots.StaticWebAssets.xml

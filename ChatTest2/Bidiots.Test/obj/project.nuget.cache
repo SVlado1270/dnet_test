@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "80i8D4re/lbjf3Cno340NrQyb8ytx0v+QCs9jeybL31m6Z8y7PDlw8MZXsYBmw0p/NZVm6RzNdQrxzCyaTQZ5A==",
+  "dgSpecHash": "idQFWz2SFXEh3NtFefNvCl95sJQe96HN9mK0b2wm14lkTHlJ20SXgryQVDcVJ8FdNBZDtWlt14NiP8M1ruS6TA==",
   "success": true,
   "projectFilePath": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\andre\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\coverlet.collector\\1.3.0\\coverlet.collector.1.3.0.nupkg.sha512",
+    "C:\\Users\\andre\\.nuget\\packages\\coverlet.msbuild\\3.0.3\\coverlet.msbuild.3.0.3.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.1\\microsoft.aspnetcore.authentication.jwtbearer.5.0.1.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\5.0.1\\microsoft.aspnetcore.authentication.openidconnect.5.0.1.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\microsoft.aspnetcore.authorization\\2.2.0\\microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",
