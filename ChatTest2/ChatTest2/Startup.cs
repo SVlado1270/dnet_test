@@ -84,6 +84,7 @@ namespace Bidiots
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
         }
     }
 }

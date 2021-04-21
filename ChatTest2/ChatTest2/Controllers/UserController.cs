@@ -5,14 +5,10 @@ using Bidiots.Repository;
 using Bidiots.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Bidiots.Controllers
@@ -25,8 +21,6 @@ namespace Bidiots.Controllers
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
-
-
         public UserController(IRepositoryWrapper repository, IMapper mapper, IConfiguration configuration)
         {
             _repository = repository;
@@ -35,11 +29,11 @@ namespace Bidiots.Controllers
         }
 
         [HttpPost]
-        [Route("AddUser", Name = "CreateAccount")]
+        [Route("Register", Name = "CreateAccount")]
         public async Task<IActionResult> CreateUser([FromBody] UserModel user)
         {
 
-            if (user == null)
+            if (user == null || user.UserName == null || user.Password == null || user.FullName == null)
             {
                 return BadRequest("Empty User");
             }
@@ -48,21 +42,27 @@ namespace Bidiots.Controllers
             {
                 return BadRequest("Invalid model object");
             }
+            if (_repository.User.FindByCondition(u => u.UserName == user.UserName).FirstOrDefault() == null)
+            {
+                Tuple<byte[], byte[]> saltedPassword = Models.User.SaltifyPassword(user.Password);
+                User _user = new User { Id = Guid.NewGuid(), FullName = user.FullName, UserName = user.UserName, Salt = saltedPassword.Item1, PasswordSalted = saltedPassword.Item2 };
+                _repository.User.CreateUser(_user);
+                await _repository.SaveAsync();
 
-            Tuple<byte[], byte[]> saltedPassword = Models.User.SaltifyPassword(user.Password);
-            User _user = new User { Id = Guid.NewGuid(), FullName = user.FullName, UserName = user.UserName, Salt = saltedPassword.Item1, PasswordSalted = saltedPassword.Item2 };
-            _repository.User.CreateUser(_user);
-            await _repository.SaveAsync();
-
-            return CreatedAtRoute("CreateAccount", new { id = _user.Id }, _user.Id);
+                return CreatedAtRoute("CreateAccount", new { id = _user.Id }, _user.Id);
+            }
+            else
+            {
+                return Conflict();
+            }
         }
-        
+
         [HttpPost]
         [Route("Login", Name = "Login")]
         public async Task<ActionResult> CheckCredentialsAsync([FromBody] UserModel user)
         {
 
-            if (user == null)
+            if (user == null || user.UserName == null || user.Password == null)
             {
                 return BadRequest("Empty User");
             }
@@ -95,10 +95,9 @@ namespace Bidiots.Controllers
             {
                 token = new JwtSecurityTokenHandler().WriteToken(SecurityToken),
                 userid = _user.Id.ToString(),
+                username = _user.UserName,
                 expiration = SecurityToken.ValidTo
             }));
         }
-
-
     }
 }

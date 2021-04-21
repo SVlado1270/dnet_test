@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\andre\\Downloads\\ChatTest2\\ChatTest2\\ChatTest2\\Bidiots.csproj": {}
+    "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\ChatTest2\\Bidiots.csproj": {}
   },
   "projects": {
-    "C:\\Users\\andre\\Downloads\\ChatTest2\\ChatTest2\\ChatTest2\\Bidiots.csproj": {
+    "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\ChatTest2\\Bidiots.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\andre\\Downloads\\ChatTest2\\ChatTest2\\ChatTest2\\Bidiots.csproj",
+        "projectUniqueName": "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\ChatTest2\\Bidiots.csproj",
         "projectName": "Bidiots",
-        "projectPath": "C:\\Users\\andre\\Downloads\\ChatTest2\\ChatTest2\\ChatTest2\\Bidiots.csproj",
+        "projectPath": "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\ChatTest2\\Bidiots.csproj",
         "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\andre\\Downloads\\ChatTest2\\ChatTest2\\ChatTest2\\obj\\",
+        "outputPath": "C:\\Users\\andre\\Downloads\\ChatTest2 (1)\\ChatTest2\\ChatTest2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -99,12 +99,6 @@
             "Microsoft.EntityFrameworkCore.Sqlite.Core": {
               "target": "Package",
               "version": "[5.0.5, )"
-            },
-            "Microsoft.TypeScript.MSBuild": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[4.2.4, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using Bidiots.Mappings;
 using Bidiots.Models;
 using Bidiots.Repository;
 using Bidiots.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,18 +22,29 @@ namespace Bidiots.Hubs
         protected readonly IMapper _mapper;
         protected readonly IRepositoryWrapper _repositoryWrapper;
 
+        [ActivatorUtilitiesConstructor]
         public MessageHub(IRepositoryWrapper repositoryWrapper, IMapper mapper)
         {
             _repositoryWrapper = repositoryWrapper;
             _mapper = mapper;
         }
 
+        public MessageHub(DataContext dataContext)
+        {
+            _repositoryWrapper = new RepositoryWrapper(dataContext);
+            var messageMapper = new MessageMapper();
+            var roomMapper = new RoomMapper();
+            var userMapper = new UserMapper();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(messageMapper));
+            configuration = new MapperConfiguration(cfg => cfg.AddProfile(roomMapper));
+            configuration = new MapperConfiguration(cfg => cfg.AddProfile(userMapper));
+            _mapper = new Mapper(configuration);
+        }
+
         public async Task CreateRoom(string roomName, string userName)
         {
             try
             {
-
-                // Accept: Letters, numbers and one space between words.
                 Match match = Regex.Match(roomName, @"^\w+( \w+)*$");
                 if (!match.Success)
                 {
@@ -48,27 +60,22 @@ namespace Bidiots.Hubs
                 }
                 else
                 {
-                    // Create and save chat room in database
-                    var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
-                    var room = new Room()
+                    var user = _repositoryWrapper.User.GetUserByNameAsync(userName).Result;
+                    if (user == null)
                     {
-                        Name = roomName,
-                        OwnerId = user.Id
-                    };
-                    _repositoryWrapper.Room.CreateRoom(room);
-                    await _repositoryWrapper.SaveAsync();
-
-                    if (room != null)
+                        await Clients.Caller.SendAsync("onError", "User not found");
+                    }
+                    else
                     {
-                        // Update room list
-                        var roomViewModel = _mapper.Map<Room, RoomViewModel>(room);
-                        _Rooms.Add(roomViewModel);
-
-
-                        //await Clients.All.SendAsync("addChatRoom", roomViewModel); -> sa apelezi functii de pe front
+                        var room = new Room()
+                        {
+                            Name = roomName,
+                            OwnerId = user.Id
+                        };
+                        _repositoryWrapper.Room.CreateRoom(room);
+                        await _repositoryWrapper.SaveAsync();
                     }
                 }
-                System.Console.WriteLine(_repositoryWrapper.Room.GetAllRoomsAsync());
             }
             catch (Exception ex)
             {
@@ -81,7 +88,7 @@ namespace Bidiots.Hubs
             try
             {
                 var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
-                if (user != null && user.Room != roomName) //&& user.CurrentRoom != roomName)
+                if (user != null && user.Room != roomName)
                 {
                     /*// Remove user from others list
                     if (!string.IsNullOrEmpty(user.CurrentRoom))
@@ -91,8 +98,6 @@ namespace Bidiots.Hubs
                     //await Leave(user.CurrentRoom);
                     await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
                     user.Room = roomName;
-
-                    Console.WriteLine(user.Room);
                     _repositoryWrapper.User.UpdateUser(user);
                     await _repositoryWrapper.SaveAsync();
 
@@ -143,9 +148,6 @@ namespace Bidiots.Hubs
                     _repositoryWrapper.User.UpdateUser(user);
                     await _repositoryWrapper.SaveAsync();
                 }
-
-
-
                 // Move users back to Lobby
                 //await Clients.Group(roomName).SendAsync("onRoomDeleted", string.Format("Room {0} has been deleted.\nYou are now moved to the Lobby!", roomName));
 
@@ -156,6 +158,11 @@ namespace Bidiots.Hubs
             {
                 await Clients.Caller.SendAsync("onError", "Can't delete this chat room. Only owner can delete this room.");
             }
+        }
+
+        public async Task<IEnumerable<Room>> GetActiveRooms()
+        {
+            return await _repositoryWrapper.Room.GetAllRoomsAsync();
         }
     }
 }
