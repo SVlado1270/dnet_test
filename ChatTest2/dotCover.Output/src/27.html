@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Data\Migrations\20210411112403_InitialCreate.Designer.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// &lt;auto-generated /&gt;
+using System;
+using Bidiots.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
+namespace Bidiots.Data.Migrations
+{
+    [DbContext(typeof(DataContext))]
+    [Migration(&quot;20210411112403_InitialCreate&quot;)]
+    partial class InitialCreate
+    {
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        {
+#pragma warning disable 612, 618
+            modelBuilder
+                .HasAnnotation(&quot;ProductVersion&quot;, &quot;5.0.5&quot;);
+
+            modelBuilder.Entity(&quot;Bidiots.Models.Item&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;INTEGER&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Name&quot;)
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType(&quot;TEXT&quot;);
+
+                    b.Property&lt;Guid&gt;(&quot;OwnerId&quot;)
+                        .HasColumnType(&quot;TEXT&quot;);
+
+                    b.Property&lt;int?&gt;(&quot;RoomId&quot;)
+                        .HasColumnType(&quot;INTEGER&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Tags&quot;)
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType(&quot;TEXT&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.HasIndex(&quot;OwnerId&quot;);
+
+                    b.HasIndex(&quot;RoomId&quot;);
+
+                    b.ToTable(&quot;Items&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Bidiots.Models.Message&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;INTEGER&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Content&quot;)
+                        .HasColumnType(&quot;TEXT&quot;);
+
+                    b.Property&lt;int&gt;(&quot;ToRoomId&quot;)
+                        .HasColumnType(&quot;INTEGER&quot;);
+
+                    b.Property&lt;Guid?&gt;(&quot;UserId&quot;)
+                        .HasColumnType(&quot;TEXT&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.HasIndex(&quot;ToRoomId&quot;);
+
+                    b.HasIndex(&quot;UserId&quot;);
+
+                    b.ToTable(&quot;Messages&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Bidiots.Models.Room&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;INTEGER&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Name&quot;)
+                        .HasColumnType(&quot;TEXT&quot;);
+
+                    b.Property&lt;Guid&gt;(&quot;OwnerId&quot;)
+                        .HasColumnType(&quot;TEXT&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;Rooms&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Bidiots.Models.User&quot;, b =&gt;
+                {
+                    b.Property&lt;Guid&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;TEXT&quot;);
+
+                    b.Property&lt;string&gt;(&quot;FullName&quot;)
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType(&quot;TEXT&quot;);
+
+                    b.Property&lt;byte[]&gt;(&quot;PasswordSalted&quot;)
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType(&quot;BLOB&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Room&quot;)
+                        .HasColumnType(&quot;TEXT&quot;);
+
+                    b.Property&lt;byte[]&gt;(&quot;Salt&quot;)
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType(&quot;BLOB&quot;);
+
+                    b.Property&lt;string&gt;(&quot;UserName&quot;)
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType(&quot;TEXT&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;Users&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Bidiots.Models.Item&quot;, b =&gt;
+                {
+                    b.HasOne(&quot;Bidiots.Models.User&quot;, &quot;Owner&quot;)
+                        .WithMany(&quot;Items&quot;)
+                        .HasForeignKey(&quot;OwnerId&quot;)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne(&quot;Bidiots.Models.Room&quot;, null)
+                        .WithMany(&quot;Items&quot;)
+                        .HasForeignKey(&quot;RoomId&quot;);
+
+                    b.Navigation(&quot;Owner&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Bidiots.Models.Message&quot;, b =&gt;
+                {
+                    b.HasOne(&quot;Bidiots.Models.Room&quot;, &quot;ToRoom&quot;)
+                        .WithMany()
+                        .HasForeignKey(&quot;ToRoomId&quot;)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne(&quot;Bidiots.Models.User&quot;, &quot;User&quot;)
+                        .WithMany(&quot;Messages&quot;)
+                        .HasForeignKey(&quot;UserId&quot;);
+
+                    b.Navigation(&quot;ToRoom&quot;);
+
+                    b.Navigation(&quot;User&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Bidiots.Models.Room&quot;, b =&gt;
+                {
+                    b.Navigation(&quot;Items&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Bidiots.Models.User&quot;, b =&gt;
+                {
+                    b.Navigation(&quot;Items&quot;);
+
+                    b.Navigation(&quot;Messages&quot;);
+                });
+#pragma warning restore 612, 618
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[16,9,16,10,0],[18,13,19,59,0],[21,13,22,17,0],[22,17,22,18,0],[22,18,23,21,0],[23,21,25,51,0],[25,51,27,21,0],[27,21,30,48,0],[30,48,32,21,0],[32,21,33,48,0],[33,48,35,21,0],[35,21,36,51,0],[36,51,38,21,0],[38,21,41,48,0],[41,48,43,21,0],[43,21,43,36,0],[43,36,45,21,0],[45,21,45,43,0],[45,43,47,21,0],[47,21,47,42,0],[47,42,49,21,0],[49,21,49,40,0],[49,40,50,17,0],[50,17,50,18,0],[50,18,50,20,0],[52,13,53,17,0],[53,17,53,18,0],[53,18,54,21,0],[54,21,56,51,0],[56,51,58,21,0],[58,21,59,48,0],[59,48,61,21,0],[61,21,62,51,0],[62,51,64,21,0],[64,21,65,48,0],[65,48,67,21,0],[67,21,67,36,0],[67,36,69,21,0],[69,21,69,44,0],[69,44,71,21,0],[71,21,71,42,0],[71,42,73,21,0],[73,21,73,43,0],[73,43,74,17,0],[74,17,74,18,0],[74,18,74,20,0],[76,13,77,17,0],[77,17,77,18,0],[77,18,78,21,0],[78,21,80,51,0],[80,51,82,21,0],[82,21,83,48,0],[83,48,85,21,0],[85,21,86,48,0],[86,48,88,21,0],[88,21,88,36,0],[88,36,90,21,0],[90,21,90,40,0],[90,40,91,17,0],[91,17,91,18,0],[91,18,91,20,0],[93,13,94,17,0],[94,17,94,18,0],[94,18,95,21,0],[95,21,97,48,0],[97,48,99,21,0],[99,21,102,48,0],[102,48,104,21,0],[104,21,107,48,0],[107,48,109,21,0],[109,21,110,48,0],[110,48,112,21,0],[112,21,115,48,0],[115,48,117,21,0],[117,21,120,48,0],[120,48,122,21,0],[122,21,122,36,0],[122,36,124,21,0],[124,21,124,40,0],[124,40,125,17,0],[125,17,125,18,0],[125,18,125,20,0],[127,13,128,17,0],[128,17,128,18,0],[128,18,129,21,0],[129,21,133,39,0],[133,39,135,21,0],[135,21,137,50,0],[137,50,139,21,0],[139,21,139,43,0],[139,43,140,17,0],[140,17,140,18,0],[140,18,140,20,0],[142,13,143,17,0],[143,17,143,18,0],[143,18,144,21,0],[144,21,148,39,0],[148,39,150,21,0],[150,21,152,50,0],[152,50,154,21,0],[154,21,154,44,0],[154,44,156,21,0],[156,21,156,42,0],[156,42,157,17,0],[157,17,157,18,0],[157,18,157,20,0],[159,13,160,17,0],[160,17,160,18,0],[160,18,161,21,0],[161,21,161,43,0],[161,43,162,17,0],[162,17,162,18,0],[162,18,162,20,0],[164,13,165,17,0],[165,17,165,18,0],[165,18,166,21,0],[166,21,166,43,0],[166,43,168,21,0],[168,21,168,46,0],[168,46,169,17,0],[169,17,169,18,0],[169,18,169,20,0],[171,9,171,10,0]]);
+    </script>
+  </body>
+</html>

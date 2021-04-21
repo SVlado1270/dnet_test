@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\DatabaseSetup.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Bidiots.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+
+namespace Bidiots.Test
+{
+
+    class DatabaseSetup : IDisposable
+    {
+        protected readonly DataContext _dataContenxt;
+        public DatabaseSetup()
+        {
+            var options = new DbContextOptionsBuilder&lt;DataContext&gt;().UseInMemoryDatabase(&quot;Test&quot;).Options;
+            _dataContenxt = new DataContext(options);
+            _dataContenxt.Database.EnsureCreated();
+
+            DatabaseInitializer.Initialize(_dataContenxt);
+        }
+        public void Dispose()
+        {
+            _dataContenxt.Database.EnsureDeleted();
+            _dataContenxt.Dispose();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,31,0],[12,9,12,10,0],[13,13,13,106,0],[14,13,14,54,0],[15,13,15,52,0],[17,13,17,59,0],[18,9,18,10,0],[20,9,20,10,0],[21,13,21,52,0],[22,13,22,37,0],[23,9,23,10,0]]);
+    </script>
+  </body>
+</html>

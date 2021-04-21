@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Startup.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Bidiots.Hubs;
+using Bidiots.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Bidiots.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+namespace Bidiots
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDbContext&lt;DataContext&gt;(options =&gt; options.UseSqlite(Configuration.GetConnectionString(&quot;DefaultConnection&quot;)));
+
+            services.AddControllers();
+
+            services.AddSpaStaticFiles(configure =&gt;
+            {
+                configure.RootPath = &quot;auction-app/build&quot;;
+            });
+
+            services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddScoped&lt;IRepositoryWrapper, RepositoryWrapper&gt;();
+            services.AddSignalR();
+
+            services.AddAuthentication(options =&gt;
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                   .AddJwtBearer(options =&gt;
+                   {
+                       options.SaveToken = true;
+                       options.RequireHttpsMetadata = false;
+                       options.TokenValidationParameters = new TokenValidationParameters()
+                       {
+                           ValidateIssuer = true,
+                           ValidateAudience = true,
+                           ValidAudience = Configuration[&quot;JWT:ValidAudience&quot;],
+                           ValidIssuer = Configuration[&quot;JWT:ValidIssuer&quot;],
+                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration[&quot;JWT:Secret&quot;]))
+                       };
+                   });
+            
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =&gt;
+            {
+                endpoints.MapHub&lt;MessageHub&gt;(&quot;/chatHub&quot;);
+
+                endpoints.MapControllers();
+            });
+
+            app.UseSpa(spa =&gt;
+            {
+                spa.Options.SourcePath = &quot;auction-app&quot;;
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: &quot;start&quot;);
+                }
+            });
+
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[19,9,19,53,1],[20,9,20,10,1],[21,13,21,43,1],[22,9,22,10,1],[24,47,24,51,1],[28,9,28,10,1],[29,13,29,59,1],[29,59,29,132,1],[29,132,29,134,1],[31,13,31,39,1],[33,13,34,13,1],[34,13,34,14,1],[34,14,35,17,1],[35,17,35,58,1],[35,58,36,13,1],[36,13,36,14,1],[36,14,36,16,1],[38,13,38,62,1],[39,13,39,73,1],[40,13,40,35,1],[42,13,43,13,1],[43,13,43,14,0],[43,14,44,17,1],[44,17,44,92,0],[44,92,45,17,1],[45,17,45,89,0],[45,89,46,17,1],[46,17,46,80,0],[46,80,47,13,1],[47,13,47,14,0],[47,14,49,20,1],[49,20,49,21,0],[49,21,50,24,1],[50,24,50,49,0],[50,49,51,24,1],[51,24,51,61,0],[51,61,52,24,1],[52,24,59,26,0],[59,26,60,20,1],[60,20,60,21,0],[60,21,60,23,1],[62,9,62,10,1],[66,9,66,10,1],[67,13,67,30,1],[69,13,69,36,1],[71,13,72,13,1],[72,13,72,14,1],[72,14,73,17,1],[73,17,73,58,1],[73,58,75,17,1],[75,17,75,44,1],[75,44,76,13,1],[76,13,76,14,1],[76,14,76,16,1],[78,13,79,13,1],[79,13,79,14,1],[79,14,80,17,1],[80,17,80,56,1],[80,56,82,17,1],[82,17,82,41,1],[82,41,83,17,1],[83,17,83,18,0],[83,18,84,21,1],[84,21,84,71,0],[84,71,85,17,1],[85,17,85,18,0],[85,18,86,13,1],[86,13,86,14,1],[86,14,86,16,1],[88,9,88,10,1]]);
+    </script>
+  </body>
+</html>

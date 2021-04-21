@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Controllers\MessageController.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AutoMapper;
+using Bidiots.Hubs;
+using Bidiots.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Bidiots.Controllers
+{
+    [ApiController]
+    [Route(&quot;api/message&quot;)]
+    public class MessageController : Controller
+    {
+        protected readonly IHubContext&lt;MessageHub&gt; _messageHub;
+        protected readonly IMapper _mapper;
+        protected readonly DataContext _dataContext;
+
+        public MessageController([NotNull] IHubContext&lt;MessageHub&gt; messageHub, IMapper mapper, DataContext dataContext)
+        {
+            _messageHub = messageHub;
+            _mapper = mapper;
+            _dataContext = dataContext;
+        }
+
+        [HttpPost]
+        public async Task&lt;IActionResult&gt; Create(Message messagePost)
+         {
+            // pentru un user await _messageHub.Clients.User()
+            var user = _dataContext.Users.Where(u =&gt; u.UserName == User.Identity.Name).FirstOrDefault();
+
+            await _messageHub.Clients.All.SendAsync(&quot;sendToReact&quot;, &quot;The message &quot; + messagePost.Content + &quot; has been received from: &quot; + messagePost.User.Id);
+
+            return Ok();
+        }
+        
+
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[20,9,20,120,0],[21,9,21,10,0],[22,13,22,38,0],[23,13,23,30,0],[24,13,24,40,0],[25,9,25,10,0],[29,10,29,11,0],[31,13,31,105,0],[33,13,33,158,0],[35,13,35,25,0],[36,9,36,10,0]]);
+    </script>
+  </body>
+</html>

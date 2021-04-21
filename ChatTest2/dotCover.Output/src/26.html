@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Data\Migrations\20210411112403_InitialCreate.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace Bidiots.Data.Migrations
+{
+    public partial class InitialCreate : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: &quot;Rooms&quot;,
+                columns: table =&gt; new
+                {
+                    Id = table.Column&lt;int&gt;(type: &quot;INTEGER&quot;, nullable: false)
+                        .Annotation(&quot;Sqlite:Autoincrement&quot;, true),
+                    Name = table.Column&lt;string&gt;(type: &quot;TEXT&quot;, nullable: true),
+                    OwnerId = table.Column&lt;Guid&gt;(type: &quot;TEXT&quot;, nullable: false)
+                },
+                constraints: table =&gt;
+                {
+                    table.PrimaryKey(&quot;PK_Rooms&quot;, x =&gt; x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: &quot;Users&quot;,
+                columns: table =&gt; new
+                {
+                    Id = table.Column&lt;Guid&gt;(type: &quot;TEXT&quot;, nullable: false),
+                    UserName = table.Column&lt;string&gt;(type: &quot;TEXT&quot;, maxLength: 32, nullable: false),
+                    FullName = table.Column&lt;string&gt;(type: &quot;TEXT&quot;, maxLength: 60, nullable: false),
+                    PasswordSalted = table.Column&lt;byte[]&gt;(type: &quot;BLOB&quot;, maxLength: 32, nullable: false),
+                    Salt = table.Column&lt;byte[]&gt;(type: &quot;BLOB&quot;, maxLength: 32, nullable: false),
+                    Room = table.Column&lt;string&gt;(type: &quot;TEXT&quot;, nullable: true)
+                },
+                constraints: table =&gt;
+                {
+                    table.PrimaryKey(&quot;PK_Users&quot;, x =&gt; x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: &quot;Items&quot;,
+                columns: table =&gt; new
+                {
+                    Id = table.Column&lt;int&gt;(type: &quot;INTEGER&quot;, nullable: false)
+                        .Annotation(&quot;Sqlite:Autoincrement&quot;, true),
+                    Name = table.Column&lt;string&gt;(type: &quot;TEXT&quot;, maxLength: 32, nullable: false),
+                    OwnerId = table.Column&lt;Guid&gt;(type: &quot;TEXT&quot;, nullable: false),
+                    Tags = table.Column&lt;string&gt;(type: &quot;TEXT&quot;, maxLength: 32, nullable: false),
+                    RoomId = table.Column&lt;int&gt;(type: &quot;INTEGER&quot;, nullable: true)
+                },
+                constraints: table =&gt;
+                {
+                    table.PrimaryKey(&quot;PK_Items&quot;, x =&gt; x.Id);
+                    table.ForeignKey(
+                        name: &quot;FK_Items_Rooms_RoomId&quot;,
+                        column: x =&gt; x.RoomId,
+                        principalTable: &quot;Rooms&quot;,
+                        principalColumn: &quot;Id&quot;,
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: &quot;FK_Items_Users_OwnerId&quot;,
+                        column: x =&gt; x.OwnerId,
+                        principalTable: &quot;Users&quot;,
+                        principalColumn: &quot;Id&quot;,
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: &quot;Messages&quot;,
+                columns: table =&gt; new
+                {
+                    Id = table.Column&lt;int&gt;(type: &quot;INTEGER&quot;, nullable: false)
+                        .Annotation(&quot;Sqlite:Autoincrement&quot;, true),
+                    Content = table.Column&lt;string&gt;(type: &quot;TEXT&quot;, nullable: true),
+                    ToRoomId = table.Column&lt;int&gt;(type: &quot;INTEGER&quot;, nullable: false),
+                    UserId = table.Column&lt;Guid&gt;(type: &quot;TEXT&quot;, nullable: true)
+                },
+                constraints: table =&gt;
+                {
+                    table.PrimaryKey(&quot;PK_Messages&quot;, x =&gt; x.Id);
+                    table.ForeignKey(
+                        name: &quot;FK_Messages_Rooms_ToRoomId&quot;,
+                        column: x =&gt; x.ToRoomId,
+                        principalTable: &quot;Rooms&quot;,
+                        principalColumn: &quot;Id&quot;,
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: &quot;FK_Messages_Users_UserId&quot;,
+                        column: x =&gt; x.UserId,
+                        principalTable: &quot;Users&quot;,
+                        principalColumn: &quot;Id&quot;,
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_Items_OwnerId&quot;,
+                table: &quot;Items&quot;,
+                column: &quot;OwnerId&quot;);
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_Items_RoomId&quot;,
+                table: &quot;Items&quot;,
+                column: &quot;RoomId&quot;);
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_Messages_ToRoomId&quot;,
+                table: &quot;Messages&quot;,
+                column: &quot;ToRoomId&quot;);
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_Messages_UserId&quot;,
+                table: &quot;Messages&quot;,
+                column: &quot;UserId&quot;);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: &quot;Items&quot;);
+
+            migrationBuilder.DropTable(
+                name: &quot;Messages&quot;);
+
+            migrationBuilder.DropTable(
+                name: &quot;Rooms&quot;);
+
+            migrationBuilder.DropTable(
+                name: &quot;Users&quot;);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,9,9,10,0],[10,13,12,35,0],[12,35,18,18,0],[18,18,20,17,0],[20,17,20,18,0],[20,18,21,21,0],[21,21,21,61,0],[21,61,22,17,0],[22,17,22,18,0],[22,18,22,20,0],[24,13,26,35,0],[26,35,34,18,0],[34,18,36,17,0],[36,17,36,18,0],[36,18,37,21,0],[37,21,37,61,0],[37,61,38,17,0],[38,17,38,18,0],[38,18,38,20,0],[40,13,42,35,0],[42,35,50,18,0],[50,18,52,17,0],[52,17,52,18,0],[52,18,53,21,0],[53,21,53,61,0],[53,61,54,21,0],[54,21,59,63,0],[59,63,60,21,0],[60,21,65,62,0],[65,62,66,17,0],[66,17,66,18,0],[66,18,66,20,0],[68,13,70,35,0],[70,35,77,18,0],[77,18,79,17,0],[79,17,79,18,0],[79,18,80,21,0],[80,21,80,64,0],[80,64,81,21,0],[81,21,86,62,0],[86,62,87,21,0],[87,21,92,63,0],[92,63,93,17,0],[93,17,93,18,0],[93,18,93,20,0],[95,13,98,36,0],[100,13,103,35,0],[105,13,108,37,0],[110,13,113,35,0],[114,9,114,10,0],[117,9,117,10,0],[118,13,119,32,0],[121,13,122,35,0],[124,13,125,32,0],[127,13,128,32,0],[129,9,129,10,0]]);
+    </script>
+  </body>
+</html>

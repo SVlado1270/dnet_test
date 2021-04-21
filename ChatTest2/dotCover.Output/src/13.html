@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Repository\RepositoryWrapper.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Bidiots.Models;
+using System.Threading.Tasks;
+
+namespace Bidiots.Repository
+{
+    public class RepositoryWrapper : IRepositoryWrapper
+    {
+        private readonly DataContext _dataContext;
+        private IUserRepository _user;
+        private IRoomRepository _room;
+        public RepositoryWrapper(DataContext dataContext)
+        {
+            _dataContext = dataContext;
+        }
+        public IUserRepository User
+        {
+            get
+            {
+                if (_user == null)
+                {
+                    _user = new UserRepository(_dataContext);
+                }
+                return _user;
+            }
+        }
+        public IRoomRepository Room
+        {
+            get
+            {
+                if (_room == null)
+                {
+                    _room = new RoomRepository(_dataContext);
+                }
+                return _room;
+            }
+        }
+
+        public async Task SaveAsync()
+        {
+            await _dataContext.SaveChangesAsync();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,58,1],[12,9,12,10,1],[13,13,13,40,1],[14,9,14,10,1],[18,13,18,14,1],[19,17,19,35,1],[20,17,20,18,1],[21,21,21,62,1],[22,17,22,18,1],[23,17,23,30,1],[24,13,24,14,1],[29,13,29,14,1],[30,17,30,35,1],[31,17,31,18,1],[32,21,32,62,1],[33,17,33,18,1],[34,17,34,30,1],[35,13,35,14,1],[39,9,39,10,1],[40,13,40,51,1],[41,9,41,10,1]]);
+    </script>
+  </body>
+</html>

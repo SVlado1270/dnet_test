@@ -92,3 +92,4 @@ C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\obj\Debug\net5.0\Bidi
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\obj\Debug\net5.0\ref\Bidiots.dll
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\obj\Debug\net5.0\Bidiots.pdb
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\obj\Debug\net5.0\Bidiots.genruntimeconfig.cache
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\obj\Debug\net5.0\Bidiots.csprojAssemblyReference.cache

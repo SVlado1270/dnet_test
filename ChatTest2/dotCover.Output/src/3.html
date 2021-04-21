@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\MessageHubTest.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Bidiots.Hubs;
+using Bidiots.Models;
+using Microsoft.EntityFrameworkCore;
+using SignalR_UnitTestingSupportCommon.Hubs;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
+
+namespace Bidiots.Test
+{
+    public abstract class HubUnitTestsWithEF&lt;DataContext&gt; : HubUnitTestsWithEFSupport&lt;DataContext&gt;, IDisposable
+        where DataContext : DbContext
+    {
+        public HubUnitTestsWithEF()
+        {
+            SetUp();
+        }
+        public void Dispose()
+        {
+            TearDown();
+        }
+    }
+    public class MessageHubTest : HubUnitTestsWithEF&lt;DataContext&gt;
+    {
+        private MessageHub _messageHub;
+        public MessageHubTest() : base()
+        {
+            _messageHub = null;
+        }
+
+        [Fact]
+        public void TryGetDbInMemorySqlite_ClearDbInMemorySqliteSuccesfullyTaken()
+        {
+            Assert.True(DbInMemorySqlite.Users.Count() == 0);
+            DbInMemorySqlite.Users.Add(new User()
+            {
+                Id = Guid.NewGuid(),
+                UserName = &quot;Vasea&quot;,
+                FullName = &quot;Vasea&quot;,
+                PasswordSalted = new byte[] { 0x20 },
+                Salt = new byte[] { 0x20 },
+            });
+            DbInMemorySqlite.SaveChangesAsync();
+            Assert.True(DbInMemorySqlite.Users.Count() == 1);
+        }
+
+        [Fact]
+        public async Task Given_RoomNameAndUserName_When_ValidUserName_Then_CreateRoomShouldCreateARoom()
+        {
+            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            DbInMemorySqlite.Users.Add(new User()
+            {
+                Id = Guid.NewGuid(),
+                UserName = &quot;Vasea&quot;,
+                FullName = &quot;Vasea&quot;,
+                PasswordSalted = new byte[] { 0x20 },
+                Salt = new byte[] { 0x20 },
+            });
+            await DbInMemorySqlite.SaveChangesAsync();
+            _messageHub = new MessageHub(DbInMemorySqlite);
+            AssignToHubRequiredProperties(_messageHub);
+            await _messageHub.CreateRoom(&quot;RoomieGroomie&quot;, &quot;Vasea&quot;);
+            await DbInMemorySqlite.SaveChangesAsync();
+            var roomFromDb = DbInMemorySqlite.Rooms.FirstOrDefault();
+            Assert.NotNull(roomFromDb);
+        }
+
+        [Fact]
+        public async Task Given_RoomNameAndUserName_When_InvalidUserName_Then_CreateRoomShouldNotCreateARoom()
+        {
+            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            DbInMemorySqlite.Users.Add(new User()
+            {
+                Id = Guid.NewGuid(),
+                UserName = &quot;Vasea&quot;,
+                FullName = &quot;Vasea&quot;,
+                PasswordSalted = new byte[] { 0x20 },
+                Salt = new byte[] { 0x20 },
+            });
+            await DbInMemorySqlite.SaveChangesAsync();
+            _messageHub = new MessageHub(DbInMemorySqlite);
+            AssignToHubRequiredProperties(_messageHub);
+            await _messageHub.CreateRoom(&quot;RoomieGroomie&quot;, &quot;VaseaClarNuInBazaDeDate&quot;);
+            await DbInMemorySqlite.SaveChangesAsync();
+            var roomFromDb = DbInMemorySqlite.Rooms.FirstOrDefault();
+            Assert.Null(roomFromDb);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[16,9,16,36,1],[17,9,17,10,1],[18,13,18,21,1],[19,9,19,10,1],[21,9,21,10,1],[22,13,22,24,1],[23,9,23,10,1],[28,35,28,41,1],[29,9,29,10,1],[30,13,30,32,1],[31,9,31,10,1],[35,9,35,10,1],[36,13,36,62,1],[37,13,44,16,1],[45,13,45,49,1],[46,13,46,62,1],[47,9,47,10,1],[51,9,51,10,1],[52,13,52,62,1],[53,13,60,16,1],[61,13,61,55,1],[62,13,62,60,1],[63,13,63,56,1],[64,13,64,68,1],[65,13,65,55,1],[66,13,66,70,1],[67,13,67,40,1],[68,9,68,10,1],[72,9,72,10,1],[73,13,73,62,1],[74,13,81,16,1],[82,13,82,55,1],[83,13,83,60,1],[84,13,84,56,1],[85,13,85,86,1],[86,13,86,55,1],[87,13,87,70,1],[88,13,88,37,1],[89,9,89,10,1]]);
+    </script>
+  </body>
+</html>
