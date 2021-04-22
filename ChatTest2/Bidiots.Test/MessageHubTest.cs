@@ -316,6 +316,27 @@ namespace Bidiots.Test
             Assert.Equal("RoomieGroomie", userFromDb.Room);
         }
 
+        [Fact]
+        public async Task Given_UserName_When_ValidUserName_And_UserHasRooms_Then_GetUserRoomsShouldReturnUserRooms()
+        {
+            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            var UserID = Guid.NewGuid();
+            DbInMemorySqlite.Users.Add(new User()
+            {
+                Id = UserID,
+                UserName = "Vasea",
+                FullName = "Vasea",
+                PasswordSalted = new byte[] { 0x20 },
+                Salt = new byte[] { 0x20 },
+            });
+            await DbInMemorySqlite.SaveChangesAsync();
+            DbInMemorySqlite.ChangeTracker.Clear();
+            _messageHub = new MessageHub(DbInMemorySqlite);
+            AssignToHubRequiredProperties(_messageHub);
+            await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
+            var roomFromDb = _messageHub.GetUserRooms("Vasea");
+            Assert.NotNull(roomFromDb);
+        }
 
     }
 }

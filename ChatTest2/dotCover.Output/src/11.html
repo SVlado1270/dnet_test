@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Mappings\MessageMapper.cs</title>
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Mappings\RoomMapper.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
@@ -14,22 +14,19 @@ using Bidiots.ViewModels;
 
 namespace Bidiots.Mappings
 {
-    public class MessageMapper : Profile
+    public class RoomMapper: Profile
     {
-        public MessageMapper()
+        public RoomMapper()
         {
-            CreateMap&lt;Message, MessageViewModel&gt;()
-                .ForMember(dst =&gt; dst.From, opt =&gt; opt.MapFrom(x =&gt; x.User.Id))
-                .ForMember(dst =&gt; dst.To, opt =&gt; opt.MapFrom(x =&gt; x.ToRoom.Name))
-                .ForMember(dst =&gt; dst.Content, opt =&gt; opt.MapFrom(x =&gt; x.Content));
-            CreateMap&lt;MessageViewModel, Message&gt;();
+            CreateMap&lt;Room, RoomViewModel&gt;();
+            CreateMap&lt;RoomViewModel, Room&gt;();
         }
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[9,9,9,31,1],[10,9,10,10,1],[11,13,12,52,1],[12,52,12,79,1],[12,79,13,50,1],[13,50,13,81,1],[13,81,14,55,1],[14,55,14,82,1],[14,82,14,84,1],[15,13,15,52,1],[16,9,16,10,1]]);
+      highlightRanges([[9,9,9,28,1],[10,9,10,10,1],[11,13,11,46,1],[12,13,12,46,1],[13,9,13,10,1]]);
     </script>
   </body>
 </html>

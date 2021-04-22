@@ -2,59 +2,64 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Repository\RepositoryWrapper.cs</title>
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Repository\RoomRepository.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
 using Bidiots.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Bidiots.Repository
 {
-    public class RepositoryWrapper : IRepositoryWrapper
+    public class RoomRepository : RepositoryBase&lt;Room&gt;, IRoomRepository
     {
-        private readonly DataContext _dataContext;
-        private IUserRepository _user;
-        private IRoomRepository _room;
-        public RepositoryWrapper(DataContext dataContext)
+        public RoomRepository(DataContext dataContext)
+    : base(dataContext)
         {
-            _dataContext = dataContext;
         }
-        public IUserRepository User
+        public async Task&lt;IEnumerable&lt;Room&gt;&gt; GetAllRoomsAsync()
         {
-            get
-            {
-                if (_user == null)
-                {
-                    _user = new UserRepository(_dataContext);
-                }
-                return _user;
-            }
+            return await FindAll()
+               .ToListAsync();
         }
-        public IRoomRepository Room
+        public async Task&lt;Room&gt; GetRoomByIdAsync(Guid guid)
         {
-            get
-            {
-                if (_room == null)
-                {
-                    _room = new RoomRepository(_dataContext);
-                }
-                return _room;
-            }
+            return await FindByCondition(room =&gt; room.Id.Equals(guid))
+                .FirstOrDefaultAsync();
         }
-
-        public async Task SaveAsync()
+        public async Task&lt;Room&gt; GetRoomByNameAsync(string roomName)
         {
-            await _dataContext.SaveChangesAsync();
+            return await FindByCondition(room =&gt; room.Name.Equals(roomName))
+                .FirstOrDefaultAsync();
+        }
+        public async Task&lt;Room&gt; GetRoomWithDetailsAsync(Guid guid)
+        {
+            return await FindByCondition(room =&gt; room.Id.Equals(guid))
+                .FirstOrDefaultAsync();
+        }
+        public void CreateRoom(Room room)
+        {
+            Create(room);
+        }
+        public void UpdateRoom(Room room)
+        {
+            Update(room);
+        }
+        public void DeleteRoom(Room room)
+        {
+            Delete(room);
         }
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[11,9,11,58,1],[12,9,12,10,1],[13,13,13,40,1],[14,9,14,10,1],[18,13,18,14,1],[19,17,19,35,1],[20,17,20,18,1],[21,21,21,62,1],[22,17,22,18,1],[23,17,23,30,1],[24,13,24,14,1],[29,13,29,14,1],[30,17,30,35,1],[31,17,31,18,1],[32,21,32,62,1],[33,17,33,18,1],[34,17,34,30,1],[35,13,35,14,1],[39,9,39,10,1],[40,13,40,51,1],[41,9,41,10,1]]);
+      highlightRanges([[12,7,12,24,1],[13,9,13,10,1],[14,9,14,10,1],[16,9,16,10,1],[17,13,18,31,1],[19,9,19,10,1],[21,9,21,10,0],[22,13,23,40,0],[24,9,24,10,0],[26,9,26,10,0],[27,13,28,40,0],[29,9,29,10,0],[31,9,31,10,0],[32,13,33,40,0],[34,9,34,10,0],[36,9,36,10,1],[37,13,37,26,1],[38,9,38,10,1],[40,9,40,10,0],[41,13,41,26,0],[42,9,42,10,0],[44,9,44,10,1],[45,13,45,26,1],[46,9,46,10,1]]);
     </script>
   </body>
 </html>

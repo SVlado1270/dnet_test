@@ -2,62 +2,60 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Security\TokenIssuer.cs</title>
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Repository\RepositoryBase.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using Bidiots.Entities;
 using Bidiots.Models;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 using System;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using System.Linq;
+using System.Linq.Expressions;
 
-namespace Bidiots.Security
+namespace Bidiots.Repository
 {
-    public class TokenIssuer
+    public abstract class RepositoryBase&lt;T&gt; : IRepositoryBase&lt;T&gt; where T : class
     {
+        protected DataContext _dataContext { get; set; }
 
-        private readonly IConfiguration _configuration;
-
-        public TokenIssuer(IConfiguration configuration)
+        public RepositoryBase(DataContext dataContext)
         {
-            _configuration = configuration;
+            _dataContext = dataContext;
         }
 
-        public JwtSecurityToken SecurityToken(User user)
+        public IQueryable&lt;T&gt; FindAll()
         {
+            return _dataContext.Set&lt;T&gt;().AsNoTracking();
+        }
 
-            var authClaims = new List&lt;Claim&gt;
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
-                };
+        public IQueryable&lt;T&gt; FindByCondition(Expression&lt;Func&lt;T, bool&gt;&gt; expression)
+        {
+            return _dataContext.Set&lt;T&gt;()
+                .Where(expression).AsNoTracking();
+        }
 
-            authClaims.Add(new Claim(ClaimTypes.Role, UserRoles.User));
+        public void Create(T entity)
+        {
+            _dataContext.Set&lt;T&gt;().Add(entity);
+        }
 
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration[&quot;JWT:Secret&quot;]));
-            var token = new JwtSecurityToken(
-                    issuer: _configuration[&quot;JWT:ValidIssuer&quot;],
-                    audience: _configuration[&quot;JWT:ValidAudience&quot;],
-                    expires: DateTime.Now.AddHours(3),
-                    claims: authClaims,
-                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
+        public void Update(T entity)
+        {
+            _dataContext.Set&lt;T&gt;().Update(entity);
+        }
 
-            return token;
+        public void Delete(T entity)
+        {
+            _dataContext.Set&lt;T&gt;().Remove(entity);
         }
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[18,9,18,57,1],[19,9,19,10,1],[20,13,20,44,1],[21,9,21,10,1],[24,9,24,10,1],[26,13,30,19,1],[32,13,32,72,1],[34,13,34,113,1],[35,13,41,23,1],[43,13,43,26,1],[44,9,44,10,1]]);
+      highlightRanges([[11,46,11,50,1],[11,51,11,55,1],[13,9,13,55,1],[14,9,14,10,1],[15,13,15,40,1],[16,9,16,10,1],[19,9,19,10,1],[20,13,20,57,1],[21,9,21,10,1],[24,9,24,10,1],[25,13,26,51,1],[27,9,27,10,1],[30,9,30,10,1],[31,13,31,47,1],[32,9,32,10,1],[35,9,35,10,1],[36,13,36,50,1],[37,9,37,10,1],[40,9,40,10,1],[41,13,41,50,1],[42,9,42,10,1]]);
     </script>
   </body>
 </html>

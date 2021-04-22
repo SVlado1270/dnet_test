@@ -51,11 +51,7 @@ namespace Bidiots.Test
             string apiUrl = "http://localhost:63920/api/v1/users/Login";
             UserModel user = new UserModel() { UserName = "Vlado User Inexistent", Password = "dmxhZA==" };
             var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-
-            Trace.WriteLine(userJson);
-
             var response = await client.PostAsync(apiUrl, userJson);
-
             var statusCode = response.StatusCode;
 
             Assert.Equal(System.Net.HttpStatusCode.Unauthorized, statusCode);
@@ -67,11 +63,7 @@ namespace Bidiots.Test
             string apiUrl = "http://localhost:63920/api/v1/users/Login";
             UserModel user = new UserModel() { UserName = "Vlado User Inexistent", Password = "dmxhZAA==" };
             var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-
-            Trace.WriteLine(userJson);
-
             var response = await client.PostAsync(apiUrl, userJson);
-
             var statusCode = response.StatusCode;
 
             Assert.Equal(System.Net.HttpStatusCode.Unauthorized, statusCode);
@@ -83,11 +75,7 @@ namespace Bidiots.Test
             string apiUrl = "http://localhost:63920/api/v1/users/Login";
             UserModel user = new UserModel() { UserName = "Vladohtrg2", Password = "dmxhZA==" };
             var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-
-            Trace.WriteLine(userJson);
-
             var response = await client.PostAsync(apiUrl, userJson);
-
             var statusCode = response.StatusCode;
 
             Assert.Equal(System.Net.HttpStatusCode.OK, statusCode);
@@ -99,11 +87,7 @@ namespace Bidiots.Test
             string apiUrl = "http://localhost:63920/api/v1/users/Login";
             UserModel user = new();
             var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-
-            Trace.WriteLine(userJson);
-
             var response = await client.PostAsync(apiUrl, userJson);
-
             var statusCode = response.StatusCode;
 
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, statusCode);
@@ -115,11 +99,7 @@ namespace Bidiots.Test
             string apiUrl = "http://localhost:63920/api/v1/users/Login";
             UserModel user = null;
             var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-
-            Trace.WriteLine(userJson);
-
             var response = await client.PostAsync(apiUrl, userJson);
-
             var statusCode = response.StatusCode;
 
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, statusCode);
@@ -131,9 +111,6 @@ namespace Bidiots.Test
             string apiUrl = "http://localhost:63920/api/v1/users/Register";
             UserModel user = new UserModel() { UserName = "Vladohtrg2", Password = "dmxhZA==", FullName = "Vlado" };
             var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-
-            Trace.WriteLine(userJson);
-
             var response = await client.PostAsync(apiUrl, userJson);
 
             var statusCode = response.StatusCode;
@@ -147,11 +124,7 @@ namespace Bidiots.Test
             string apiUrl = "http://localhost:63920/api/v1/users/Register";
             UserModel user = new UserModel() { UserName = "Vladohtrg2", Password = "dmxhZA==", FullName = "Vlado" };
             var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-
-            Trace.WriteLine(userJson);
-
             var response = await client.PostAsync(apiUrl, userJson);
-
             var statusCode = response.StatusCode;
 
             Assert.Equal(System.Net.HttpStatusCode.Conflict, statusCode);
@@ -163,11 +136,7 @@ namespace Bidiots.Test
             string apiUrl = "http://localhost:63920/api/v1/users/Register";
             UserModel user = new();
             var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-
-            Trace.WriteLine(userJson);
-
             var response = await client.PostAsync(apiUrl, userJson);
-
             var statusCode = response.StatusCode;
 
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, statusCode);
@@ -179,11 +148,7 @@ namespace Bidiots.Test
             string apiUrl = "http://localhost:63920/api/v1/users/Register";
             UserModel user = null;
             var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-
-            Trace.WriteLine(userJson);
-
             var response = await client.PostAsync(apiUrl, userJson);
-
             var statusCode = response.StatusCode;
 
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, statusCode);
