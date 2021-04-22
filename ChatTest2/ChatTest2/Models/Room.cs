@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Bidiots.Models
 {
+    [ExcludeFromCodeCoverage]
     public class Room
     {
         public int Id { get; set; }

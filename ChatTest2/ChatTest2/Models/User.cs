@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
 namespace Bidiots.Models
@@ -25,7 +26,10 @@ namespace Bidiots.Models
         [MaxLength(32)]
         public byte[] Salt { get; set; }
         public string Room { get; set; }
+
+        [ExcludeFromCodeCoverage]
         public virtual ICollection<Message> Messages { get; set; }
+        [ExcludeFromCodeCoverage]
         public virtual ICollection<Item> Items { get; set; }
 
         public static Tuple<byte[], byte[]> SaltifyPassword(string password)

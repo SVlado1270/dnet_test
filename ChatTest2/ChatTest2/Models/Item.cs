@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Bidiots.Models
 {
+    [ExcludeFromCodeCoverage]
     public class Item
     {
         public int Id { get; set; }

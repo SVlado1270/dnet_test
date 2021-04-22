@@ -46,7 +46,7 @@ namespace Bidiots.Test
         }
 
         [Fact]
-        public async Task Given_User_When_InvalidCredeantials_Then_LoginShouldReturnInvalidCredentials()
+        public async Task Given_User_When_InvalidUsername_Then_LoginShouldReturnInvalidCredentials()
         {
             string apiUrl = "http://localhost:63920/api/v1/users/Login";
             UserModel user = new UserModel() { UserName = "Vlado User Inexistent", Password = "dmxhZA==" };
@@ -59,6 +59,70 @@ namespace Bidiots.Test
             var statusCode = response.StatusCode;
 
             Assert.Equal(System.Net.HttpStatusCode.Unauthorized, statusCode);
+        }
+
+        [Fact]
+        public async Task Given_User_When_InvalidPassword_Then_LoginShouldReturnInvalidCredentials()
+        {
+            string apiUrl = "http://localhost:63920/api/v1/users/Login";
+            UserModel user = new UserModel() { UserName = "Vlado User Inexistent", Password = "dmxhZAA==" };
+            var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+
+            Trace.WriteLine(userJson);
+
+            var response = await client.PostAsync(apiUrl, userJson);
+
+            var statusCode = response.StatusCode;
+
+            Assert.Equal(System.Net.HttpStatusCode.Unauthorized, statusCode);
+        }
+
+        [Fact]
+        public async Task Given_User_When_ValidCredentials_Then_LoginShouldReturnOK()
+        {
+            string apiUrl = "http://localhost:63920/api/v1/users/Login";
+            UserModel user = new UserModel() { UserName = "Vladohtrg2", Password = "dmxhZA==" };
+            var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+
+            Trace.WriteLine(userJson);
+
+            var response = await client.PostAsync(apiUrl, userJson);
+
+            var statusCode = response.StatusCode;
+
+            Assert.Equal(System.Net.HttpStatusCode.OK, statusCode);
+        }
+
+        [Fact]
+        public async Task Given_User_When_NullUser_Then_LoginShouldReturnBadRequest()
+        {
+            string apiUrl = "http://localhost:63920/api/v1/users/Login";
+            UserModel user = new();
+            var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+
+            Trace.WriteLine(userJson);
+
+            var response = await client.PostAsync(apiUrl, userJson);
+
+            var statusCode = response.StatusCode;
+
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, statusCode);
+        }
+
+        [Fact]
+        public async Task Given_User_When_Null_Then_LoginShouldReturnBadRequest()
+        {
+            string apiUrl = "http://localhost:63920/api/v1/users/Login";
+            UserModel user = null;
+            var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+
+            Trace.WriteLine(userJson);
+
+            var response = await client.PostAsync(apiUrl, userJson);
+
+            var statusCode = response.StatusCode;
+
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, statusCode);
         }
 
         [Fact]
@@ -78,6 +142,22 @@ namespace Bidiots.Test
         }
 
         [Fact]
+        public async Task Given_UserModel_When_ExistingUsername_Then_RegisterShouldReturnConflict()
+        {
+            string apiUrl = "http://localhost:63920/api/v1/users/Register";
+            UserModel user = new UserModel() { UserName = "Vladohtrg2", Password = "dmxhZA==", FullName = "Vlado" };
+            var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+
+            Trace.WriteLine(userJson);
+
+            var response = await client.PostAsync(apiUrl, userJson);
+
+            var statusCode = response.StatusCode;
+
+            Assert.Equal(System.Net.HttpStatusCode.Conflict, statusCode);
+        }
+
+        [Fact]
         public async Task Given_UserModel_When_NullUser_Then_RegisterShouldReturnBadRequest()
         {
             string apiUrl = "http://localhost:63920/api/v1/users/Register";
@@ -94,10 +174,10 @@ namespace Bidiots.Test
         }
 
         [Fact]
-        public async Task Given_User_When_ValidCredentials_Then_LoginShouldReturnOK()
+        public async Task Given_UserModel_When_Null_Then_RegisterShouldReturnBadRequest()
         {
-            string apiUrl = "http://localhost:63920/api/v1/users/Login";
-            UserModel user = new UserModel() { UserName = "Vladohtrg2", Password = "dmxhZA==" };
+            string apiUrl = "http://localhost:63920/api/v1/users/Register";
+            UserModel user = null;
             var userJson = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
             Trace.WriteLine(userJson);
@@ -106,7 +186,7 @@ namespace Bidiots.Test
 
             var statusCode = response.StatusCode;
 
-            Assert.Equal(System.Net.HttpStatusCode.OK, statusCode);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, statusCode);
         }
     }
 }
