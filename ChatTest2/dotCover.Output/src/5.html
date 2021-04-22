@@ -2,108 +2,59 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Startup.cs</title>
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Repository\RepositoryWrapper.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using Bidiots.Hubs;
 using Bidiots.Models;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Bidiots.Repository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 
-namespace Bidiots
+namespace Bidiots.Repository
 {
-    [ExcludeFromCodeCoverage]
-    public class Startup
+    public class RepositoryWrapper : IRepositoryWrapper
     {
-        public Startup(IConfiguration configuration)
+        private readonly DataContext _dataContext;
+        private IUserRepository _user;
+        private IRoomRepository _room;
+        public RepositoryWrapper(DataContext dataContext)
         {
-            Configuration = configuration;
+            _dataContext = dataContext;
         }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IUserRepository User
         {
-            services.AddDbContext&lt;DataContext&gt;(options =&gt; options.UseSqlite(Configuration.GetConnectionString(&quot;DefaultConnection&quot;)));
-
-            services.AddControllers();
-
-            services.AddSpaStaticFiles(configure =&gt;
+            get
             {
-                configure.RootPath = &quot;auction-app/build&quot;;
-            });
-
-            services.AddAutoMapper(typeof(Startup).Assembly);
-            services.AddScoped&lt;IRepositoryWrapper, RepositoryWrapper&gt;();
-            services.AddSignalR();
-
-            services.AddAuthentication(options =&gt;
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                   .AddJwtBearer(options =&gt;
-                   {
-                       options.SaveToken = true;
-                       options.RequireHttpsMetadata = false;
-                       options.TokenValidationParameters = new TokenValidationParameters()
-                       {
-                           ValidateIssuer = true,
-                           ValidateAudience = true,
-                           ValidAudience = Configuration[&quot;JWT:ValidAudience&quot;],
-                           ValidIssuer = Configuration[&quot;JWT:ValidIssuer&quot;],
-                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration[&quot;JWT:Secret&quot;]))
-                       };
-                   });
-            
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =&gt;
-            {
-                endpoints.MapHub&lt;MessageHub&gt;(&quot;/chatHub&quot;);
-
-                endpoints.MapControllers();
-            });
-
-            app.UseSpa(spa =&gt;
-            {
-                spa.Options.SourcePath = &quot;auction-app&quot;;
-
-                if (env.IsDevelopment())
+                if (_user == null)
                 {
-                    spa.UseReactDevelopmentServer(npmScript: &quot;start&quot;);
+                    _user = new UserRepository(_dataContext);
                 }
-            });
+                return _user;
+            }
+        }
+        public IRoomRepository Room
+        {
+            get
+            {
+                if (_room == null)
+                {
+                    _room = new RoomRepository(_dataContext);
+                }
+                return _room;
+            }
+        }
 
+        public async Task SaveAsync()
+        {
+            await _dataContext.SaveChangesAsync();
         }
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[21,9,21,53,1],[22,9,22,10,1],[23,13,23,43,1],[24,9,24,10,1],[26,47,26,51,1],[30,9,30,10,1],[31,13,31,59,1],[31,59,31,132,1],[31,132,31,134,1],[33,13,33,39,1],[35,13,36,13,1],[36,13,36,14,1],[36,14,37,17,1],[37,17,37,58,1],[37,58,38,13,1],[38,13,38,14,1],[38,14,38,16,1],[40,13,40,62,1],[41,13,41,73,1],[42,13,42,35,1],[44,13,45,13,1],[45,13,45,14,0],[45,14,46,17,1],[46,17,46,92,0],[46,92,47,17,1],[47,17,47,89,0],[47,89,48,17,1],[48,17,48,80,0],[48,80,49,13,1],[49,13,49,14,0],[49,14,51,20,1],[51,20,51,21,0],[51,21,52,24,1],[52,24,52,49,0],[52,49,53,24,1],[53,24,53,61,0],[53,61,54,24,1],[54,24,61,26,0],[61,26,62,20,1],[62,20,62,21,0],[62,21,62,23,1],[64,9,64,10,1],[68,9,68,10,1],[69,13,69,30,1],[71,13,71,36,1],[73,13,74,13,1],[74,13,74,14,1],[74,14,75,17,1],[75,17,75,58,1],[75,58,77,17,1],[77,17,77,44,1],[77,44,78,13,1],[78,13,78,14,1],[78,14,78,16,1],[80,13,81,13,1],[81,13,81,14,1],[81,14,82,17,1],[82,17,82,56,1],[82,56,84,17,1],[84,17,84,41,1],[84,41,85,17,1],[85,17,85,18,0],[85,18,86,21,1],[86,21,86,71,0],[86,71,87,17,1],[87,17,87,18,0],[87,18,88,13,1],[88,13,88,14,1],[88,14,88,16,1],[90,9,90,10,1]]);
+      highlightRanges([[11,9,11,58,1],[12,9,12,10,1],[13,13,13,40,1],[14,9,14,10,1],[18,13,18,14,1],[19,17,19,35,1],[20,17,20,18,1],[21,21,21,62,1],[22,17,22,18,1],[23,17,23,30,1],[24,13,24,14,1],[29,13,29,14,1],[30,17,30,35,1],[31,17,31,18,1],[32,21,32,62,1],[33,17,33,18,1],[34,17,34,30,1],[35,13,35,14,1],[39,9,39,10,1],[40,13,40,51,1],[41,9,41,10,1]]);
     </script>
   </body>
 </html>

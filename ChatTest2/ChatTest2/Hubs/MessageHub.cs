@@ -89,7 +89,8 @@ namespace Bidiots.Hubs
             try
             {
                 var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
-                if (user != null && user.Room != roomName)
+                var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).FirstOrDefault();
+                if (user != null && user.Room != roomName && room != null)
                 {
                     /*// Remove user from others list
                     if (!string.IsNullOrEmpty(user.CurrentRoom))

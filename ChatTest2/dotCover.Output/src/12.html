@@ -2,33 +2,35 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Models\Item.cs</title>
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Mappings\UserMapper.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
-using System.ComponentModel.DataAnnotations;
 
-namespace Bidiots.Models
+
+using AutoMapper;
+using Bidiots.Models;
+using Bidiots.ViewModels;
+
+namespace Bidiots.Mappings
 {
-    public class Item
+    public class UserMapper : Profile
     {
-        public int Id { get; set; }
-        [Required(ErrorMessage = &quot;Name is required&quot;)]
-        [StringLength(32, ErrorMessage = &quot;Name can&#39;t be longer than 32 characters&quot;)]
-        public string Name { get; set; }
-        [Required]
-        public virtual User Owner { get; set; }
-        [Required(ErrorMessage = &quot;Tags are required&quot;)]
-        [StringLength(32, ErrorMessage = &quot;Tags can&#39;t be longer than 32 characters&quot;)]
-        public virtual string Tags { get; set; }
+        public UserMapper()
+        {
+            CreateMap&lt;User, UserViewModel&gt;()
+                   .ForMember(dst =&gt; dst.Username, opt =&gt; opt.MapFrom(x =&gt; x.UserName));
+            CreateMap&lt;UserViewModel, User&gt;();
+
+        }
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[7,25,7,29,0],[7,30,7,34,0],[10,30,10,34,0],[10,35,10,39,0],[12,37,12,41,0],[12,42,12,46,0],[15,38,15,42,0],[15,43,15,47,0]]);
+      highlightRanges([[11,9,11,28,1],[12,9,12,10,1],[13,13,14,59,1],[14,59,14,87,1],[14,87,14,89,1],[15,13,15,46,1],[17,9,17,10,1]]);
     </script>
   </body>
 </html>

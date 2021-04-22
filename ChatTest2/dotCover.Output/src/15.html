@@ -2,58 +2,119 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Models\User.cs</title>
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Controllers\UserController.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
+using AutoMapper;
+using Bidiots.Entities;
+using Bidiots.Models;
+using Bidiots.Repository;
+using Bidiots.Security;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
-namespace Bidiots.Models
+namespace Bidiots.Controllers
 {
-    [Table(&quot;Users&quot;)]
-    public class User
+    [Route(&quot;api/v1/users&quot;)]
+    [ApiController]
+    public class UserController : Controller
     {
-        public Guid Id { get; set; }
+        private readonly IRepositoryWrapper _repository;
+        private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        [Required(ErrorMessage = &quot;Username is required&quot;)]
-        [StringLength(32, ErrorMessage = &quot;Username can&#39;t be longer than 32 characters&quot;)]
-        public string UserName { get; set; }
-
-        [Required(ErrorMessage = &quot;Name is required&quot;)]
-        [StringLength(60, ErrorMessage = &quot;Name can&#39;t be longer than 32 characters&quot;)]
-        public string FullName { get; set; }
-        [Required]
-        [MaxLength(32)]
-        public byte[] PasswordSalted { get; set; }
-        [Required]
-        [MaxLength(32)]
-        public byte[] Salt { get; set; }
-        public string Room { get; set; }
-        public virtual ICollection&lt;Message&gt; Messages { get; set; }
-        public virtual ICollection&lt;Item&gt; Items { get; set; }
-
-        public static Tuple&lt;byte[], byte[]&gt; SaltifyPassword(string password)
+        public UserController(IRepositoryWrapper repository, IMapper mapper, IConfiguration configuration)
         {
-            byte[] salt, key;
-            using (var deriveBytes = new Rfc2898DeriveBytes(password, 32))
+            _repository = repository;
+            _mapper = mapper;
+            _configuration = configuration;
+        }
+
+        [HttpPost]
+        [Route(&quot;Register&quot;, Name = &quot;CreateAccount&quot;)]
+        public async Task&lt;IActionResult&gt; CreateUser([FromBody] UserModel user)
+        {
+
+            if (user == null || user.UserName == null || user.Password == null || user.FullName == null)
             {
-                salt = deriveBytes.Salt;
-                key = deriveBytes.GetBytes(32);
+                return BadRequest(&quot;Empty User&quot;);
             }
-            return new Tuple&lt;byte[], byte[]&gt;(salt, key);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(&quot;Invalid model object&quot;);
+            }
+            if (_repository.User.FindByCondition(u =&gt; u.UserName == user.UserName).FirstOrDefault() == null)
+            {
+                Tuple&lt;byte[], byte[]&gt; saltedPassword = Models.User.SaltifyPassword(user.Password);
+                User _user = new User { Id = Guid.NewGuid(), FullName = user.FullName, UserName = user.UserName, Salt = saltedPassword.Item1, PasswordSalted = saltedPassword.Item2 };
+                _repository.User.CreateUser(_user);
+                await _repository.SaveAsync();
+
+                return CreatedAtRoute(&quot;CreateAccount&quot;, new { id = _user.Id }, _user.Id);
+            }
+            else
+            {
+                return Conflict();
+            }
+        }
+
+        [HttpPost]
+        [Route(&quot;Login&quot;, Name = &quot;Login&quot;)]
+        public async Task&lt;ActionResult&gt; CheckCredentialsAsync([FromBody] UserModel user)
+        {
+
+            if (user == null || user.UserName == null || user.Password == null)
+            {
+                return BadRequest(&quot;Empty User&quot;);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(&quot;Invalid model object&quot;);
+            }
+
+            var _user = await _repository.User.GetUserByNameAsync(user.UserName);
+
+
+            if (_user == null)
+            {
+                return Unauthorized(&quot;User not found&quot;);
+
+            }
+
+            using (var deriveBytes = new Rfc2898DeriveBytes(user.Password, _user.Salt))
+            {
+                byte[] newKey = deriveBytes.GetBytes(32);  // derive a 20-byte key
+
+                if (!newKey.SequenceEqual(_user.PasswordSalted))
+                    return Unauthorized(&quot;Invalid credentials!&quot;);
+            }
+
+            var SecurityToken = new TokenIssuer(_configuration).SecurityToken(_user);
+
+            return Ok((new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(SecurityToken),
+                userid = _user.Id.ToString(),
+                username = _user.UserName,
+                expiration = SecurityToken.ValidTo
+            }));
         }
     }
 }
 
     </pre>
     <script type="text/javascript">
-      highlightRanges([[12,26,12,30,1],[12,31,12,35,1],[16,34,16,38,1],[16,39,16,43,1],[20,34,20,38,0],[20,39,20,43,1],[23,40,23,44,1],[23,45,23,49,1],[26,30,26,34,1],[26,35,26,39,1],[27,30,27,34,0],[27,35,27,39,0],[28,56,28,60,0],[28,61,28,65,0],[29,50,29,54,0],[29,55,29,59,0],[32,9,32,10,1],[34,20,34,74,1],[35,13,35,14,1],[36,17,36,41,1],[37,17,37,48,1],[38,13,38,14,1],[39,13,39,57,1],[40,9,40,10,1]]);
+      highlightRanges([[24,9,24,107,1],[25,9,25,10,1],[26,13,26,38,1],[27,13,27,30,1],[28,13,28,44,1],[29,9,29,10,1],[34,9,34,10,1],[36,13,36,105,1],[37,13,37,14,0],[38,17,38,49,0],[41,13,41,37,1],[42,13,42,14,0],[43,17,43,59,0],[45,13,45,109,1],[46,13,46,14,1],[47,17,47,99,1],[48,17,48,183,1],[49,17,49,52,1],[50,17,50,47,1],[52,17,52,89,1],[55,13,55,14,1],[56,17,56,35,1],[58,9,58,10,1],[63,9,63,10,1],[65,13,65,80,1],[66,13,66,14,0],[67,17,67,49,0],[70,13,70,37,1],[71,13,71,14,0],[72,17,72,59,0],[75,13,75,82,1],[78,13,78,31,1],[79,13,79,14,1],[80,17,80,55,1],[84,20,84,87,1],[85,13,85,14,1],[86,17,86,58,1],[88,17,88,65,1],[89,21,89,65,0],[90,13,90,14,1],[92,13,92,86,1],[94,13,100,17,1],[101,9,101,10,1]]);
     </script>
   </body>
 </html>

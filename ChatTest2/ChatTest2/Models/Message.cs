@@ -1,5 +1,8 @@
-﻿namespace Bidiots.Models
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Bidiots.Models
 {
+    [ExcludeFromCodeCoverage]
     public class Message
     {
         public int Id { get; set; }
