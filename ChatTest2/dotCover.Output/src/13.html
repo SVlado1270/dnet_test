@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Hubs\MessageHub.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AutoMapper;
+using Bidiots.Mappings;
+using Bidiots.Models;
+using Bidiots.Repository;
+using Bidiots.ViewModels;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Bidiots.Hubs
+{
+    public class MessageHub : Hub
+    {
+        public readonly static List&lt;UserViewModel&gt; _Connections = new List&lt;UserViewModel&gt;();
+        public readonly static List&lt;RoomViewModel&gt; _Rooms = new List&lt;RoomViewModel&gt;();
+        private readonly static Dictionary&lt;string, string&gt; _ConnectionsMap = new Dictionary&lt;string, string&gt;();
+
+        protected readonly IMapper _mapper;
+        protected readonly IRepositoryWrapper _repositoryWrapper;
+
+        [ActivatorUtilitiesConstructor]
+        public MessageHub(IRepositoryWrapper repositoryWrapper, IMapper mapper)
+        {
+            _repositoryWrapper = repositoryWrapper;
+            _mapper = mapper;
+        }
+
+        public MessageHub(DataContext dataContext)
+        {
+            _repositoryWrapper = new RepositoryWrapper(dataContext);
+            var messageMapper = new MessageMapper();
+            var roomMapper = new RoomMapper();
+            var userMapper = new UserMapper();
+            var configuration = new MapperConfiguration(cfg =&gt; cfg.AddProfile(messageMapper));
+            configuration = new MapperConfiguration(cfg =&gt; cfg.AddProfile(roomMapper));
+            configuration = new MapperConfiguration(cfg =&gt; cfg.AddProfile(userMapper));
+            _mapper = new Mapper(configuration);
+        }
+
+        public async Task CreateRoom(string roomName, string userName)
+        {
+            try
+            {
+                Match match = Regex.Match(roomName, @&quot;^\w+( \w+)*$&quot;);
+                if (!match.Success)
+                {
+                    await Clients.Caller.SendAsync(&quot;onError&quot;, &quot;Invalid room name!\nRoom name must contain only letters and numbers.&quot;);
+                }
+                else if (roomName.Length &lt; 5 || roomName.Length &gt; 100)
+                {
+                    await Clients.Caller.SendAsync(&quot;onError&quot;, &quot;Room name must be between 5-100 characters!&quot;);
+                }
+                else if (_repositoryWrapper.Room.FindByCondition(r =&gt; r.Name == roomName).Any())
+                {
+                    await Clients.Caller.SendAsync(&quot;onError&quot;, &quot;Another chat room with this name exists&quot;);
+                }
+                else
+                {
+                    var user = _repositoryWrapper.User.GetUserByNameAsync(userName).Result;
+                    if (user == null)
+                    {
+                        await Clients.Caller.SendAsync(&quot;onError&quot;, &quot;User not found&quot;);
+                    }
+                    else
+                    {
+                        var room = new Room()
+                        {
+                            Name = roomName,
+                            OwnerId = user.Id
+                        };
+                        _repositoryWrapper.Room.CreateRoom(room);
+                        await _repositoryWrapper.SaveAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await Clients.Caller.SendAsync(&quot;onError&quot;, &quot;Couldn&#39;t create chat room: &quot; + ex.Message);
+            }
+        }
+
+        public async Task JoinRoom(string roomName, string userName)
+        {
+            try
+            {
+                var user = _repositoryWrapper.User.FindByCondition(u =&gt; u.UserName == userName).FirstOrDefault();
+                var room = _repositoryWrapper.Room.FindByCondition(r =&gt; r.Name == roomName).FirstOrDefault();
+                if (user != null &amp;&amp; user.Room != roomName &amp;&amp; room != null)
+                {
+                    /*// Remove user from others list
+                    if (!string.IsNullOrEmpty(user.CurrentRoom))
+                        await Clients.OthersInGroup(user.CurrentRoom).SendAsync(&quot;removeUser&quot;, user);*/
+
+                    // Join to new chat room
+                    //await Leave(user.CurrentRoom);
+                    await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
+                    user.Room = roomName;
+                    _repositoryWrapper.User.UpdateUser(user);
+                    await _repositoryWrapper.SaveAsync();
+
+                    // Tell others to update their list of users
+                    // await Clients.OthersInGroup(roomName).SendAsync(&quot;addUser&quot;, user); -&gt; Ca sa actualizezi pe front interfata
+                }
+            }
+            catch (Exception ex)
+            {
+                await Clients.Caller.SendAsync(&quot;onError&quot;, &quot;You failed to join the chat room!&quot; + ex.Message);
+            }
+        }
+
+        public async Task DeleteRoom(string roomName, string userName)
+        {
+            try
+            {
+                // Delete from database
+                var user = _repositoryWrapper.User.FindByCondition(u =&gt; u.UserName == userName).FirstOrDefault();
+                var room = _repositoryWrapper.Room.FindByCondition(r =&gt; r.Name == roomName &amp;&amp; r.OwnerId == user.Id).FirstOrDefault();
+                _repositoryWrapper.Room.DeleteRoom(room);
+                await _repositoryWrapper.SaveAsync();
+
+
+                // Move users back to Lobby
+                //await Clients.Group(roomName).SendAsync(&quot;onRoomDeleted&quot;, string.Format(&quot;Room {0} has been deleted.\nYou are now moved to the Lobby!&quot;, roomName));
+
+                // Tell all users to update their room list
+                //await Clients.All.SendAsync(&quot;removeChatRoom&quot;, roomViewModel);
+            }
+            catch (Exception)
+            {
+                await Clients.Caller.SendAsync(&quot;onError&quot;, &quot;Can&#39;t delete this chat room. Only owner can delete this room.&quot;);
+            }
+        }
+
+        public async Task LeaveRoom(string roomName, string userName)
+        {
+            try
+            {
+                // Delete from database
+                var user = _repositoryWrapper.User.FindByCondition(u =&gt; u.UserName == userName).FirstOrDefault();
+
+                if (user.Room == roomName)
+                {
+                    await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
+                    user.Room = null;
+                    _repositoryWrapper.User.UpdateUser(user);
+                    await _repositoryWrapper.SaveAsync();
+                }
+                // Move users back to Lobby
+                //await Clients.Group(roomName).SendAsync(&quot;onRoomDeleted&quot;, string.Format(&quot;Room {0} has been deleted.\nYou are now moved to the Lobby!&quot;, roomName));
+
+                // Tell all users to update their room list
+                //await Clients.All.SendAsync(&quot;removeChatRoom&quot;, roomViewModel);
+            }
+            catch (Exception)
+            {
+                await Clients.Caller.SendAsync(&quot;onError&quot;, &quot;Can&#39;t delete this chat room. Only owner can delete this room.&quot;);
+            }
+        }
+
+        public async Task&lt;IEnumerable&lt;Room&gt;&gt; GetActiveRooms()
+        {
+            return await _repositoryWrapper.Room.GetAllRoomsAsync();
+        }
+
+        public async Task&lt;IEnumerable&lt;Room&gt;&gt; GetUserRooms(string userName)
+        {
+            var user = _repositoryWrapper.User.FindByCondition(u =&gt; u.UserName == userName).FirstOrDefault();
+
+            return await Task.FromResult(_repositoryWrapper.Room.FindByCondition(r =&gt; r.OwnerId == user.Id).ToList());
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[18,9,18,93,0],[19,9,19,87,0],[20,9,20,111,0],[26,9,26,80,0],[27,9,27,10,0],[28,13,28,52,0],[29,13,29,30,0],[30,9,30,10,0],[32,9,32,51,1],[33,9,33,10,1],[34,13,34,69,1],[35,13,35,53,1],[36,13,36,47,1],[37,13,37,47,1],[38,13,38,64,1],[38,64,38,93,1],[38,93,38,95,1],[39,13,39,60,1],[39,60,39,86,1],[39,86,39,88,1],[40,13,40,60,1],[40,60,40,86,1],[40,86,40,88,1],[41,13,41,49,1],[42,9,42,10,1],[45,9,45,10,1],[47,13,47,14,1],[48,17,48,70,1],[49,17,49,36,1],[50,17,50,18,1],[51,21,51,135,1],[52,17,52,18,1],[53,22,53,71,1],[54,17,54,18,1],[55,21,55,110,1],[56,17,56,18,1],[57,22,57,97,1],[58,17,58,18,1],[59,21,59,106,1],[60,17,60,18,1],[62,17,62,18,1],[63,21,63,92,1],[64,21,64,38,1],[65,21,65,22,1],[66,25,66,85,1],[67,21,67,22,1],[69,21,69,22,1],[70,25,74,27,1],[75,25,75,66,1],[76,25,76,62,1],[77,21,77,22,1],[78,17,78,18,1],[79,13,79,14,1],[80,13,80,33,0],[81,13,81,14,0],[82,17,82,103,0],[83,13,83,14,0],[84,9,84,10,1],[87,9,87,10,1],[89,13,89,14,1],[90,17,90,114,1],[91,17,91,110,1],[92,17,92,75,1],[93,17,93,18,1],[100,21,100,82,1],[101,21,101,42,1],[102,21,102,62,1],[103,21,103,58,1],[107,17,107,18,1],[108,13,108,14,1],[109,13,109,33,0],[110,13,110,14,0],[111,17,111,109,0],[112,13,112,14,0],[113,9,113,10,1],[116,9,116,10,1],[118,13,118,14,1],[120,17,120,114,1],[121,17,121,134,1],[122,17,122,58,1],[123,17,123,54,1],[131,13,131,14,1],[132,13,132,30,0],[133,13,133,14,0],[134,17,134,124,0],[135,13,135,14,0],[136,9,136,10,1],[139,9,139,10,1],[141,13,141,14,1],[143,17,143,114,1],[145,17,145,43,1],[146,17,146,18,1],[147,21,147,87,1],[148,21,148,38,1],[149,21,149,62,1],[150,21,150,58,1],[151,17,151,18,1],[157,13,157,14,1],[158,13,158,30,0],[159,13,159,14,0],[160,17,160,124,0],[161,13,161,14,0],[162,9,162,10,1],[165,9,165,10,1],[166,13,166,69,1],[167,9,167,10,1],[170,9,170,10,1],[171,13,171,110,1],[173,13,173,119,1],[174,9,174,10,1]]);
+    </script>
+  </body>
+</html>

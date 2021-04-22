@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\Repository\UserRepository.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Bidiots.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Bidiots.Repository
+{
+    public class UserRepository : RepositoryBase&lt;User&gt;, IUserRepository
+    {
+        public UserRepository(DataContext dataContext)
+    : base(dataContext)
+        {
+        }
+        public async Task&lt;IEnumerable&lt;User&gt;&gt; GetAllUsersAsync()
+        {
+            return await FindAll()
+               .OrderBy(ow =&gt; ow.FullName)
+               .ToListAsync();
+        }
+        public async Task&lt;User&gt; GetUserByIdAsync(Guid guid)
+        {
+            return await FindByCondition(user =&gt; user.Id.Equals(guid))
+                .FirstOrDefaultAsync();
+        }
+        public async Task&lt;User&gt; GetUserByNameAsync(string name)
+        {
+            return await FindByCondition(user =&gt; user.UserName.Equals(name))
+                .FirstOrDefaultAsync();
+        }
+        public async Task&lt;User&gt; GetUserWithDetailsAsync(Guid guid)
+        {
+            return await FindByCondition(owner =&gt; owner.Id.Equals(guid))
+                .FirstOrDefaultAsync();
+        }
+        public void CreateUser(User user)
+        {
+            Create(user);
+        }
+        public void UpdateUser(User user)
+        {
+            Update(user);
+        }
+        public void DeleteUser(User user)
+        {
+            Delete(user);
+        }
+    }
+}
+
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,7,13,24,1],[14,9,14,10,1],[15,9,15,10,1],[17,9,17,10,0],[18,13,20,31,0],[21,9,21,10,0],[23,9,23,10,0],[24,13,25,40,0],[26,9,26,10,0],[28,9,28,10,1],[29,13,30,40,1],[31,9,31,10,1],[33,9,33,10,0],[34,13,35,40,0],[36,9,36,10,0],[38,9,38,10,1],[39,13,39,26,1],[40,9,40,10,1],[42,9,42,10,1],[43,13,43,26,1],[44,9,44,10,1],[46,9,46,10,0],[47,13,47,26,0],[48,9,48,10,0]]);
+    </script>
+  </body>
+</html>
