@@ -26,35 +26,50 @@ function Rooms() {
     const [isRoomModalVisible, setIsRoomModalVisible] = useState(false);
     const [filteredRooms, setFilteredRooms] = useState([]);
     const [createdRooms, setCreatedRooms] = useState([]);
-
     useEffect(() => {
         const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-        if (connection) {
-            connection.start()
-                .then(() => {
-                    console.log("Connection started")
-                    getRooms(connection);
-                    getCreatedRooms(connection);
-                })
+        const createHubConnection = async () => {
+            try {
+                await connection.start()
+                console.log('Connection successful!')
+            } catch (err) {
+                alert(err);
+                console.log('Error while establishing connection: ' + {err})
+            }
+            getRooms(connection);
+            getCreatedRooms(connection);
             setHubConnection(connection);
         }
+        createHubConnection();
         return () => {
             connection.stop().then(() => console.log("Connection stopped"))
         }
     }, []);
 
+    useEffect(() => {
+        if(hubConnection) {
+            hubConnection.on("onCreateRoom", (room) => {
+                getRooms(hubConnection);
+                getCreatedRooms(hubConnection);
+            })
+        }
+    }, [hubConnection]);
+
+
     const showModal = () => {
         setIsModalVisible(true);
     };
 
-    const handleOk = () => {
-        createRoom();
-        setAvailableRooms([...availableRooms, newRoom]);
+    const handleCancel = () => {
         setIsModalVisible(false);
         setNewRoom({roomName: '', roomTag: options[0]});
     };
 
-    const handleCancel = () => {
+    const handleCreateRoom = () => {
+        createRoom();
+        setCreatedRooms([...createdRooms, newRoom]);
+        setAvailableRooms([...availableRooms, newRoom]);
+        setFilteredRooms([...filteredRooms, newRoom]);
         setIsModalVisible(false);
         setNewRoom({roomName: '', roomTag: options[0]});
     };
@@ -91,20 +106,20 @@ function Rooms() {
         setIsRoomModalVisible(false);
     }
 
-    const createRoom = () => {
-        hubConnection.invoke("CreateRoom", newRoom.roomName, localStorage.getItem("username"));
+    const createRoom = async () => {
+        await hubConnection.invoke("CreateRoom", newRoom.roomName, localStorage.getItem("username"));
     }
 
-    const joinRoom = (roomName) => {
-        hubConnection.invoke("JoinRoom", roomName, localStorage.getItem("username"));
+    const joinRoom = async (roomName) => {
+        await hubConnection.invoke("JoinRoom", roomName, localStorage.getItem("username"));
     }
 
-    const deleteRoom = (roomName) => {
-        hubConnection.invoke("DeleteRoom", roomName, localStorage.getItem("username"));
+    const deleteRoom = async (roomName) => {
+        await hubConnection.invoke("DeleteRoom", roomName, localStorage.getItem("username"));
     }
 
-    const leaveRoom = (roomName) => {
-        hubConnection.invoke("LeaveRoom", roomName, localStorage.getItem("username"));
+    const leaveRoom = async (roomName) => {
+        await hubConnection.invoke("LeaveRoom", roomName, localStorage.getItem("username"));
     }
 
     const getRooms = (connection) => {
@@ -121,7 +136,6 @@ function Rooms() {
             setCreatedRooms(rooms);
         });
     }
-
     return (
         <>
             <PageTitle>Available Rooms</PageTitle>
@@ -139,7 +153,7 @@ function Rooms() {
             />
             <CreateRoomModal
                 isModalVisible={isModalVisible}
-                handleOk={handleOk}
+                handleOk={handleCreateRoom}
                 handleCancel={handleCancel}
                 newRoom={newRoom}
                 handleInputChange={handleInputChange}

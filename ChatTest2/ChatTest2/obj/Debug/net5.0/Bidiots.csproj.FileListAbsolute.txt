@@ -98,8 +98,8 @@ C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\bin\Debug\ne
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\auction-app\package-lock.json
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\auction-app\package.json
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\auction-app\public\manifest.json
-C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\package.json
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\package-lock.json
+C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\package.json
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\Bidiots.StaticWebAssets.xml
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\Bidiots.exe
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\Bidiots.deps.json
