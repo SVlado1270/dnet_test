@@ -47,7 +47,7 @@ const ActionsWrapper = styled.div`
 `;
 
 
-function CreatedRooms({availableRooms, handleJoinRoom, handleDelete}) {
+function CreatedRooms({createdRooms, handleJoinRoom, handleDelete}) {
     const actions = (roomName) => {
         return (<ActionsWrapper>
             <ImEnter key="enter" onClick={() => handleJoinRoom(roomName)}/>
@@ -56,7 +56,7 @@ function CreatedRooms({availableRooms, handleJoinRoom, handleDelete}) {
     }
     return (
         <CreatedRoomsContainer>
-            {availableRooms.map((room) => (
+            {createdRooms.map((room) => (
                 <RoomCard title={room.roomName}
                           extra={actions(room.roomName)}
                           hoverable={true}

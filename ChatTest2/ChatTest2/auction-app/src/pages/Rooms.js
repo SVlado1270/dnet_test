@@ -25,7 +25,7 @@ function Rooms() {
     const [joinedRoom, setJoinedRoom] = useState("");
     const [isRoomModalVisible, setIsRoomModalVisible] = useState(false);
     const [filteredRooms, setFilteredRooms] = useState([]);
-
+    const [createdRooms, setCreatedRooms] = useState([]);
 
     useEffect(() => {
         const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
@@ -34,6 +34,7 @@ function Rooms() {
                 .then(() => {
                     console.log("Connection started")
                     getRooms(connection);
+                    getCreatedRooms(connection);
                 })
             setHubConnection(connection);
         }
@@ -79,20 +80,13 @@ function Rooms() {
         setIsRoomModalVisible(false);
     }
 
-    const handleDeleteRoom = () => {
-        deleteRoom(joinedRoom);
-        const newRooms = availableRooms.filter(room => room.roomName !== joinedRoom);
-        setAvailableRooms(newRooms);
-        setFilteredRooms(newRooms);
-        setJoinedRoom("");
-        setIsRoomModalVisible(false);
-    }
-
     const handleDeleteCreatedRoom = (roomName) => {
         deleteRoom(roomName);
         const newRooms = availableRooms.filter(room => room.roomName !== roomName);
+        const newCreatedRooms = createdRooms.filter(room => room.roomName !== roomName);
         setAvailableRooms(newRooms);
         setFilteredRooms(newRooms);
+        setCreatedRooms(newCreatedRooms);
         setJoinedRoom("");
         setIsRoomModalVisible(false);
     }
@@ -121,6 +115,13 @@ function Rooms() {
         });
     }
 
+    const getCreatedRooms = (connection) => {
+        connection.invoke("GetUserRooms", localStorage.getItem("username")).then(result => {
+            const rooms = result.map(room => ({roomName: room.name, roomTag: options[0]}));
+            setCreatedRooms(rooms);
+        });
+    }
+
     return (
         <>
             <PageTitle>Available Rooms</PageTitle>
@@ -132,7 +133,7 @@ function Rooms() {
             />
             <PageTitle>Created Rooms</PageTitle>
             <CreatedRooms
-                availableRooms={availableRooms}
+                createdRooms={createdRooms}
                 handleJoinRoom={handleJoinRoom}
                 handleDelete={handleDeleteCreatedRoom}
             />
@@ -147,7 +148,6 @@ function Rooms() {
             <Modal title={`Joined Room ${joinedRoom}`} visible={isRoomModalVisible} footer={null}
                    onCancel={handleLeaveRoom}>
                 <Button onClick={handleLeaveRoom}>Leave Room</Button>
-                <Button onClick={handleDeleteRoom}>Delete Room</Button>
             </Modal>
         </>
     );
