@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Bidiots.Data;
 using Bidiots.Mappings;
-using Bidiots.Models;
 using Bidiots.Repository;
 using Bidiots.ViewModels;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
+using Persistence.Interfaces;
+using Persistence.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using Bidiots.Models;
+﻿using Bidiots.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics.CodeAnalysis;

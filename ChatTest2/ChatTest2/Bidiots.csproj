@@ -31,7 +31,10 @@
 
   <ItemGroup>
     <Folder Include="auction-app\src\pages\" />
-    <Folder Include="Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Persistance\Persistence.csproj" />
   </ItemGroup>
 
 </Project>

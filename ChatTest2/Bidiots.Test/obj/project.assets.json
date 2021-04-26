@@ -2766,6 +2766,7 @@
           "Microsoft.EntityFrameworkCore": "5.0.5",
           "Microsoft.EntityFrameworkCore.Sqlite": "5.0.5",
           "Microsoft.EntityFrameworkCore.Sqlite.Core": "5.0.5",
+          "Persistence": "1.0.0",
           "Swashbuckle.AspNetCore": "5.6.3"
         },
         "compile": {
@@ -2777,6 +2778,16 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "Persistence/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/Persistence.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Persistence.dll": {}
+        }
       }
     }
   },
@@ -8662,6 +8673,11 @@
       "type": "project",
       "path": "../ChatTest2/Bidiots.csproj",
       "msbuildProject": "../ChatTest2/Bidiots.csproj"
+    },
+    "Persistence/1.0.0": {
+      "type": "project",
+      "path": "../Persistance/Persistence.csproj",
+      "msbuildProject": "../Persistance/Persistence.csproj"
     }
   },
   "projectFileDependencyGroups": {

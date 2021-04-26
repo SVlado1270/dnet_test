@@ -1,9 +1,9 @@
-﻿using Bidiots.Hubs;
-using Bidiots.Models;
+﻿using Bidiots.Data;
+using Bidiots.Hubs;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Models;
 using SignalR_UnitTestingSupportCommon.Hubs;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;

@@ -1890,10 +1890,16 @@
           "Microsoft.EntityFrameworkCore": "5.0.5",
           "Microsoft.EntityFrameworkCore.Sqlite": "5.0.5",
           "Microsoft.EntityFrameworkCore.Sqlite.Core": "5.0.5",
+          "Persistence": "1.0.0",
           "Swashbuckle.AspNetCore": "5.6.3"
         },
         "runtime": {
           "Bidiots.dll": {}
+        }
+      },
+      "Persistence/1.0.0": {
+        "runtime": {
+          "Persistence.dll": {}
         }
       }
     }
@@ -3130,6 +3136,11 @@
       "hashPath": "xunit.runner.visualstudio.2.4.3.nupkg.sha512"
     },
     "Bidiots/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Persistence/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

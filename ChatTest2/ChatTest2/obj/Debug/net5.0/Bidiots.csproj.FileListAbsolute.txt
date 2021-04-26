@@ -188,3 +188,6 @@ C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\obj\Debug\ne
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\obj\Debug\net5.0\ref\Bidiots.dll
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\obj\Debug\net5.0\Bidiots.pdb
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\ChatTest2\obj\Debug\net5.0\Bidiots.genruntimeconfig.cache
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\CoverletSourceRootsMapping
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\Persistence.dll
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\ChatTest2\bin\Debug\net5.0\Persistence.pdb

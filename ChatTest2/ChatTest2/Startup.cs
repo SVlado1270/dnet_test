@@ -1,5 +1,4 @@
 using Bidiots.Hubs;
-using Bidiots.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -12,6 +11,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Diagnostics.CodeAnalysis;
+using Bidiots.Data;
+using Persistence.Interfaces;
 
 namespace Bidiots
 {

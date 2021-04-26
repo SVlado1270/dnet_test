@@ -1,5 +1,6 @@
-﻿using Bidiots.Models;
+﻿using Bidiots.Data;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Interfaces;
 using System;
 using System.Linq;
 using System.Linq.Expressions;

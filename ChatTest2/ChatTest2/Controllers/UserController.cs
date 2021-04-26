@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Bidiots.Entities;
-using Bidiots.Models;
-using Bidiots.Repository;
 using Bidiots.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Persistence.Interfaces;
+using Persistence.Models;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -44,7 +44,7 @@ namespace Bidiots.Controllers
             }
             if (_repository.User.FindByCondition(u => u.UserName == user.UserName).FirstOrDefault() == null)
             {
-                Tuple<byte[], byte[]> saltedPassword = Models.User.SaltifyPassword(user.Password);
+                Tuple<byte[], byte[]> saltedPassword = Persistence.Models.User.SaltifyPassword(user.Password);
                 User _user = new User { Id = Guid.NewGuid(), FullName = user.FullName, UserName = user.UserName, Salt = saltedPassword.Item1, PasswordSalted = saltedPassword.Item2 };
                 _repository.User.CreateUser(_user);
                 await _repository.SaveAsync();

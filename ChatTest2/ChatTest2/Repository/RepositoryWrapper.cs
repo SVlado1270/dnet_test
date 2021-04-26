@@ -1,4 +1,5 @@
-﻿using Bidiots.Models;
+﻿using Bidiots.Data;
+using Persistence.Interfaces;
 using System.Threading.Tasks;
 
 namespace Bidiots.Repository

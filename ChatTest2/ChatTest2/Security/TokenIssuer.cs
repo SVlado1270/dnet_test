@@ -1,5 +1,4 @@
 ﻿using Bidiots.Entities;
-using Bidiots.Models;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Persistence.Models;
 
 namespace Bidiots.Security
 {

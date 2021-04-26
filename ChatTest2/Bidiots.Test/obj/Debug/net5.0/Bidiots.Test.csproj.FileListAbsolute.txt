@@ -357,3 +357,5 @@ C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Bidiots.Test\obj\Debug
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Bidiots.Test\obj\Debug\net5.0\ref\Bidiots.Test.dll
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Bidiots.Test\obj\Debug\net5.0\Bidiots.Test.pdb
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Bidiots.Test\obj\Debug\net5.0\Bidiots.Test.genruntimeconfig.cache
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net5.0\Persistence.dll
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net5.0\Persistence.pdb

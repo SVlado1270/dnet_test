@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Bidiots.Models;
 using Bidiots.ViewModels;
+using Persistence.Models;
 
 namespace Bidiots.Mappings
 {
