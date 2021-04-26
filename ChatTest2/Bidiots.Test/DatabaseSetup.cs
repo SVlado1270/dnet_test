@@ -17,10 +17,25 @@ namespace Bidiots.Test
 
             DatabaseInitializer.Initialize(_dataContenxt);
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dataContenxt.Database.EnsureDeleted();
+                _dataContenxt.Dispose();
+            }
+        }
+
         public void Dispose()
         {
-            _dataContenxt.Database.EnsureDeleted();
-            _dataContenxt.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
+        ~DatabaseSetup()
+        {
+            Dispose();
+        }
+
     }
 }

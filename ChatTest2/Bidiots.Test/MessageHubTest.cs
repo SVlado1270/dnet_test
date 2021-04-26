@@ -33,7 +33,7 @@ namespace Bidiots.Test
         [Fact]
         public void TryGetDbInMemorySqlite_ClearDbInMemorySqliteSuccesfullyTaken()
         {
-            Assert.True(DbInMemorySqlite.Users.Count() == 0);
+            Assert.False(DbInMemorySqlite.Users.Any());
             DbInMemorySqlite.Users.Add(new User()
             {
                 Id = Guid.NewGuid(),
@@ -43,13 +43,13 @@ namespace Bidiots.Test
                 Salt = new byte[] { 0x20 },
             });
             DbInMemorySqlite.SaveChangesAsync();
-            Assert.True(DbInMemorySqlite.Users.Count() == 1);
+            Assert.True(DbInMemorySqlite.Users.Any());
         }
 
         [Fact]
         public async Task Given_RoomNameAndUserName_When_ValidUserName_Then_CreateRoomShouldCreateARoom()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             DbInMemorySqlite.Users.Add(new User()
             {
                 Id = Guid.NewGuid(),
@@ -69,7 +69,7 @@ namespace Bidiots.Test
         [Fact]
         public async Task Given_RoomNameAndUserName_When_InvalidUserName_Then_CreateRoomShouldNotCreateARoom()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             DbInMemorySqlite.Users.Add(new User()
             {
                 Id = Guid.NewGuid(),
@@ -89,7 +89,7 @@ namespace Bidiots.Test
         [Fact]
         public async Task Given_RoomNameAndUserName_When_ValidRoomNameAndUserName_Then_JoinRoomShouldAddUserInRoom()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             var UserID = Guid.NewGuid();
             DbInMemorySqlite.Users.Add(new User()
             {
@@ -113,7 +113,7 @@ namespace Bidiots.Test
         [Fact]
         public async Task Given_RoomNameAndUserName_When_InvalidRoomName_Then_JoinRoomShouldNotAddUserInRoom()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             var UserID = Guid.NewGuid();
             DbInMemorySqlite.Users.Add(new User()
             {
@@ -137,7 +137,7 @@ namespace Bidiots.Test
         [Fact]
         public async Task Given_RoomNameAndUserName_When_InvalidUserName_Then_JoinRoomShouldNotAddUserInRoom()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             var UserID = Guid.NewGuid();
             DbInMemorySqlite.Users.Add(new User()
             {
@@ -161,7 +161,7 @@ namespace Bidiots.Test
         [Fact]
         public async Task Given_RoomNameAndUserName_When_RoomNameAlreadyExists_Then_CreateRoomShouldNotCreateARoom()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             DbInMemorySqlite.Users.Add(new User()
             {
                 Id = Guid.NewGuid(),
@@ -183,7 +183,7 @@ namespace Bidiots.Test
         [Fact]
         public async Task Given_CallGetActiveRooms_Then_GetActiveRoomsShouldReturnAllRooms()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             DbInMemorySqlite.Users.Add(new User()
             {
                 Id = Guid.NewGuid(),
@@ -203,7 +203,7 @@ namespace Bidiots.Test
         [Fact]
         public async Task Given_RoomNameAndUserName_ValidArguments_Then_DeleteRoomShouldDeleteRoom()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             DbInMemorySqlite.Users.Add(new User()
             {
                 Id = Guid.NewGuid(),
@@ -218,13 +218,13 @@ namespace Bidiots.Test
             await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
             DbInMemorySqlite.ChangeTracker.Clear();
             await _messageHub.DeleteRoom("RoomieGroomie", "Vasea");
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
         }
 
         [Fact]
         public async Task Given_RoomNameAndUserName_When_InvalidLengthRoomName_Then_CreateRoomShouldNotCreateARoom()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             DbInMemorySqlite.Users.Add(new User()
             {
                 Id = Guid.NewGuid(),
@@ -237,13 +237,13 @@ namespace Bidiots.Test
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("Room", "Vasea");
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
         }
 
         [Fact]
         public async Task Given_RoomNameAndUserName_When_InvalidRoomName_Then_CreateRoomShouldNotCreateARoom()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             DbInMemorySqlite.Users.Add(new User()
             {
                 Id = Guid.NewGuid(),
@@ -257,13 +257,13 @@ namespace Bidiots.Test
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("$$$$$$$$$$", "Vasea");
             await DbInMemorySqlite.SaveChangesAsync();
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
         }
 
         [Fact]
         public async Task Given_RoomNameAndUserName_When_ValidRoomNameAndUserName_And_UserInRoom_Then_LeaveRoom()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             var UserID = Guid.NewGuid();
             DbInMemorySqlite.Users.Add(new User()
             {
@@ -291,7 +291,7 @@ namespace Bidiots.Test
         [Fact]
         public async Task Given_RoomNameAndUserName_When_InvalidRoomName_And_UserInRoom_Then_LeaveRoomShouldNotLeaveRoom()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             var UserID = Guid.NewGuid();
             DbInMemorySqlite.Users.Add(new User()
             {
@@ -319,7 +319,7 @@ namespace Bidiots.Test
         [Fact]
         public async Task Given_UserName_When_ValidUserName_And_UserHasRooms_Then_GetUserRoomsShouldReturnUserRooms()
         {
-            Assert.True(DbInMemorySqlite.Rooms.Count() == 0);
+            Assert.False(DbInMemorySqlite.Rooms.Any());
             var UserID = Guid.NewGuid();
             DbInMemorySqlite.Users.Add(new User()
             {
