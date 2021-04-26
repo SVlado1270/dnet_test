@@ -1,0 +1,11 @@
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Persistance\bin\Debug\net6.0\Persistence.deps.json
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Persistance\bin\Debug\net6.0\Persistence.dll
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Persistance\bin\Debug\net6.0\ref\Persistence.dll
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Persistance\bin\Debug\net6.0\Persistence.pdb
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Persistance\obj\Debug\net6.0\Persistence.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Persistance\obj\Debug\net6.0\Persistence.AssemblyInfoInputs.cache
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Persistance\obj\Debug\net6.0\Persistence.AssemblyInfo.cs
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Persistance\obj\Debug\net6.0\Persistence.csproj.CoreCompileInputs.cache
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Persistance\obj\Debug\net6.0\Persistence.dll
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Persistance\obj\Debug\net6.0\ref\Persistence.dll
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Persistance\obj\Debug\net6.0\Persistence.pdb
