@@ -6,6 +6,7 @@ import SearchRooms from "../components/SearchRooms";
 import CreateRoomModal from "../components/CreateRoomModal";
 import AvailableRooms from "../components/AvailableRooms";
 import CreatedRooms from "../components/CreatedRooms";
+import {useHistory} from "react-router";
 
 
 export const PageTitle = styled.h1`
@@ -17,7 +18,8 @@ export const PageTitle = styled.h1`
 const options = ["Design", "Jewelry", "Books", "Cars", "Coins", "Art"];
 
 
-function Rooms() {
+function Rooms({hub}) {
+    const history = useHistory();
     const [hubConnection, setHubConnection] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [newRoom, setNewRoom] = useState({roomName: '', roomTag: options[0]});
@@ -27,31 +29,19 @@ function Rooms() {
     const [filteredRooms, setFilteredRooms] = useState([]);
     const [createdRooms, setCreatedRooms] = useState([]);
     useEffect(() => {
-        const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-        const createHubConnection = async () => {
-            try {
-                await connection.start()
-                console.log('Connection successful!')
-            } catch (err) {
-                alert(err);
-                console.log('Error while establishing connection: ' + {err})
-            }
-            getRooms(connection);
-            getCreatedRooms(connection);
-            setHubConnection(connection);
+        if (hub) {
+            setHubConnection(hub);
+            hub.on("onCreateRoom", (room) => {
+                getRooms(hub);
+                getCreatedRooms(hub);
+            })
         }
-        createHubConnection();
-        return () => {
-            connection.stop().then(() => console.log("Connection stopped"))
-        }
-    }, []);
+    }, [hub]);
 
     useEffect(() => {
-        if(hubConnection) {
-            hubConnection.on("onCreateRoom", (room) => {
-                getRooms(hubConnection);
-                getCreatedRooms(hubConnection);
-            })
+        if (hubConnection) {
+           getRooms(hubConnection);
+           getCreatedRooms(hubConnection);
         }
     }, [hubConnection]);
 
@@ -77,7 +67,7 @@ function Rooms() {
     const handleJoinRoom = (roomName) => {
         joinRoom(roomName);
         setJoinedRoom(roomName);
-        setIsRoomModalVisible(true);
+        history.push(`/room/${roomName}`)
     }
 
     const handleInputChange = (event) => {

@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj": {}
+    "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj": {
+    "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj",
+        "projectUniqueName": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj",
         "projectName": "Bidiots.Test",
-        "projectPath": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj",
-        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Bidiots.Test\\obj\\",
+        "projectPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Bidiots.Test\\Bidiots.Test.csproj",
+        "packagesPath": "C:\\Users\\diana\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Bidiots.Test\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\diana\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +31,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj": {
-                "projectPath": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj"
+              "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj": {
+                "projectPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj"
               }
             }
           }
@@ -122,17 +125,20 @@
         }
       }
     },
-    "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj": {
+    "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj",
+        "projectUniqueName": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj",
         "projectName": "Bidiots",
-        "projectPath": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj",
-        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\ChatTest2\\obj\\",
+        "projectPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\Bidiots.csproj",
+        "packagesPath": "C:\\Users\\diana\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\ChatTest2\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\diana\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -146,8 +152,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Persistance\\Persistence.csproj": {
-                "projectPath": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Persistance\\Persistence.csproj"
+              "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Persistance\\Persistence.csproj": {
+                "projectPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Persistance\\Persistence.csproj"
               }
             }
           }
@@ -255,17 +261,20 @@
         }
       }
     },
-    "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Persistance\\Persistence.csproj": {
+    "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Persistance\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Persistance\\Persistence.csproj",
+        "projectUniqueName": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Persistance\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Persistance\\Persistence.csproj",
-        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\andre\\Desktop\\Repos\\dnet_test\\ChatTest2\\Persistance\\obj\\",
+        "projectPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Persistance\\Persistence.csproj",
+        "packagesPath": "C:\\Users\\diana\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\diana\\Desktop\\Proiecte\\SemII\\dnet_test\\ChatTest2\\Persistance\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\diana\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

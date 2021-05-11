@@ -174,5 +174,10 @@ namespace Bidiots.Hubs
 
             return await Task.FromResult(_repositoryWrapper.Room.FindByCondition(r => r.OwnerId == user.Id).ToList());
         }
+
+        public async Task<IEnumerable<User>> GetAllUsersInRoom(string roomName)
+        {
+            return await Task.FromResult(_repositoryWrapper.User.FindByCondition(u => u.Room == roomName).ToList());
+        }
     }
 }
