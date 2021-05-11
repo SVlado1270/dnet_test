@@ -75,7 +75,7 @@ namespace Bidiots.Hubs
                             OwnerId = user.Id
                         };
                         _repositoryWrapper.Room.CreateRoom(room);
-                        await Clients.All.SendAsync("onCreateRoom",room);
+                        await Clients.All.SendAsync("onCreateRoom", room);
                         await _repositoryWrapper.SaveAsync();
                     }
                 }
