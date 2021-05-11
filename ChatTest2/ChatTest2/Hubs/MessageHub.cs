@@ -119,7 +119,6 @@ namespace Bidiots.Hubs
         {
             try
             {
-                // Delete from database
                 var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
                 var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName && r.OwnerId == user.Id).FirstOrDefault();
                 _repositoryWrapper.Room.DeleteRoom(room);

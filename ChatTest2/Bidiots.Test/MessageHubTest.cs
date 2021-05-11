@@ -34,15 +34,9 @@ namespace Bidiots.Test
         public void TryGetDbInMemorySqlite_ClearDbInMemorySqliteSuccesfullyTaken()
         {
             Assert.False(DbInMemorySqlite.Users.Any());
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = Guid.NewGuid(),
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            DbInMemorySqlite.SaveChangesAsync();
+
+            DatabaseSetup.AddUser(DbInMemorySqlite);
+
             Assert.True(DbInMemorySqlite.Users.Any());
         }
 
@@ -50,19 +44,13 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_ValidUserName_Then_CreateRoomShouldCreateARoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = Guid.NewGuid(),
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
+
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
             var roomFromDb = DbInMemorySqlite.Rooms.FirstOrDefault();
+
             Assert.NotNull(roomFromDb);
         }
 
@@ -70,19 +58,13 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_InvalidUserName_Then_CreateRoomShouldNotCreateARoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = Guid.NewGuid(),
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
+
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("RoomieGroomie", "VaseaClarNuInBazaDeDate");
             var roomFromDb = DbInMemorySqlite.Rooms.FirstOrDefault();
+
             Assert.Null(roomFromDb);
         }
 
@@ -90,23 +72,14 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_ValidRoomNameAndUserName_Then_JoinRoomShouldAddUserInRoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            var UserID = Guid.NewGuid();
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = UserID,
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
-            DbInMemorySqlite.ChangeTracker.Clear();
+
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
             await _messageHub.JoinRoom("RoomieGroomie", "Vasea");
-
             var userFromDb = DbInMemorySqlite.Users.FirstOrDefault();
+
             Assert.Equal("RoomieGroomie", userFromDb.Room);
         }
 
@@ -114,23 +87,14 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_InvalidRoomName_Then_JoinRoomShouldNotAddUserInRoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            var UserID = Guid.NewGuid();
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = UserID,
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
-            DbInMemorySqlite.ChangeTracker.Clear();
+
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
             await _messageHub.JoinRoom("CameraCareNuExista", "Vasea");
-
             var userFromDb = DbInMemorySqlite.Users.FirstOrDefault();
+
             Assert.Null(userFromDb.Room);
         }
 
@@ -138,23 +102,14 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_InvalidUserName_Then_JoinRoomShouldNotAddUserInRoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            var UserID = Guid.NewGuid();
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = UserID,
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
-            DbInMemorySqlite.ChangeTracker.Clear();
+
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
             await _messageHub.JoinRoom("RoomieGroomie", "Vlado");
-
             var userFromDb = DbInMemorySqlite.Users.FirstOrDefault();
+
             Assert.Null(userFromDb.Room);
         }
 
@@ -162,21 +117,15 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_RoomNameAlreadyExists_Then_CreateRoomShouldNotCreateARoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = Guid.NewGuid(),
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
+
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("Roomie", "Vasea");
             await DbInMemorySqlite.SaveChangesAsync();
             await _messageHub.CreateRoom("Roomie", "Vasea");
             await DbInMemorySqlite.SaveChangesAsync();
+
             Assert.True(DbInMemorySqlite.Rooms.Count() == 1);
         }
 
@@ -184,19 +133,13 @@ namespace Bidiots.Test
         public async Task Given_CallGetActiveRooms_Then_GetActiveRoomsShouldReturnAllRooms()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = Guid.NewGuid(),
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
+
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
             var roomFromDb = _messageHub.GetActiveRooms();
+
             Assert.NotNull(roomFromDb);
         }
 
@@ -204,20 +147,14 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_ValidArguments_Then_DeleteRoomShouldDeleteRoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = Guid.NewGuid(),
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
             DbInMemorySqlite.ChangeTracker.Clear();
+
             await _messageHub.DeleteRoom("RoomieGroomie", "Vasea");
+
             Assert.False(DbInMemorySqlite.Rooms.Any());
         }
 
@@ -225,15 +162,7 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_InvalidLengthRoomName_Then_CreateRoomShouldNotCreateARoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = Guid.NewGuid(),
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("Room", "Vasea");
@@ -244,15 +173,7 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_InvalidRoomName_Then_CreateRoomShouldNotCreateARoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = Guid.NewGuid(),
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("$$$$$$$$$$", "Vasea");
@@ -264,17 +185,7 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_ValidRoomNameAndUserName_And_UserInRoom_Then_LeaveRoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            var UserID = Guid.NewGuid();
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = UserID,
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
-            DbInMemorySqlite.ChangeTracker.Clear();
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
@@ -292,17 +203,7 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_InvalidRoomName_And_UserInRoom_Then_LeaveRoomShouldNotLeaveRoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            var UserID = Guid.NewGuid();
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = UserID,
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
-            DbInMemorySqlite.ChangeTracker.Clear();
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
@@ -320,17 +221,7 @@ namespace Bidiots.Test
         public async Task Given_UserName_When_ValidUserName_And_UserHasRooms_Then_GetUserRoomsShouldReturnUserRooms()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-            var UserID = Guid.NewGuid();
-            DbInMemorySqlite.Users.Add(new User()
-            {
-                Id = UserID,
-                UserName = "Vasea",
-                FullName = "Vasea",
-                PasswordSalted = new byte[] { 0x20 },
-                Salt = new byte[] { 0x20 },
-            });
-            await DbInMemorySqlite.SaveChangesAsync();
-            DbInMemorySqlite.ChangeTracker.Clear();
+            DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
             await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
