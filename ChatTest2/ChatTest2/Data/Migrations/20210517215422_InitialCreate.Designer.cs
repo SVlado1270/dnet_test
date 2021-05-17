@@ -9,20 +9,29 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bidiots.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210426132836_InitialCreate")]
+    [Migration("20210517215422_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.5");
+                .HasAnnotation("ProductVersion", "6.0.0-preview.3.21201.2");
 
             modelBuilder.Entity("Persistence.Models.Item", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -32,19 +41,16 @@ namespace Bidiots.Data.Migrations
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("RoomId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Tags")
+                    b.Property<string>("URL")
                         .IsRequired()
-                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
-
-                    b.HasIndex("RoomId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Items");
                 });
@@ -58,15 +64,13 @@ namespace Bidiots.Data.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ToRoomId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("RoomName")
+                        .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ToRoomId");
 
                     b.HasIndex("UserId");
 
@@ -79,7 +83,15 @@ namespace Bidiots.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("OwnerId")
@@ -126,39 +138,18 @@ namespace Bidiots.Data.Migrations
 
             modelBuilder.Entity("Persistence.Models.Item", b =>
                 {
-                    b.HasOne("Persistence.Models.User", "Owner")
+                    b.HasOne("Persistence.Models.User", null)
                         .WithMany("Items")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Persistence.Models.Room", null)
-                        .WithMany("Items")
-                        .HasForeignKey("RoomId");
-
-                    b.Navigation("Owner");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Persistence.Models.Message", b =>
                 {
-                    b.HasOne("Persistence.Models.Room", "ToRoom")
-                        .WithMany()
-                        .HasForeignKey("ToRoomId")
+                    b.HasOne("Persistence.Models.User", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Persistence.Models.User", "User")
-                        .WithMany("Messages")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("ToRoom");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Persistence.Models.Room", b =>
-                {
-                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("Persistence.Models.User", b =>

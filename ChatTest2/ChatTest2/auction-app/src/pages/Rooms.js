@@ -31,17 +31,17 @@ function Rooms({hub}) {
     useEffect(() => {
         if (hub) {
             setHubConnection(hub);
-            hub.on("onCreateRoom", (room) => {
-                getRooms(hub);
-                getCreatedRooms(hub);
-            })
+            // hub.on("onCreateRoom", (room) => {
+            //     getRooms(hub);
+            //     getCreatedRooms(hub);
+            // })
         }
     }, [hub]);
 
     useEffect(() => {
         if (hubConnection) {
            getRooms(hubConnection);
-           getCreatedRooms(hubConnection);
+          // getCreatedRooms(hubConnection);
         }
     }, [hubConnection]);
 
@@ -57,11 +57,11 @@ function Rooms({hub}) {
 
     const handleCreateRoom = () => {
         createRoom();
-        setCreatedRooms([...createdRooms, newRoom]);
-        setAvailableRooms([...availableRooms, newRoom]);
-        setFilteredRooms([...filteredRooms, newRoom]);
-        setIsModalVisible(false);
-        setNewRoom({roomName: '', roomTag: options[0]});
+        // setCreatedRooms([...createdRooms, newRoom]);
+        // setAvailableRooms([...availableRooms, newRoom]);
+        // setFilteredRooms([...filteredRooms, newRoom]);
+        // setIsModalVisible(false);
+        // setNewRoom({roomName: '', roomTag: options[0]});
     };
 
     const handleJoinRoom = (roomName) => {
@@ -114,9 +114,11 @@ function Rooms({hub}) {
 
     const getRooms = (connection) => {
         connection.invoke("GetActiveRooms").then(result => {
-            const rooms = result.map(room => ({roomName: room.name, roomTag: options[0]}));
-            setAvailableRooms(rooms);
-            setFilteredRooms(rooms);
+            console.log("Result",result)
+            //const rooms = result.map(room => ({roomName: room.name, roomTag: options[0]}));
+
+           // setAvailableRooms(rooms);
+           // setFilteredRooms(rooms);
         });
     }
 

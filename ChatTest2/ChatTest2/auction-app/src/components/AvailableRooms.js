@@ -53,11 +53,12 @@ function AvailableRooms({availableRooms, handleJoinRoom, showModal}) {
         <AvailableRoomsContainer>
             <PlusIcon onClick={() => showModal()}/>
             {availableRooms.map((room) => (
-                <RoomCard title={room.roomName}
-                          extra={<ImEnter key="enter" onClick={() => handleJoinRoom(room.roomName)}/>}
+                <RoomCard title={room.name}
+                          key={room.id}
+                          extra={<ImEnter key="enter" onClick={() => handleJoinRoom(room.name)}/>}
                           hoverable={true}
                 >
-                    <span> #{room.roomTag}</span>
+                    <span> #{room.category}</span>
                 </RoomCard>
             ))}
         </AvailableRoomsContainer>

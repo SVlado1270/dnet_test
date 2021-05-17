@@ -20,7 +20,7 @@ function SearchRooms({availableRooms, setFilteredRooms}) {
         setRoomSearch(event.target.value);
         setFilteredRooms(availableRooms);
         if (event.target.value !== "") {
-            const result = availableRooms.filter(room => room.roomTag.toLowerCase().includes(event.target.value.toLowerCase() || room.roomName.toLowerCase().includes(event.target.value.toLowerCase())));
+            const result = availableRooms.filter(room => room.category.toLowerCase().includes(event.target.value.toLowerCase() || room.name.toLowerCase().includes(event.target.value.toLowerCase())));
             setFilteredRooms(result);
         }
     }

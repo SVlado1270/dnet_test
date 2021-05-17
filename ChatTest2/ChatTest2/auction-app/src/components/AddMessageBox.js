@@ -16,21 +16,19 @@ const Editor = ({onChange, onSubmit, submitting, value}) => (
     </>
 );
 
-function AddMessageBox({username = "User", messageContent = "messageContent"}) {
+function AddMessageBox({sendMessage}) {
     const [addMessageState, setAddMessageState] = useState({submitting: false, value: ''})
     const handleChange = (e) => {
         setAddMessageState({...addMessageState, value: e.target.value})
     }
 
-    const handleSubmit = () => {
-        if (addMessageState.value) {
+    const handleSubmit = async () => {
+        if (addMessageState.value.trim() === "") {
             return;
         }
 
         setAddMessageState({...addMessageState, submitting: true})
-
-        // do smth
-
+        await sendMessage(addMessageState.value);
         setAddMessageState({...addMessageState, submitting: false, value: ''})
     }
 

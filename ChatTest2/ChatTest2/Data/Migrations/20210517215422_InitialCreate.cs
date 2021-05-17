@@ -13,8 +13,10 @@ namespace Bidiots.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    OwnerId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Category = table.Column<string>(type: "TEXT", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ItemId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,25 +46,21 @@ namespace Bidiots.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 32, nullable: false),
+                    URL = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
                     OwnerId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Tags = table.Column<string>(type: "TEXT", maxLength: 32, nullable: false),
-                    RoomId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Category = table.Column<string>(type: "TEXT", maxLength: 32, nullable: false),
+                    UserId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Items", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Items_Rooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Items_Users_OwnerId",
-                        column: x => x.OwnerId,
+                        name: "FK_Items_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,40 +70,24 @@ namespace Bidiots.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Content = table.Column<string>(type: "TEXT", nullable: true),
-                    ToRoomId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: true)
+                    RoomName = table.Column<string>(type: "TEXT", nullable: true),
+                    UserId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Messages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Messages_Rooms_ToRoomId",
-                        column: x => x.ToRoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Messages_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_OwnerId",
+                name: "IX_Items_UserId",
                 table: "Items",
-                column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Items_RoomId",
-                table: "Items",
-                column: "RoomId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_ToRoomId",
-                table: "Messages",
-                column: "ToRoomId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_UserId",

@@ -57,11 +57,12 @@ function CreatedRooms({createdRooms, handleJoinRoom, handleDelete}) {
     return (
         <CreatedRoomsContainer>
             {createdRooms.map((room) => (
-                <RoomCard title={room.roomName}
-                          extra={actions(room.roomName)}
+                <RoomCard title={room.name}
+                          extra={actions(room.name)}
                           hoverable={true}
+                          key={room.id}
                 >
-                    <span> #{room.roomTag}</span>
+                    <span> #{room.category}</span>
                 </RoomCard>
             ))}
         </CreatedRoomsContainer>

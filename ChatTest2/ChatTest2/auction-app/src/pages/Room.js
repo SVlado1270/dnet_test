@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {useParams} from "react-router-dom";
 import ChatBox from "../components/ChatBox";
 import AddMessageBox from "../components/AddMessageBox";
-import {Button, Col, Row, Space} from "antd";
+import {Button, Col, Row, Space, message} from "antd";
 import ConnectedUserBox from "../components/ConnectedUserBox";
 import {useHistory} from "react-router";
 
@@ -46,13 +46,42 @@ function Room({hub}) {
     let {roomName} = useParams();
     const [hubConnection, setHubConnection] = useState(null);
     const [connectedUsers, setConnectedUsers] = useState([]);
+    const [messages, setMessages] = useState([]);
 
     useEffect(() => {
         if (hub) {
             setHubConnection(hub);
-            getConnectedUsersInRoom(hub);
+            hub.on("addUser", () => {
+                getConnectedUsersInRoom(hub);
+            })
+            hub.on("onUserLeave", () => {
+                getConnectedUsersInRoom(hub);
+            })
+            hub.on("onRoomDeleted", (mess) => {
+                message.destroy()
+                message.error(mess, 2)
+                history.push('/rooms');
+            })
+            hub.on("leftRoom", () => {
+                history.push("/rooms");
+            })
+            hub.on("onMessageSend", (messageContent) => {
+                getMessages(roomName, hub);
+            })
+            hub.on("onMessageSendSuccess", async () => {
+                await hub.invoke("GetMessagesFromRoom", roomName).then((result) => {
+                    setMessages(result);
+                });
+            })
         }
     }, []);
+
+    useEffect(() => {
+        if (hubConnection) {
+            getConnectedUsersInRoom(hubConnection);
+            getMessages(roomName, hubConnection);
+        }
+    }, [hubConnection])
 
     const getConnectedUsersInRoom = (connection) => {
         connection.invoke("GetAllUsersInRoom", roomName).then(result => {
@@ -66,10 +95,19 @@ function Room({hub}) {
 
     const handleLeaveRoom = () => {
         leaveRoom(roomName);
-        history.push("/rooms")
     }
     const leaveRoom = async (roomName) => {
         await hubConnection.invoke("LeaveRoom", roomName, localStorage.getItem("username"));
+    }
+
+    const getMessages = async (roomName, connection) => {
+        await connection.invoke("GetMessagesFromRoom", roomName).then((result) => {
+            setMessages(result);
+        });
+    }
+
+    const sendMessage = async (messageContent) => {
+        await hub.invoke("SendMessageToRoom", roomName, localStorage.getItem("username"), messageContent);
     }
     return (
         <>
@@ -80,49 +118,18 @@ function Room({hub}) {
             <Row>
                 <ChatContainer>
                     <MessagesArea>
-                        <Row>
-                            <Col span={12}>
-                                <ChatBox hasAvatar={true}/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span={12}>
-                                <ChatBox hasAvatar={true}/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span={12}>
-                                <ChatBox hasAvatar={true}/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col offset={12}>
-                                <ChatBox/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span={12}>
-                                <ChatBox hasAvatar={true}/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col offset={12}>
-                                <ChatBox/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span={12}>
-                                <ChatBox hasAvatar={true}/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col offset={12}>
-                                <ChatBox/>
-                            </Col>
-                        </Row>
+                        {messages.length}
+                        {messages.map((mess) =>
+                            <Row key={mess.id}>
+                                {mess.userId === localStorage.getItem("userId") ? (<Col offset={12}>
+                                    <ChatBox messageContent={mess.content}/>
+                                </Col>) : (<Col span={12}> <ChatBox hasAvatar={true} messageContent={mess.content}
+                                /></Col>)}
+                            </Row>)
+                        }
                     </MessagesArea>
                     <AddMesageArea>
-                        <AddMessageBox/>
+                        <AddMessageBox sendMessage={sendMessage}/>
                     </AddMesageArea>
                 </ChatContainer>
                 <ConnectedUsersContainer>

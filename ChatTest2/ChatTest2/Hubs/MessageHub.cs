@@ -50,22 +50,22 @@ namespace Bidiots.Hubs
                 Match match = Regex.Match(roomModel.RoomName, @"^\w+( \w+)*$");
                 if (!match.Success)
                 {
-                    await Clients.Caller.SendAsync("onError", "Invalid room name!\nRoom name must contain only letters and numbers.");
+                    await Clients.Caller.SendAsync("onCreateRoomError", "Invalid room name!\nRoom name must contain only letters and numbers.");
                 }
                 else if (roomModel.RoomName.Length < 5 || roomModel.RoomName.Length > 100)
                 {
-                    await Clients.Caller.SendAsync("onError", "Room name must be between 5-100 characters!");
+                    await Clients.Caller.SendAsync("onCreateRoomError", "Room name must be between 5-100 characters!");
                 }
                 else if (_repositoryWrapper.Room.FindByCondition(r => r.Name == roomModel.RoomName).Any())
                 {
-                    await Clients.Caller.SendAsync("onError", "Another chat room with this name exists");
+                    await Clients.Caller.SendAsync("onCreateRoomError", "Another chat room with this name exists");
                 }
                 else
                 {
                     var user = _repositoryWrapper.User.GetUserByNameAsync(roomModel.UserName).Result;
                     if (user == null)
                     {
-                        await Clients.Caller.SendAsync("onError", "User not found");
+                        await Clients.Caller.SendAsync("onCreateRoomError", "User not found");
                     }
                     else
                     {
@@ -90,12 +90,13 @@ namespace Bidiots.Hubs
                         _repositoryWrapper.Room.CreateRoom(room);
                         await _repositoryWrapper.SaveAsync();
                         await Clients.All.SendAsync("onCreateRoom", room);
+                        await Clients.Caller.SendAsync("onCreateRoomSuccess", "Room was created successfully");
                     }
                 }
             }
             catch (Exception ex)
             {
-                await Clients.Caller.SendAsync("onError", "Couldn't create chat room: " + ex.Message);
+                await Clients.Caller.SendAsync("onCreateRoomError", "Couldn't create chat room: " + ex.Message);
             }
         }
 
@@ -151,6 +152,7 @@ namespace Bidiots.Hubs
                     await _repositoryWrapper.SaveAsync();
                 }
                 await Clients.Caller.SendAsync("leftRoom");
+                await Clients.Group(roomName).SendAsync("onUserLeave", "User left");
             }
             catch (Exception)
             {
@@ -160,16 +162,22 @@ namespace Bidiots.Hubs
 
         public async Task SendMessageToRoom(string roomName, string userName, string message)
         {
+            Console.WriteLine(roomName);
+            Console.WriteLine(userName);
+            Console.WriteLine(message);
             try
             {
                 var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
                 var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).FirstOrDefault();
                 if (user != null && room != null)
                 {
-                    _repositoryWrapper.Message.Create(new Message { RoomName = roomName, Content = message, User = user });
+                    _repositoryWrapper.Message.Create(new Message { RoomName = roomName, Content = message, UserId = user.Id });
                     await _repositoryWrapper.SaveAsync();
                 }
-                await Clients.Group(roomName).SendAsync("onMessageSend", message);
+                await Clients.OthersInGroup(roomName).SendAsync("onMessageSend", message);
+                await Clients.Caller.SendAsync("onMessageSendSuccess", roomName);
+
+                // await Clients.Group(roomName).SendAsync("onMessageSend", message);
             }
             catch (Exception)
             {

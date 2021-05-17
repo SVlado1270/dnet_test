@@ -11,6 +11,7 @@ import HomeLayout from "./components/common/HomeLayout";
 import {createBrowserHistory} from "history";
 import {HubProvider} from "./components/HubContext";
 import * as signalR from "@microsoft/signalr";
+import NewRooms from "./pages/NewRooms";
 
 const AppWrapper = styled.div`
   width: 100%;
@@ -25,7 +26,7 @@ function App() {
     const [hubConnection, setHubConnection] = useState(null);
 
     useEffect(() => {
-        const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").withAutomaticReconnect().build();
         const createHubConnection = async () => {
             try {
                 await connection.start()
@@ -50,7 +51,7 @@ function App() {
                         <Route path="/register" component={Register}/>
                         <HomeLayout>
                             <PrivateRoute component={Home} path="/" exact/>
-                            <PrivateRoute component={() => <Rooms hub={hubConnection}/>} path="/rooms" exact/>
+                            <PrivateRoute component={() => <NewRooms hub={hubConnection}/>} path="/rooms" exact/>
                             <PrivateRoute component={() => <Room hub={hubConnection}/>} path="/room/:roomName" exact/>
                         </HomeLayout>
                     </Switch>
