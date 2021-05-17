@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bidiots.Data;
+using Bidiots.Entities;
 using Bidiots.Mappings;
 using Bidiots.Repository;
 using Bidiots.ViewModels;
@@ -20,7 +21,6 @@ namespace Bidiots.Hubs
         public readonly static List<UserViewModel> _Connections = new List<UserViewModel>();
         public readonly static List<RoomViewModel> _Rooms = new List<RoomViewModel>();
         private readonly static Dictionary<string, string> _ConnectionsMap = new Dictionary<string, string>();
-
         protected readonly IMapper _mapper;
         protected readonly IRepositoryWrapper _repositoryWrapper;
 
@@ -43,40 +43,53 @@ namespace Bidiots.Hubs
             _mapper = new Mapper(configuration);
         }
 
-        public async Task CreateRoom(string roomName, string userName)
+        public async Task CreateRoom(RoomModel roomModel, ItemModel itemModel)
         {
             try
             {
-                Match match = Regex.Match(roomName, @"^\w+( \w+)*$");
+                Match match = Regex.Match(roomModel.RoomName, @"^\w+( \w+)*$");
                 if (!match.Success)
                 {
                     await Clients.Caller.SendAsync("onError", "Invalid room name!\nRoom name must contain only letters and numbers.");
                 }
-                else if (roomName.Length < 5 || roomName.Length > 100)
+                else if (roomModel.RoomName.Length < 5 || roomModel.RoomName.Length > 100)
                 {
                     await Clients.Caller.SendAsync("onError", "Room name must be between 5-100 characters!");
                 }
-                else if (_repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).Any())
+                else if (_repositoryWrapper.Room.FindByCondition(r => r.Name == roomModel.RoomName).Any())
                 {
                     await Clients.Caller.SendAsync("onError", "Another chat room with this name exists");
                 }
                 else
                 {
-                    var user = _repositoryWrapper.User.GetUserByNameAsync(userName).Result;
+                    var user = _repositoryWrapper.User.GetUserByNameAsync(roomModel.UserName).Result;
                     if (user == null)
                     {
                         await Clients.Caller.SendAsync("onError", "User not found");
                     }
                     else
                     {
-                        var room = new Room()
+                        var item = new Item
                         {
-                            Name = roomName,
+                            Name = itemModel.Name,
+                            URL = itemModel.URL,
+                            Description = itemModel.Description,
+                            Category = itemModel.Category,
                             OwnerId = user.Id
                         };
-                        _repositoryWrapper.Room.CreateRoom(room);
-                        await Clients.All.SendAsync("onCreateRoom", room);
+                        _repositoryWrapper.Item.CreateItem(item);
                         await _repositoryWrapper.SaveAsync();
+                        var itemFromDb = _repositoryWrapper.Item.FindAll().FirstOrDefault();
+                        var room = new Room
+                        {
+                            Name = roomModel.RoomName,
+                            OwnerId = user.Id,
+                            Category = roomModel.Category,
+                            ItemId = itemFromDb.Id
+                        };
+                        _repositoryWrapper.Room.CreateRoom(room);
+                        await _repositoryWrapper.SaveAsync();
+                        await Clients.All.SendAsync("onCreateRoom", room);
                     }
                 }
             }
@@ -94,19 +107,11 @@ namespace Bidiots.Hubs
                 var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).FirstOrDefault();
                 if (user != null && user.Room != roomName && room != null)
                 {
-                    /*// Remove user from others list
-                    if (!string.IsNullOrEmpty(user.CurrentRoom))
-                        await Clients.OthersInGroup(user.CurrentRoom).SendAsync("removeUser", user);*/
-
-                    // Join to new chat room
-                    //await Leave(user.CurrentRoom);
                     await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
                     user.Room = roomName;
                     _repositoryWrapper.User.UpdateUser(user);
                     await _repositoryWrapper.SaveAsync();
-
-                    // Tell others to update their list of users
-                    // await Clients.OthersInGroup(roomName).SendAsync("addUser", user); -> Ca sa actualizezi pe front interfata
+                    await Clients.OthersInGroup(roomName).SendAsync("addUser", user);
                 }
             }
             catch (Exception ex)
@@ -121,15 +126,11 @@ namespace Bidiots.Hubs
             {
                 var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
                 var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName && r.OwnerId == user.Id).FirstOrDefault();
+                _repositoryWrapper.User.FindByCondition(u => u.Room == roomName).ToList().ForEach(async u => await LeaveRoom(roomName, u.UserName));
                 _repositoryWrapper.Room.DeleteRoom(room);
                 await _repositoryWrapper.SaveAsync();
-
-
-                // Move users back to Lobby
-                //await Clients.Group(roomName).SendAsync("onRoomDeleted", string.Format("Room {0} has been deleted.\nYou are now moved to the Lobby!", roomName));
-
-                // Tell all users to update their room list
-                //await Clients.All.SendAsync("removeChatRoom", roomViewModel);
+                await Clients.Group(roomName).SendAsync("onRoomDeleted", string.Format("Room {0} has been deleted.\nYou are now moved to the Lobby!", roomName));
+                await Clients.All.SendAsync("removeChatRoom");
             }
             catch (Exception)
             {
@@ -141,9 +142,7 @@ namespace Bidiots.Hubs
         {
             try
             {
-                // Delete from database
                 var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
-
                 if (user.Room == roomName)
                 {
                     await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
@@ -151,15 +150,67 @@ namespace Bidiots.Hubs
                     _repositoryWrapper.User.UpdateUser(user);
                     await _repositoryWrapper.SaveAsync();
                 }
-                // Move users back to Lobby
-                //await Clients.Group(roomName).SendAsync("onRoomDeleted", string.Format("Room {0} has been deleted.\nYou are now moved to the Lobby!", roomName));
-
-                // Tell all users to update their room list
-                //await Clients.All.SendAsync("removeChatRoom", roomViewModel);
+                await Clients.Caller.SendAsync("leftRoom");
             }
             catch (Exception)
             {
-                await Clients.Caller.SendAsync("onError", "Can't delete this chat room. Only owner can delete this room.");
+                await Clients.Caller.SendAsync("onError", "Error leaving room");
+            }
+        }
+
+        public async Task SendMessageToRoom(string roomName, string userName, string message)
+        {
+            try
+            {
+                var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
+                var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).FirstOrDefault();
+                if (user != null && room != null)
+                {
+                    _repositoryWrapper.Message.Create(new Message { RoomName = roomName, Content = message, User = user });
+                    await _repositoryWrapper.SaveAsync();
+                }
+                await Clients.Group(roomName).SendAsync("onMessageSend", message);
+            }
+            catch (Exception)
+            {
+                await Clients.Caller.SendAsync("onError", "Error on sending message");
+            }
+        }
+
+        public async Task BidOnItem(string roomName, string userName, int amount)
+        {
+            try
+            {
+                var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
+                var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).FirstOrDefault();
+                if (user != null && room != null)
+                {
+                    await Clients.Group(roomName).SendAsync("BidOnItem", string.Format("{0}={1}", userName, amount));
+                }
+            }
+            catch (Exception)
+            {
+                await Clients.Caller.SendAsync("onError", "Error on sending message");
+            }
+        }
+
+        public async Task UpdateItem(string roomName, string userName)
+        {
+            try
+            {
+                var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
+                var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).FirstOrDefault();
+                var item = _repositoryWrapper.Item.FindByCondition(i => i.Id == room.ItemId).FirstOrDefault();
+                item.OwnerId = user.Id;
+                if (user != null && item != null)
+                {
+                    _repositoryWrapper.Item.Update(item);
+                    await _repositoryWrapper.SaveAsync();
+                }
+            }
+            catch (Exception)
+            {
+                await Clients.Caller.SendAsync("onError", "Error on sending message");
             }
         }
 
@@ -168,11 +219,25 @@ namespace Bidiots.Hubs
             return await _repositoryWrapper.Room.GetAllRoomsAsync();
         }
 
+        public async Task<IEnumerable<Message>> GetMessagesFromRoom(string roomName)
+        {
+            return await _repositoryWrapper.Message.GetAllMessagesFromRoomAsync(roomName);
+        }
+
         public async Task<IEnumerable<Room>> GetUserRooms(string userName)
         {
             var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
-
             return await Task.FromResult(_repositoryWrapper.Room.FindByCondition(r => r.OwnerId == user.Id).ToList());
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersInRoom(string roomName)
+        {
+            return await Task.FromResult(_repositoryWrapper.User.FindByCondition(u => u.Room == roomName).ToList());
+        }
+
+        public async Task<IEnumerable<string>> GetCategories()
+        {
+            return await Task.FromResult(ItemCategory.categories);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Bidiots.Data;
+using Bidiots.Entities;
 using Bidiots.Hubs;
 using Microsoft.EntityFrameworkCore;
-using Persistence.Models;
 using SignalR_UnitTestingSupportCommon.Hubs;
 using System;
 using System.Linq;
@@ -34,7 +34,6 @@ namespace Bidiots.Test
         public void TryGetDbInMemorySqlite_ClearDbInMemorySqliteSuccesfullyTaken()
         {
             Assert.False(DbInMemorySqlite.Users.Any());
-
             DatabaseSetup.AddUser(DbInMemorySqlite);
 
             Assert.True(DbInMemorySqlite.Users.Any());
@@ -44,39 +43,40 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_ValidUserName_Then_CreateRoomShouldCreateARoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             var roomFromDb = DbInMemorySqlite.Rooms.FirstOrDefault();
+            var itemFromDb = DbInMemorySqlite.Items.FirstOrDefault();
 
             Assert.NotNull(roomFromDb);
+            Assert.NotNull(itemFromDb);
         }
 
         [Fact]
         public async Task Given_RoomNameAndUserName_When_InvalidUserName_Then_CreateRoomShouldNotCreateARoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("RoomieGroomie", "VaseaClarNuInBazaDeDate");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "VaseaClarNuInBazaDeDate", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             var roomFromDb = DbInMemorySqlite.Rooms.FirstOrDefault();
+            var itemFromDb = DbInMemorySqlite.Items.FirstOrDefault();
 
             Assert.Null(roomFromDb);
+            Assert.Null(itemFromDb);
         }
 
         [Fact]
         public async Task Given_RoomNameAndUserName_When_ValidRoomNameAndUserName_Then_JoinRoomShouldAddUserInRoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             await _messageHub.JoinRoom("RoomieGroomie", "Vasea");
             var userFromDb = DbInMemorySqlite.Users.FirstOrDefault();
 
@@ -87,11 +87,10 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_InvalidRoomName_Then_JoinRoomShouldNotAddUserInRoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             await _messageHub.JoinRoom("CameraCareNuExista", "Vasea");
             var userFromDb = DbInMemorySqlite.Users.FirstOrDefault();
 
@@ -102,11 +101,10 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_InvalidUserName_Then_JoinRoomShouldNotAddUserInRoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             await _messageHub.JoinRoom("RoomieGroomie", "Vlado");
             var userFromDb = DbInMemorySqlite.Users.FirstOrDefault();
 
@@ -117,13 +115,12 @@ namespace Bidiots.Test
         public async Task Given_RoomNameAndUserName_When_RoomNameAlreadyExists_Then_CreateRoomShouldNotCreateARoom()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("Roomie", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             await DbInMemorySqlite.SaveChangesAsync();
-            await _messageHub.CreateRoom("Roomie", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             await DbInMemorySqlite.SaveChangesAsync();
 
             Assert.True(DbInMemorySqlite.Rooms.Count() == 1);
@@ -133,11 +130,10 @@ namespace Bidiots.Test
         public async Task Given_CallGetActiveRooms_Then_GetActiveRoomsShouldReturnAllRooms()
         {
             Assert.False(DbInMemorySqlite.Rooms.Any());
-
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             var roomFromDb = _messageHub.GetActiveRooms();
 
             Assert.NotNull(roomFromDb);
@@ -150,9 +146,8 @@ namespace Bidiots.Test
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             DbInMemorySqlite.ChangeTracker.Clear();
-
             await _messageHub.DeleteRoom("RoomieGroomie", "Vasea");
 
             Assert.False(DbInMemorySqlite.Rooms.Any());
@@ -165,7 +160,8 @@ namespace Bidiots.Test
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("Room", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "Rooo", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
+
             Assert.False(DbInMemorySqlite.Rooms.Any());
         }
 
@@ -176,8 +172,9 @@ namespace Bidiots.Test
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("$$$$$$$$$$", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "$$$$$$$$$$", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             await DbInMemorySqlite.SaveChangesAsync();
+
             Assert.False(DbInMemorySqlite.Rooms.Any());
         }
 
@@ -188,7 +185,7 @@ namespace Bidiots.Test
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             await _messageHub.JoinRoom("RoomieGroomie", "Vasea");
             var userFromDb = DbInMemorySqlite.Users.FirstOrDefault();
             Assert.Equal("RoomieGroomie", userFromDb.Room);
@@ -206,7 +203,7 @@ namespace Bidiots.Test
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             await _messageHub.JoinRoom("RoomieGroomie", "Vasea");
             var userFromDb = DbInMemorySqlite.Users.FirstOrDefault();
             Assert.Equal("RoomieGroomie", userFromDb.Room);
@@ -224,10 +221,9 @@ namespace Bidiots.Test
             DatabaseSetup.AddUser(DbInMemorySqlite);
             _messageHub = new MessageHub(DbInMemorySqlite);
             AssignToHubRequiredProperties(_messageHub);
-            await _messageHub.CreateRoom("RoomieGroomie", "Vasea");
+            await _messageHub.CreateRoom(new RoomModel { RoomName = "RoomieGroomie", UserName = "Vasea", Category = ItemCategory.categories[0] }, new ItemModel { Name = "Flowers", Category = ItemCategory.categories[0], Description = "A flower", URL = "flowerurlhahahehe.com" });
             var roomFromDb = _messageHub.GetUserRooms("Vasea");
             Assert.NotNull(roomFromDb);
         }
-
     }
 }

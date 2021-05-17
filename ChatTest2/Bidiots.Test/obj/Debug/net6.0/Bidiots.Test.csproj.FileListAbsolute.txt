@@ -1,3 +1,6 @@
+c:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Bidiots.Test\obj\Debug\net6.0\Bidiots.Test.dll
+c:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Bidiots.Test\obj\Debug\net6.0\ref\Bidiots.Test.dll
+c:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Bidiots.Test\obj\Debug\net6.0\Bidiots.Test.pdb
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\testhost.dll
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Bidiots.deps.json
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Bidiots.runtimeconfig.json
@@ -12,6 +15,7 @@ C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\p
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Bidiots.StaticWebAssets.xml
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Bidiots.exe
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\testhost.exe
+C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Microsoft.TestPlatform.PlatformAbstractions.dll
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\xunit.runner.reporters.netcoreapp10.dll
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\xunit.runner.utility.netcoreapp10.dll
@@ -53,7 +57,6 @@ C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\M
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Microsoft.OpenApi.dll
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Microsoft.TestPlatform.CoreUtilities.dll
-C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Microsoft.TestPlatform.PlatformAbstractions.dll
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Microsoft.TestPlatform.CommunicationUtilities.dll
 C:\Users\andre\Desktop\Repos\dnet_test\ChatTest2\Bidiots.Test\bin\Debug\net6.0\Microsoft.TestPlatform.CrossPlatEngine.dll

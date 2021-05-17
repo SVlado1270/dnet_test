@@ -9,6 +9,8 @@ namespace Bidiots.Repository
         private readonly DataContext _dataContext;
         private IUserRepository _user;
         private IRoomRepository _room;
+        private IMessageRepository _message;
+        private IItemRepository _item;
         public RepositoryWrapper(DataContext dataContext)
         {
             _dataContext = dataContext;
@@ -35,7 +37,28 @@ namespace Bidiots.Repository
                 return _room;
             }
         }
-
+        public IMessageRepository Message
+        {
+            get
+            {
+                if (_message == null)
+                {
+                    _message = new MessageRepository(_dataContext);
+                }
+                return _message;
+            }
+        }
+        public IItemRepository Item
+        {
+            get
+            {
+                if (_item == null)
+                {
+                    _item = new ItemRepository(_dataContext);
+                }
+                return _item;
+            }
+        }
         public async Task SaveAsync()
         {
             await _dataContext.SaveChangesAsync();

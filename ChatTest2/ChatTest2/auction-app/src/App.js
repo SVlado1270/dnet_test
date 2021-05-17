@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from './pages/Home.js';
@@ -9,6 +9,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import Room from "./pages/Room";
 import HomeLayout from "./components/common/HomeLayout";
 import {createBrowserHistory} from "history";
+import {HubProvider} from "./components/HubContext";
+import * as signalR from "@microsoft/signalr";
 
 const AppWrapper = styled.div`
   width: 100%;
@@ -20,19 +22,40 @@ const AppWrapper = styled.div`
 const history = createBrowserHistory();
 
 function App() {
+    const [hubConnection, setHubConnection] = useState(null);
+
+    useEffect(() => {
+        const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        const createHubConnection = async () => {
+            try {
+                await connection.start()
+                console.log('Connection successful!')
+            } catch (err) {
+                alert(err);
+                console.log('Error while establishing connection: ' + {err})
+            }
+            setHubConnection(connection);
+        }
+        createHubConnection();
+        // return () => {
+        //     connection.stop().then(() => console.log("Connection stopped"))
+        // }
+    }, []);
     return (
         <AppWrapper>
-            <Router history={history}>
-                <Switch>
-                    <Route path="/login" component={Login}/>
-                    <Route path="/register" component={Register}/>
-                    <HomeLayout>
-                        <PrivateRoute component={Home} path="/" exact/>
-                        <PrivateRoute component={Rooms} path="/rooms" exact/>
-                        <PrivateRoute component={Room} path="/room/:roomName" exact/>
-                    </HomeLayout>
-                </Switch>
-            </Router>
+            <HubProvider>
+                <Router history={history}>
+                    <Switch>
+                        <Route path="/login" component={Login}/>
+                        <Route path="/register" component={Register}/>
+                        <HomeLayout>
+                            <PrivateRoute component={Home} path="/" exact/>
+                            <PrivateRoute component={() => <Rooms hub={hubConnection}/>} path="/rooms" exact/>
+                            <PrivateRoute component={() => <Room hub={hubConnection}/>} path="/room/:roomName" exact/>
+                        </HomeLayout>
+                    </Switch>
+                </Router>
+            </HubProvider>
         </AppWrapper>
     );
 }

@@ -6,6 +6,8 @@ namespace Persistence.Interfaces
     {
         IUserRepository User { get; }
         IRoomRepository Room { get; }
+        IMessageRepository Message { get; }
+        IItemRepository Item { get; }
         Task SaveAsync();
     }
 }

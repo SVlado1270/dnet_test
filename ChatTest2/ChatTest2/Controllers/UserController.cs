@@ -83,7 +83,7 @@ namespace Bidiots.Controllers
 
             using (var deriveBytes = new Rfc2898DeriveBytes(user.Password, _user.Salt))
             {
-                byte[] newKey = deriveBytes.GetBytes(32);  // derive a 20-byte key
+                byte[] newKey = deriveBytes.GetBytes(32);
 
                 if (!newKey.SequenceEqual(_user.PasswordSalted))
                     return Unauthorized("Invalid credentials!");
