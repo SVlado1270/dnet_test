@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bidiots.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210517215422_InitialCreate")]
+    [Migration("20210524172513_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,6 +68,9 @@ namespace Bidiots.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

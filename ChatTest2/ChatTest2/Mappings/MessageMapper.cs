@@ -9,7 +9,7 @@ namespace Bidiots.Mappings
         public MessageMapper()
         {
             CreateMap<Message, MessageViewModel>()
-                .ForMember(dst => dst.From, opt => opt.MapFrom(x => x.UserId))
+                .ForMember(dst => dst.From, opt => opt.MapFrom(x => x.UserName))
                 .ForMember(dst => dst.To, opt => opt.MapFrom(x => x.RoomName))
                 .ForMember(dst => dst.Content, opt => opt.MapFrom(x => x.Content));
             CreateMap<MessageViewModel, Message>();

@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {Button, Modal, message} from "antd";
 import SearchRooms from "../components/SearchRooms";
 import CreateRoomModal from "../components/CreateRoomModal";
 import AvailableRooms from "../components/AvailableRooms";
 import CreatedRooms from "../components/CreatedRooms";
 import {useHistory} from "react-router";
-
 
 export const PageTitle = styled.h1`
     align-text: center;
@@ -47,7 +45,7 @@ function NewRooms({hub}) {
         if (hubConnection) {
             getCategories();
             getRooms(hubConnection);
-            getCreatedRooms(hub);
+            getCreatedRooms(hubConnection);
             // getCreatedRooms(hubConnection);
         }
     }, [hubConnection]);
@@ -87,7 +85,7 @@ function NewRooms({hub}) {
     }
 
     const handleJoinRoom = (roomName) => {
-       joinRoom(roomName).then(() => history.push(`/room/${roomName}`));
+        joinRoom(roomName).then(() => history.push(`/room/${roomName}`));
     }
 
     const handleDeleteCreatedRoom = (roomName) => {

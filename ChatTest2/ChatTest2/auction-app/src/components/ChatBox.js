@@ -1,5 +1,13 @@
 import React from "react";
-import {Comment, Tooltip, Avatar} from 'antd';
+import {Comment, Avatar} from 'antd';
+import {UserOutlined} from "@ant-design/icons";
+
+const commentStyle = {
+    border: "1px solid whitesmoke",
+    marginBottom: "15px",
+    borderRadius: "20px",
+    padding: "10px"
+}
 
 function ChatBox({username = "User", messageContent, hasAvatar = false}) {
     return (
@@ -9,18 +17,22 @@ function ChatBox({username = "User", messageContent, hasAvatar = false}) {
                 hasAvatar ?
                     <Avatar
                         alt="User"
-                    >{username}</Avatar> : null
+                        style={{color: "red"}}
+                    >
+                        <UserOutlined/>
+                    </Avatar> : <Avatar
+                        alt="User"
+                        style={{color: "green"}}
+                    >
+                        <UserOutlined/>
+                    </Avatar>
             }
             content={
                 <p>
                     {messageContent}
                 </p>
             }
-            datetime={
-                <Tooltip title={'YYYY-MM-DD HH:mm:ss'}>
-                    <span>{"few seconds ago"}</span>
-                </Tooltip>
-            }
+            style={commentStyle}
         />
 
     );

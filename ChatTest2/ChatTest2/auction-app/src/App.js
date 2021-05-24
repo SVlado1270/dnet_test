@@ -3,15 +3,14 @@ import styled from "styled-components";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from './pages/Home.js';
 import Login from './pages/auth/Login.js';
-import Rooms from "./pages/Rooms";
 import Register from "./pages/auth/Register";
 import PrivateRoute from "./components/PrivateRoute";
 import Room from "./pages/Room";
 import HomeLayout from "./components/common/HomeLayout";
 import {createBrowserHistory} from "history";
 import {HubProvider} from "./components/HubContext";
-import * as signalR from "@microsoft/signalr";
 import NewRooms from "./pages/NewRooms";
+import hubInstance from "./utils/hubConnection";
 
 const AppWrapper = styled.div`
   width: 100%;
@@ -26,21 +25,9 @@ function App() {
     const [hubConnection, setHubConnection] = useState(null);
 
     useEffect(() => {
-        const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").withAutomaticReconnect().build();
-        const createHubConnection = async () => {
-            try {
-                await connection.start()
-                console.log('Connection successful!')
-            } catch (err) {
-                alert(err);
-                console.log('Error while establishing connection: ' + {err})
-            }
-            setHubConnection(connection);
-        }
-        createHubConnection();
-        // return () => {
-        //     connection.stop().then(() => console.log("Connection stopped"))
-        // }
+        hubInstance.getInstance().getConnection().then((result) => {
+            setHubConnection(result)
+        })
     }, []);
     return (
         <AppWrapper>

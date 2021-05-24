@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {Button, Modal} from "antd";
-import * as signalR from "@microsoft/signalr";
 import SearchRooms from "../components/SearchRooms";
 import CreateRoomModal from "../components/CreateRoomModal";
 import AvailableRooms from "../components/AvailableRooms";
 import CreatedRooms from "../components/CreatedRooms";
 import {useHistory} from "react-router";
+
 
 
 export const PageTitle = styled.h1`
@@ -18,7 +18,8 @@ export const PageTitle = styled.h1`
 const options = ["Design", "Jewelry", "Books", "Cars", "Coins", "Art"];
 
 
-function Rooms({hub}) {
+function Rooms() {
+
     const history = useHistory();
     const [hubConnection, setHubConnection] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -28,22 +29,25 @@ function Rooms({hub}) {
     const [isRoomModalVisible, setIsRoomModalVisible] = useState(false);
     const [filteredRooms, setFilteredRooms] = useState([]);
     const [createdRooms, setCreatedRooms] = useState([]);
-    useEffect(() => {
-        if (hub) {
-            setHubConnection(hub);
-            // hub.on("onCreateRoom", (room) => {
-            //     getRooms(hub);
-            //     getCreatedRooms(hub);
-            // })
-        }
-    }, [hub]);
+    // useEffect(() => {
+    //     if (hubInstance) {
+    //         console.log("HubInstance", hubInstance)
+    //         setHubConnection(hubInstance);
+    //         // hub.on("onCreateRoom", (room) => {
+    //         //     getRooms(hub);
+    //         //     getCreatedRooms(hub);
+    //         // })
+    //     }
+    // }, [hubInstance]);
 
     useEffect(() => {
-        if (hubConnection) {
-           getRooms(hubConnection);
-          // getCreatedRooms(hubConnection);
-        }
-    }, [hubConnection]);
+        console.log("Hubbie");
+        // if (hubConnection) {
+        //     getRooms(hubInstance);
+        //     setHubConnection(hubInstance);
+        //     // getCreatedRooms(hubConnection);
+        // }
+    }, []);
 
 
     const showModal = () => {
@@ -114,11 +118,11 @@ function Rooms({hub}) {
 
     const getRooms = (connection) => {
         connection.invoke("GetActiveRooms").then(result => {
-            console.log("Result",result)
+            console.log("Result", result)
             //const rooms = result.map(room => ({roomName: room.name, roomTag: options[0]}));
 
-           // setAvailableRooms(rooms);
-           // setFilteredRooms(rooms);
+            // setAvailableRooms(rooms);
+            // setFilteredRooms(rooms);
         });
     }
 

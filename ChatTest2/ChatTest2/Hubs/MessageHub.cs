@@ -162,22 +162,18 @@ namespace Bidiots.Hubs
 
         public async Task SendMessageToRoom(string roomName, string userName, string message)
         {
-            Console.WriteLine(roomName);
-            Console.WriteLine(userName);
-            Console.WriteLine(message);
             try
             {
                 var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
                 var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).FirstOrDefault();
                 if (user != null && room != null)
                 {
-                    _repositoryWrapper.Message.Create(new Message { RoomName = roomName, Content = message, UserId = user.Id });
+                    _repositoryWrapper.Message.Create(new Message { RoomName = roomName, Content = message, UserName = user.UserName, UserId = user.Id });
                     await _repositoryWrapper.SaveAsync();
                 }
                 await Clients.OthersInGroup(roomName).SendAsync("onMessageSend", message);
                 await Clients.Caller.SendAsync("onMessageSendSuccess", roomName);
 
-                // await Clients.Group(roomName).SendAsync("onMessageSend", message);
             }
             catch (Exception)
             {
@@ -234,8 +230,17 @@ namespace Bidiots.Hubs
 
         public async Task<IEnumerable<Room>> GetUserRooms(string userName)
         {
-            var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
-            return await Task.FromResult(_repositoryWrapper.Room.FindByCondition(r => r.OwnerId == user.Id).ToList());
+            try
+            {
+                var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
+                return await Task.FromResult(_repositoryWrapper.Room.FindByCondition(r => r.OwnerId == user.Id).ToList());
+            }
+            catch (Exception)
+            {
+                await Clients.Caller.SendAsync("onError", "No user rooms");
+            }
+
+            return await Task.FromResult(new List<Room>());
         }
 
         public async Task<IEnumerable<User>> GetAllUsersInRoom(string roomName)
@@ -246,6 +251,26 @@ namespace Bidiots.Hubs
         public async Task<IEnumerable<string>> GetCategories()
         {
             return await Task.FromResult(ItemCategory.categories);
+        }
+
+        /*        public override Task OnDisconnectedAsync(Exception exception)
+                {
+                    try
+                    {
+                        Console.WriteLine(exception);
+                    }
+                    catch (Exception ex)
+                    {
+                        Clients.Caller.SendAsync("onError", "OnDisconnected: " + ex.Message);
+                    }
+                    Clients.Caller.SendAsync("OnDisconnect", "Hello gagica");
+                    return base.OnDisconnectedAsync(exception);
+                }*/
+
+        public async Task<Item> GetItemFromRoom(string roomName)
+        {
+            var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).FirstOrDefault();
+            return await Task.FromResult(_repositoryWrapper.Item.FindByCondition(i => i.Id == room.ItemId).FirstOrDefault());
         }
     }
 }
