@@ -14,6 +14,7 @@ C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Persistance\bin\Debug\
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Persistance\bin\Debug\net6.0\Persistence.dll
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Persistance\bin\Debug\net6.0\ref\Persistence.dll
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Persistance\bin\Debug\net6.0\Persistence.pdb
+C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Persistance\obj\Debug\net6.0\Persistence.csproj.AssemblyReference.cache
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Persistance\obj\Debug\net6.0\Persistence.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Persistance\obj\Debug\net6.0\Persistence.AssemblyInfoInputs.cache
 C:\Users\diana\Desktop\Proiecte\SemII\dnet_test\ChatTest2\Persistance\obj\Debug\net6.0\Persistence.AssemblyInfo.cs

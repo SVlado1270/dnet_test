@@ -1,10 +1,8 @@
 import React, {useState} from "react";
-import {Button, Form, Input, Modal, Select, message, Upload} from "antd";
+import {Button, Form, Input, Modal, Select, message, Upload, DatePicker} from "antd";
 import {ErrorMessage} from "../pages/auth/styles";
-import {InboxOutlined} from "@ant-design/icons";
-import axios from "axios";
 
-const {Dragger} = Upload;
+const { RangePicker } = DatePicker;
 
 const {Option} = Select;
 
@@ -34,7 +32,15 @@ const validationRules = {
     }, {
         min: 5,
         message: 'Description must have at least 5 characters',
-    },]
+    },],
+    url: [{
+        required: true,
+        message: 'Image Url is a required field',
+    }],
+    startTime:  [{
+        required: true,
+        message: 'Start time is a required field',
+    }],
 }
 
 const imageLink = "https://ourfunnylittlesite.com/wp-content/uploads/2018/07/1-4-696x696.jpg";
@@ -42,7 +48,6 @@ const imageLink = "https://ourfunnylittlesite.com/wp-content/uploads/2018/07/1-4
 function CreateRoomModal({isModalVisible, handleCancel, categories, hubConnection}) {
     const [form] = Form.useForm();
     const [errorMessage, setErrorMessage] = useState("");
-    const [formState, setFormState] = useState({fileList: []});
     const createRoom = async (roomDetails, itemDetails) => {
         hubConnection.on("onCreateRoomError", (error) => {
             setErrorMessage(error);
@@ -56,63 +61,28 @@ function CreateRoomModal({isModalVisible, handleCancel, categories, hubConnectio
         await hubConnection.invoke("CreateRoom", roomDetails, itemDetails)
     }
 
-    const props = {
-        onRemove: (file) => {
-            setFormState({...formState, fileList: []});
-        },
-        beforeUpload: (file) => {
-            setFormState({
-                ...formState,
-                fileList: [file],
-            });
-            return false;
-        },
-        fileList: formState.fileList,
-    };
-
     const onFinish = (values) => {
+        if(values.startTime == null){
+            message.error("You must pick a date");
+            return;
+        }
         const roomDetails = {
             RoomName: values.roomName,
             Username: localStorage.getItem("username"),
-            Category: values.category
+            Category: values.category,
+            StartTime: `${values.startTime._d.getTime()}`
         }
         const itemDetails = {
             Name: values.itemName,
-            URL: imageLink,
+            URL: values.itemUrl,
             Description: values.itemDescription,
-            Category: values.category
+            Category: values.category,
         }
-        if (formState.fileList.length === 0) {
-            message.error("You must add an item photo", 2);
-            return;
-        }
-        const formData = new FormData();
-        if (formState.fileList.length === 1) {
-            formData.append("image", formState.fileList[0]);
-        }
-        // axios
-        //     .post(`https://api.imgur.com/3/upload`, formData, {
-        //         headers: {
-        //             Authorization: "Client-ID 7f7d4ec2d9894e3",
-        //         },
-        //     })
-        //     .then((response) => {
-        //        console.log(response.data)
-        //             // message.success("Post added successfully", 1);
-        //             // setFormState({ caption: "", fileList: [] });
-        //             // form.resetFields();
-        //             // setIsModalVisible(false);
-        //
-        //     })
-        //     .catch((error) => {
-        //         message.error("There was an error. Post couldn't be added", 1);
-        //     });
         createRoom(roomDetails, itemDetails)
     };
 
     const handleModalCancel = () => {
         form.resetFields();
-        setFormState({fileList: []})
         handleCancel();
     }
     return (
@@ -127,7 +97,7 @@ function CreateRoomModal({isModalVisible, handleCancel, categories, hubConnectio
                     <Input type="text"/>
                 </Form.Item>
                 <Form.Item label="Category" rules={validationRules["category"]} name="category">
-                    <Select defaultValue={categories[0]} style={{width: "100%"}}>
+                    <Select style={{width: "100%"}}>
                         {categories.map((option) => <Option value={option} key={option}>{option}</Option>)}
                     </Select>
                 </Form.Item>
@@ -137,16 +107,11 @@ function CreateRoomModal({isModalVisible, handleCancel, categories, hubConnectio
                 <Form.Item label="Item description" rules={validationRules["description"]} name="itemDescription">
                     <Input type="text" maxLength={150}/>
                 </Form.Item>
-                <Form.Item>
-                    <Dragger {...props}>
-                        <p className="ant-upload-drag-icon">
-                            <InboxOutlined/>
-                        </p>
-                        <p className="ant-upload-text">
-                            Click or drag file to this area to upload
-                        </p>
-                        <p className="ant-upload-hint">Support for a single upload</p>
-                    </Dragger>
+                <Form.Item label="Item url" rules={validationRules["url"]} name="itemUrl">
+                    <Input type="text"/>
+                </Form.Item>
+                <Form.Item label="Auction start time" name="startTime">
+                    <DatePicker showTime/>
                 </Form.Item>
                 <Form.Item>
                     <Button key="submit" type="primary" htmlType="submit">

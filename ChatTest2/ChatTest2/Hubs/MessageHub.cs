@@ -79,13 +79,23 @@ namespace Bidiots.Hubs
                         };
                         _repositoryWrapper.Item.CreateItem(item);
                         await _repositoryWrapper.SaveAsync();
-                        var itemFromDb = _repositoryWrapper.Item.FindAll().FirstOrDefault();
+                        var itemFromDb = _repositoryWrapper.Item.FindByCondition(i =>i.Name == itemModel.Name).FirstOrDefault();
+                        var bid = new Bid
+                        {
+                            ItemId = itemFromDb.Id,
+                            Amount = 0,
+                            BidTime = ""
+                        };
+
+                        _repositoryWrapper.Bid.CreateBid(bid);
+                        await _repositoryWrapper.SaveAsync();
                         var room = new Room
                         {
                             Name = roomModel.RoomName,
                             OwnerId = user.Id,
                             Category = roomModel.Category,
-                            ItemId = itemFromDb.Id
+                            ItemId = itemFromDb.Id,
+                            StartTime = roomModel.StartTime
                         };
                         _repositoryWrapper.Room.CreateRoom(room);
                         await _repositoryWrapper.SaveAsync();
@@ -181,15 +191,21 @@ namespace Bidiots.Hubs
             }
         }
 
-        public async Task BidOnItem(string roomName, string userName, int amount)
+        public async Task BidOnItem(string roomName, string userName, int amount, string timestamp)
         {
             try
             {
                 var user = _repositoryWrapper.User.FindByCondition(u => u.UserName == userName).FirstOrDefault();
                 var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).FirstOrDefault();
-                if (user != null && room != null)
+                var bid = _repositoryWrapper.Bid.FindByCondition(b => b.ItemId == room.ItemId).FirstOrDefault();
+
+                if (user != null && room != null && bid != null)
                 {
-                    await Clients.Group(roomName).SendAsync("BidOnItem", string.Format("{0}={1}", userName, amount));
+                    bid.BidTime = timestamp;
+                    bid.Amount = amount;
+                    _repositoryWrapper.Bid.Update(bid);
+                    await _repositoryWrapper.SaveAsync();
+                    await Clients.Group(roomName).SendAsync("WasBidOnItem", userName, amount, timestamp);
                 }
             }
             catch (Exception)
@@ -210,6 +226,9 @@ namespace Bidiots.Hubs
                 {
                     _repositoryWrapper.Item.Update(item);
                     await _repositoryWrapper.SaveAsync();
+                    await Clients.Group(roomName).SendAsync("UpdatedItem", string.Format("User {0} won auction", userName), userName);
+
+                    // _repositoryWrapper.User.FindByCondition(u => u.Room == roomName).ToList().ForEach(async u => await LeaveRoom(roomName, u.UserName));
                 }
             }
             catch (Exception)
@@ -252,25 +271,19 @@ namespace Bidiots.Hubs
         {
             return await Task.FromResult(ItemCategory.categories);
         }
-
-        /*        public override Task OnDisconnectedAsync(Exception exception)
-                {
-                    try
-                    {
-                        Console.WriteLine(exception);
-                    }
-                    catch (Exception ex)
-                    {
-                        Clients.Caller.SendAsync("onError", "OnDisconnected: " + ex.Message);
-                    }
-                    Clients.Caller.SendAsync("OnDisconnect", "Hello gagica");
-                    return base.OnDisconnectedAsync(exception);
-                }*/
-
-        public async Task<Item> GetItemFromRoom(string roomName)
+        public async Task<Tuple<Item, Bid>> GetItemFromRoom(string roomName)
         {
             var room = _repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).FirstOrDefault();
-            return await Task.FromResult(_repositoryWrapper.Item.FindByCondition(i => i.Id == room.ItemId).FirstOrDefault());
+            var bidItem = _repositoryWrapper.Item.FindByCondition(i => i.Id == room.ItemId).FirstOrDefault();
+            var amount = _repositoryWrapper.Bid.FindByCondition(i => i.ItemId == bidItem.Id).FirstOrDefault();
+
+            return await Task.FromResult(new Tuple<Item, Bid>(bidItem, amount));
+        }
+
+        public async Task<Room> GetRoomDetails(string roomName)
+        {
+            return await Task.FromResult(_repositoryWrapper.Room.FindByCondition(r => r.Name == roomName).FirstOrDefault());
         }
     }
 }
+

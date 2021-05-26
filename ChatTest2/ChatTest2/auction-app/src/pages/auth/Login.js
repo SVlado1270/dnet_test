@@ -45,7 +45,7 @@ function Login() {
                     localStorage.setItem("expireDate", response.data.expiration);
                     localStorage.setItem("userId", response.data.userid);
                     localStorage.setItem("username", response.data.username);
-                    history.push('/');
+                    history.push('/rooms');
                 }
             })
             .catch((error) => {

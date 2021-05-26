@@ -11,6 +11,7 @@ namespace Bidiots.Repository
         private IRoomRepository _room;
         private IMessageRepository _message;
         private IItemRepository _item;
+        private IBidRepository _bid;
         public RepositoryWrapper(DataContext dataContext)
         {
             _dataContext = dataContext;
@@ -57,6 +58,18 @@ namespace Bidiots.Repository
                     _item = new ItemRepository(_dataContext);
                 }
                 return _item;
+            }
+        }
+
+        public IBidRepository Bid
+        {
+            get
+            {
+                if (_bid == null)
+                {
+                    _bid = new BidRepository(_dataContext);
+                }
+                return _bid;
             }
         }
         public async Task SaveAsync()

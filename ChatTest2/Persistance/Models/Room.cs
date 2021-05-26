@@ -15,5 +15,6 @@ namespace Persistence.Models
         [Required]
         public Guid OwnerId { get; set; }
         public int ItemId { get; set; }
+        public string StartTime { get; set; }
     }
 }

@@ -10,5 +10,7 @@ namespace Bidiots.Entities
         public string UserName { get; set; }
         [Required]
         public string Category { get; set; }
+        [Required]
+        public string StartTime { get; set; }
     }
 }
